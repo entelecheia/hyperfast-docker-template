@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+      args:
+        ARG_BUILD_FROM: $BUILD_FROM
+    image: $IMAGE_NAME
+    hostname: $CONTAINER_HOSTNAME
+    command:
+      - bash
+    ulimits:
+      stack: 67108864
+      memlock: -1
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${CUDA_DEVICE_ID}"]
+              capabilities: [gpu]
+networks:
+  default:
+    name: $DOCKER_NETWORK_NAME
+    external: true

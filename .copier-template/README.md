@@ -1,40 +1,6 @@
 # Hyperfast Docker Template
 
-[![version-image]][release-url]
-[![release-date-image]][release-url]
-[![license-image]][license-url]
-
-<!-- Links: -->
-
-[pypi-image]: https://img.shields.io/pypi/v/hyperfast-docker-template
-[license-image]: https://img.shields.io/github/license/entelecheia/hyperfast-docker-template
-[license-url]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/LICENSE
-[version-image]: https://img.shields.io/github/v/release/entelecheia/hyperfast-docker-template?sort=semver
-[release-date-image]: https://img.shields.io/github/release-date/entelecheia/hyperfast-docker-template
-[release-url]: https://github.com/entelecheia/hyperfast-docker-template/releases
-[jupyter-book-image]: https://jupyterbook.org/en/stable/_images/badge.svg
-[repo-url]: https://github.com/entelecheia/hyperfast-docker-template
-[pypi-url]: https://pypi.org/project/hyperfast-docker-template
-[docs-url]: https://hyperfast-docker.entelecheia.ai
-[changelog]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/CHANGELOG.md
-[contributing guidelines]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/CONTRIBUTING.md
-
-<!-- Links: -->
-
-Hyperfast Docker Template is a powerful tool that leverages copier to streamline the creation of new Docker projects. It simplifies and accelerates Docker configurations, fostering a highly efficient and user-friendly development experience.
-
-- Documentation: [https://hyperfast-docker.entelecheia.ai][docs-url]
-- GitHub: [https://github.com/entelecheia/hyperfast-docker-template][repo-url]
-
-Hyperfast Docker Template is an innovative project creation tool that merges the flexibility of Docker with the simplicity of Copier to optimize the project creation process. This tool allows developers to quickly and efficiently set up Docker projects, thereby significantly reducing the time and effort traditionally associated with this process.
-
-By harnessing the power of Copier, Hyperfast Docker Template provides a user-friendly interface that developers can utilize to duplicate Docker projects with minimal hassle. It eradicates the need for extensive coding knowledge, making Docker more accessible to a wider range of users.
-
-Furthermore, this tool employs a hyperfast approach to Docker project templating, ensuring that new projects are up and running in the quickest time possible. This speed does not compromise the quality or functionality of the Docker projects created, but instead enhances their performance, reliability, and scalability.
-
-Hyperfast Docker Template also ensures consistency across Docker projects, as the use of a template guarantees that all projects conform to a standardized layout and configuration. This, in turn, enhances the overall workflow, as developers can familiarize themselves with a consistent project structure and configuration, leading to increased productivity and efficiency.
-
-Whether you're an experienced developer or a novice just starting out, Hyperfast Docker Template is the ideal tool to fast-track your Docker project creation process, ensuring a seamless, efficient, and highly productive development experience.
+This repository provides Docker setup instructions to install and run Stable-Diffusion-WebUI. It uses NVIDIA's PyTorch container as a base image and includes several additional packages necessary for Stable-Diffusion-WebUI.
 
 ## Prerequisites
 
@@ -95,14 +61,6 @@ However, the environment variables we set in the `.docker/docker.env` file are u
 
 This method also allows us to use shell commands in the variable definitions, like `"$(whoami)"` for the `USERNAME` variable, which wouldn't be possible if we used the `--env-file` argument. Shell commands in the `.env` file are not evaluated.
 
-## Changelog
-
-See the [CHANGELOG] for more information.
-
 ## Contributing
 
-Contributions are welcome! Please see the [contributing guidelines] for more information.
-
-## License
-
-This project is released under the [MIT License][license-url].
+Contributions to improve this setup are welcome. Please feel free to submit a pull request or open an issue on the GitHub repository.

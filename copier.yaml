@@ -1,0 +1,147 @@
+_subdirectory: .copier-template
+
+# Configure jinja2 defaults to make syntax highlighters lives easier
+_templates_suffix: .jinja
+_envops:
+  block_end_string: "%}"
+  block_start_string: "{%"
+  comment_end_string: "#}"
+  comment_start_string: "{#"
+  keep_trailing_newline: true
+  variable_end_string: "}}"
+  variable_start_string: "{{"
+
+_answers_file: .copier-docker-config.yaml
+
+_tasks:
+  # Strings get executed under system's default shell
+  - "[ -d .git ] || git init"
+  - "{% if github_repo_name %}git add remote origin https://github.com/{{ github_username }}/{{ github_repo_name }}.git 2>/dev/null || echo 'origin already exists'{% else %}echo 'No GitHub repository name provided. Skipping git remote add.'{% endif %}"
+
+# questions
+docker_name:
+  type: str
+  help: What is your docker project name? (it will be used as docker image name)
+  validator: >-
+    {% if not (docker_name | regex_search('^[a-z][a-z0-9\-]+$')) %}
+    docker_name must start with a letter, followed one or more letters, digits or dashes in lowercase only
+    {% endif %}
+
+friendly_name:
+  default: "{{ docker_name }}"
+  type: str
+  help: What is your project friendly name? (it will be used for the title of the documentation)
+
+project_short_description:
+  type: str
+  help: What is your project short description?
+
+project_description:
+  type: str
+  help: What is your project description?
+
+docker_username:
+  type: str
+  help: What is your Docker username?
+
+docker_image_version:
+  default: 1.0.0
+  type: str
+  help: What is your Docker image version?
+
+docker_image_variant:
+  default: base
+  type: str
+  help: What is your Docker image variant?
+
+docker_build_from:
+  default: nvcr.io/nvidia/pytorch:23.04-py3
+  type: str
+  help: What is your Docker image build from?
+
+docker_timezone:
+  default: Asia/Seoul
+  type: str
+  help: What is your Docker time zone?
+
+docker_apt_packages:
+  default: "fontconfig fonts-nanum curl git tzdata locales locales-all libcairo2-dev imagemagick ffmpeg sudo software-properties-common"
+  type: str
+  help: What is your Docker apt packages to install? (separated by space)
+
+install_dotfiles:
+  default: true
+  type: bool
+  help: Do you want to install dotfiles?
+
+workspace_root:
+  default: /workspace
+  type: str
+  help: What is your workspace root?
+
+docker_scripts_dir:
+  default: .docker-scripts
+  type: str
+  help: What is your docker scripts directory? (it will be copied to the docker image. You can use it to install your own packages or run your own scripts)
+
+pip_requirements:
+  default: requirements.txt
+  type: str
+  help: What is your pip requirements file to install at the docker image? (put it in the docker scripts directory)
+
+build_scripts:
+  default: docker-build.sh
+  type: str
+  help: What is your build script to run at the docker image? (put it in the docker scripts directory)
+
+run_scripts:
+  default: docker-run.sh
+  type: str
+  help: What is your run script to run when the docker image is run? (put it in the docker scripts directory)
+
+use_ssh:
+  default: true
+  type: bool
+  help: Do you want to use SSH?
+
+ssh_host_port:
+  default: 2222
+  type: int
+  help: "What is your SSH host port to expose? (default: 2222)"
+
+use_jupyter:
+  default: true
+  type: bool
+  help: Do you want to use Jupyter?
+
+jupyter_host_port:
+  default: 8888
+  type: int
+  help: "What is your Jupyter host port to expose? (default: 8888)"
+
+github_username:
+  type: str
+  help: What is your GitHub username?
+  validator: >-
+    {% if not (github_username | regex_search('^[a-z0-9][a-z0-9\-]+$')) %}
+    github_username must start with a letter or digit, followed one or more letters, digits or dashes in lowercase only
+    {% endif %}
+
+email:
+  default: "{{ github_username }}@"
+  type: str
+  help: What is your email?
+  validator: >-
+    {% if not (email | regex_search('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')) %}
+    email must be a valid email address
+    {% endif %}
+
+github_repo_name:
+  default: "{{ docker_name }}"
+  type: str
+  help: What is your GitHub repository name?
+
+use_source_code_skeleton:
+  default: "{{ build_and_release | lower }}"
+  type: bool
+  help: Do you want to use the source code skeleton? (it will create `src` and `tests` directories)

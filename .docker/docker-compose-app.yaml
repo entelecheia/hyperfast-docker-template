@@ -28,7 +28,7 @@ services:
     command:
       # Specifies the command to be executed when the container is run
       - bash
-      - $CONTAINER_WORKSPACE_ROOT/scripts/launch.sh
+      - $CONTAINER_WORKSPACE_ROOT/scripts/docker-launch.sh
     ulimits:
       # Sets the stack size and memory lock limits
       stack: 67108864

@@ -94,10 +94,15 @@ build_scripts:
   type: str
   help: What is your build script to run at the docker image? (put it in the docker scripts directory)
 
-run_scripts:
-  default: docker-run.sh
+launch_scripts:
+  default: docker-launch.sh
   type: str
-  help: What is your run script to run when the docker image is run? (put it in the docker scripts directory)
+  help: What is your launch script to run when the docker image is run? (put it in the docker scripts directory)
+
+clone_source_code:
+  default: true
+  type: bool
+  help: Do you want to clone source code?
 
 use_ssh:
   default: true
@@ -127,21 +132,7 @@ github_username:
     github_username must start with a letter or digit, followed one or more letters, digits or dashes in lowercase only
     {% endif %}
 
-email:
-  default: "{{ github_username }}@"
-  type: str
-  help: What is your email?
-  validator: >-
-    {% if not (email | regex_search('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')) %}
-    email must be a valid email address
-    {% endif %}
-
 github_repo_name:
   default: "{{ docker_name }}"
   type: str
   help: What is your GitHub repository name?
-
-use_source_code_skeleton:
-  default: "{{ build_and_release | lower }}"
-  type: bool
-  help: Do you want to use the source code skeleton? (it will create `src` and `tests` directories)

@@ -54,11 +54,11 @@ RUN sudo pip install -U pip setuptools
 # Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
 ARG ARG_APP_GITHUB_USERNAME="entelecheia"
 ARG ARG_APP_GITHUB_REPO="entelecheia"
-ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
+ARG ARG_APP_PROJECT_ROOT="/workspace/projects"
 ARG ARG_APP_CLONE_DIR=$ARG_APP_GITHUB_REPO
 ENV APP_GITHUB_USERNAME $ARG_APP_GITHUB_USERNAME
 ENV APP_GITHUB_REPO $ARG_APP_GITHUB_REPO
-ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
+ENV APP_PROJECT_ROOT $ARG_APP_PROJECT_ROOT
 ENV APP_CLONE_DIR $ARG_APP_CLONE_DIR
 
 # Sets the working directory to workspace root
@@ -69,10 +69,10 @@ COPY ./.docker/scripts/ ./scripts/
 RUN pip install -r ./scripts/requirements.txt
 
 # Clones the stable-diffusion-webui repository from GitHub
-RUN git clone "https://github.com/$APP_GITHUB_USERNAME/$APP_GITHUB_REPO.git" $APP_INSTALL_ROOT/$APP_CLONE_DIR
+RUN git clone "https://github.com/$APP_GITHUB_USERNAME/$APP_GITHUB_REPO.git" $APP_PROJECT_ROOT/$APP_CLONE_DIR
 
 # Changes the working directory to the cloned repository
-WORKDIR $APP_INSTALL_ROOT/$APP_CLONE_DIR
+WORKDIR $APP_PROJECT_ROOT/$APP_CLONE_DIR
 
 # Sets the time zone within the container
 ENV TZ=Asia/Seoul

@@ -64,9 +64,9 @@ ENV APP_CLONE_DIR $ARG_APP_CLONE_DIR
 # Sets the working directory to workspace root
 WORKDIR $WORKSPACE_ROOT
 # Copies scripts from host into the image
-COPY ./.docker/scripts/ ./scripts/
+COPY ./.docker/.docker-scripts/ ./.docker-scripts/
 # Installs Python dependencies listed in requirements.txt
-RUN pip install -r ./scripts/requirements.txt
+RUN pip install -r ./.docker-scripts/requirements.txt
 
 # Clones the stable-diffusion-webui repository from GitHub
 RUN git clone "https://github.com/$APP_GITHUB_USERNAME/$APP_GITHUB_REPO.git" $APP_PROJECT_ROOT/$APP_CLONE_DIR

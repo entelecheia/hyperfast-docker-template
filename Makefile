@@ -107,3 +107,12 @@ init-project: initialize ## initialize the project (Warning: do this only once!)
 
 reinit-project: install-copier ## reinitialize the project (Warning: this may overwrite existing files!)
 	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier "$${args[@]}" --answers-file .copier-config.yaml --vcs-ref=HEAD gh:entelecheia/hyperfast-docker-template .'
+
+##@ Docker
+
+docker-build: ## build the docker image
+	@bash -c 'set -a; source .docker/docker.app.env; set +a; docker-compose --project-directory . -f .docker/docker-compose-app.yaml build'
+
+docker-config: ## show the docker config
+	@bash -c 'set -a; source .docker/docker.app.env; set +a; docker-compose --project-directory . -f .docker/docker-compose-app.yaml config'
+

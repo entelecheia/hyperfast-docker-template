@@ -40,6 +40,15 @@ project_description:
   type: str
   help: What is your project description?
 
+project_license:
+  type: str
+  choices:
+    - MIT
+    - CC-BY-4.0
+    - Apache-2.0
+    - GPLv3
+    - None
+
 docker_username:
   type: str
   help: What is your Docker username?
@@ -65,9 +74,9 @@ docker_timezone:
   help: What is your Docker time zone?
 
 docker_apt_packages:
-  default: "fontconfig fonts-nanum curl git tzdata locales locales-all libcairo2-dev imagemagick ffmpeg sudo software-properties-common"
+  default: "fontconfig fonts-nanum tzdata locales locales-all"
   type: str
-  help: What is your Docker apt packages to install? (separated by space)
+  help: What is your Docker apt packages to install? (separated by space, "fontconfig fonts-nanum tzdata locales locales-all fontconfig fonts-nanum tzdata locales locales-all" by default)
 
 install_dotfiles:
   default: true
@@ -88,11 +97,6 @@ pip_requirements:
   default: requirements.txt
   type: str
   help: What is your pip requirements file to install at the docker image? (put it in the docker scripts directory)
-
-build_scripts:
-  default: docker-build.sh
-  type: str
-  help: What is your build script to run at the docker image? (put it in the docker scripts directory)
 
 launch_scripts:
   default: docker-launch.sh

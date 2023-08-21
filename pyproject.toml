@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hyperfast-docker-template"
-version = "0.5.0"
+version = "0.6.0"
 description = "Hyperfast Docker Template is a powerful tool that leverages copier to streamline the creation of new Docker projects. It simplifies and accelerates Docker configurations, fostering a highly efficient and user-friendly development experience."
 authors = ["Young Joon Lee <entelecheia@hotmail.com>"]
 license = "MIT"

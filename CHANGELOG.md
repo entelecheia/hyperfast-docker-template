@@ -1,5 +1,26 @@
 <!--next-version-placeholder-->
 
+## v0.6.0 (2023-08-21)
+
+### Feature
+
+* **docker-scripts:** Add login command to docker-compose script ([`2d750e3`](https://github.com/entelecheia/hyperfast-docker-template/commit/2d750e37b84519ece66f3cc89c7255d9e98b2144))
+* **docker:** Add USERNAME environment variable ([`4816f1b`](https://github.com/entelecheia/hyperfast-docker-template/commit/4816f1bf3d5cb2422eee3fa97ca3e8490e319323))
+* **copier.yaml:** Add CUDA device config ([`b48f0d5`](https://github.com/entelecheia/hyperfast-docker-template/commit/b48f0d5c3ee187b901e9d01297db534242955637))
+* **docker:** Add ipc mode and run command variables to docker config ([`2446ae0`](https://github.com/entelecheia/hyperfast-docker-template/commit/2446ae0778d1b952bedc64ca064b0611d2abf5c0))
+* **license:** Add License templates ([`dd3f50a`](https://github.com/entelecheia/hyperfast-docker-template/commit/dd3f50acfc1b2a55972c88d5524a3637fb2cf420))
+* **license:** Add CC-BY-4.0 license ([`4797420`](https://github.com/entelecheia/hyperfast-docker-template/commit/479742048a27938d6e6e5b17095803a2881476b5))
+* **license:** Add Apache-2.0 license template ([`87cbad0`](https://github.com/entelecheia/hyperfast-docker-template/commit/87cbad0f3b388aa9009c0853f8a62527e3034652))
+* **copier.yaml:** Add author and email fields with validation ([`f087b99`](https://github.com/entelecheia/hyperfast-docker-template/commit/f087b999c709a4f4c7530fe1909194123546be8f))
+* **contributing:** Add contributing guide ([`6253d18`](https://github.com/entelecheia/hyperfast-docker-template/commit/6253d184fc4aeb5b57136203eec7594349404e8e))
+* **copier-template:** Add Code of Conduct template ([`d2b11c2`](https://github.com/entelecheia/hyperfast-docker-template/commit/d2b11c291f596c7de90efb9992e2ff860a75bbca))
+* **poe:** Add tasks for versioning and changelog generation ([`d5bf1cb`](https://github.com/entelecheia/hyperfast-docker-template/commit/d5bf1cbf22a98355342f0b65aada927cf3f6f81f))
+* **.copier-template:** Add CHANGELOG.md file ([`6327263`](https://github.com/entelecheia/hyperfast-docker-template/commit/63272637b2c1152fee967b9f4363a2fa0edc8f4d))
+* **copier-template:** Add new pyproject.toml.jinja file ([`bf30d21`](https://github.com/entelecheia/hyperfast-docker-template/commit/bf30d2152c08cfe11b1aaeea8be5ba0870e25880))
+* **.copier-template:** Add .gitattributes file ([`22e6488`](https://github.com/entelecheia/hyperfast-docker-template/commit/22e648816b92c8fea5d62107b5b1524a962af608))
+* **.editorconfig:** Add new file with configuration settings ([`6abc735`](https://github.com/entelecheia/hyperfast-docker-template/commit/6abc735f8d7948fff7a2a62a882d3ecc0b1a0394))
+* **.copier-template:** Add .copierignore file ([`a6a0a6d`](https://github.com/entelecheia/hyperfast-docker-template/commit/a6a0a6d8abe6c30b94353e2fc6c0bd1ca2dc2a0e))
+
 ## v0.5.0 (2023-08-21)
 
 ### Feature

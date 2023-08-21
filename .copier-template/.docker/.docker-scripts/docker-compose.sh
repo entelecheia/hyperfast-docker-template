@@ -4,7 +4,7 @@ COMMAND=${1:-"build"}
 VARIANT=${2:-"base"}
 if [ "$COMMAND" != "build" ] && [ "$COMMAND" != "config" ] && [ "$COMMAND" != "push" ]; then
     echo "Invalid command: $COMMAND"
-    echo "Usage: $0 [base|dev|prod] [build|config]"
+    echo "Usage: $0 [build|config] [base|app]"
     exit 1
 fi
 if [ "$COMMAND" != "build" ]; then

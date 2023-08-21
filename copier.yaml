@@ -132,6 +132,11 @@ clone_source_code:
   type: bool
   help: Do you want to clone source code?
 
+enable_nvidia_gpu:
+  default: true
+  type: bool
+  help: Do you want to enable NVIDIA GPU?
+
 use_ssh:
   default: true
   type: bool

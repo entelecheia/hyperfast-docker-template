@@ -19,7 +19,7 @@ _tasks:
   - "{% if github_repo_name %}git add remote origin https://github.com/{{ github_username }}/{{ github_repo_name }}.git 2>/dev/null || echo 'origin already exists'{% else %}echo 'No GitHub repository name provided. Skipping git remote add.'{% endif %}"
 
 # questions
-docker_name:
+docker_project_name:
   type: str
   help: What is your docker project name? (it will be used as docker image name)
   validator: >-
@@ -77,7 +77,12 @@ docker_app_image_variant_name:
   type: str
   help: What is your Docker app image variant? (it will be built from the base image)
 
-docker_build_from:
+docker_registry:
+  default: ghcr.io
+  type: str
+  help: What is your Docker registry? (e.g. ghcr.io)
+
+docker_base_build_from:
   default: python:3.9-slim-bookworm
   type: str
   help: What is your Docker image build from?
@@ -107,10 +112,10 @@ install_dotfiles:
   type: bool
   help: Do you want to install dotfiles?
 
-workspace_root:
+container_workspace_root:
   default: /workspace
   type: str
-  help: What is your workspace root?
+  help: What is the workspace root in the docker container?
 
 copy_scripts_dir:
   default: true

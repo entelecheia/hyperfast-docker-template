@@ -42,9 +42,9 @@ services:
     volumes:
       # Maps directories from the host to the container
       - "$HOME/.cache:/home/$USERNAME/.cache"
-      - "$HOME/.huggingface:/home/$USERNAME/.huggingface"
       - "$WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
       - "$PWD/.docker/scripts:$CONTAINER_WORKSPACE_ROOT/scripts"
+{% if enable_nvidia_gpu -%}
     deploy:
       resources:
         reservations:
@@ -53,6 +53,7 @@ services:
             - driver: nvidia
               device_ids: ["${CUDA_DEVICE_ID}"]
               capabilities: [gpu]
+{% endif -%}
 networks:
   default:
     # Sets the name of the default network and makes it external

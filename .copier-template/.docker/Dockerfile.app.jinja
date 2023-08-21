@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="ghcr.io/{{ github_username }}/hyperfast-docker-base:latest"
+ARG ARG_BUILD_FROM="{{ docker_registry }}/{{ github_username }}/{{ docker_project_name }}-{{ docker_base_image_variant_name }}:latest"
 FROM $ARG_BUILD_FROM
 
 # Setting ARGs and ENVs for user creation and workspace setup

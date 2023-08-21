@@ -77,19 +77,11 @@ RUN pip install -r ./scripts/requirements.txt
 ARG ARG_APP_SOURCE_REPO="{{ app_source_repo }}"
 ARG ARG_APP_INSTALL_ROOT="{{ app_install_root }}"
 ARG ARG_APP_CLONE_DIRNAME="{{ app_clone_dirname }}"
+ARG ARG_APP_SOURCE_BRANCH="{{ app_source_branch }}"
+ARG ARG_APP_SERVER_NAME="{{ app_server_name }}"
 ENV APP_SOURCE_REPO $ARG_APP_SOURCE_REPO
 ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
 ENV APP_CLONE_DIRNAME $ARG_APP_CLONE_DIRNAME
-
-# Clones the app repository from GitHub
-{% if clone_source_code and app_source_repo -%}
-RUN git clone "https://github.com/$APP_SOURCE_REPO.git" $APP_INSTALL_ROOT/$APP_CLONE_DIRNAME
-RUN sudo chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT/$APP_CLONE_DIRNAME
-{% endif -%}
-
-# Setting ARGs and ENVs for GitHub branch and server name
-ARG ARG_APP_SOURCE_BRANCH="{{ app_source_branch }}"
-ARG ARG_APP_SERVER_NAME="{{ app_server_name }}"
 ENV APP_SOURCE_BRANCH $ARG_APP_SOURCE_BRANCH
 ENV APP_SERVER_NAME $ARG_APP_SERVER_NAME
 

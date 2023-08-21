@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.6.1 (2023-08-21)
+
+### Fix
+
+* **docker:** Update base image for Docker build ([`e6b5726`](https://github.com/entelecheia/hyperfast-docker-template/commit/e6b572682bbe889e64eb268338a5cb115a91d78a))
+
 ## v0.6.0 (2023-08-21)
 
 ### Feature

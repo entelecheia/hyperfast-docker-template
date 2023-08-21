@@ -16,15 +16,15 @@ ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 USER root
 # check if user exists and if not, create user
 RUN if id -u $USERNAME >/dev/null 2>&1; then \
-        echo "User exists"; \
+    echo "User exists"; \
     else \
-        groupadd --gid $USER_GID $USERNAME && \
-        adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME && \
-        echo "$USERNAME:$USERNAME" | chpasswd && \
-        adduser $USERNAME sudo && \
-        echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-        echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
-        chmod 0440 /etc/sudoers.d/$USERNAME; \
+    groupadd --gid $USER_GID $USERNAME && \
+    adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME && \
+    echo "$USERNAME:$USERNAME" | chpasswd && \
+    adduser $USERNAME sudo && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
+    chmod 0440 /etc/sudoers.d/$USERNAME; \
     fi
 
 # Switches to the newly created user
@@ -56,9 +56,9 @@ ENV REMOTE_CONTAINERS=1
 RUN echo "Current user: $USERNAME"
 RUN echo "Dotfiles version: $DOTFILES_VERSION"
 RUN if [ -d "/home/$USERNAME/.dotfiles" ]; then \
-        echo "Dotfiles already installed"; \
+    echo "Dotfiles already installed"; \
     else \
-        sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"; \
+    sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"; \
     fi
 {% endif -%}
 
@@ -76,21 +76,22 @@ RUN pip install -r ./scripts/requirements.txt
 # Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
 ARG ARG_APP_GITHUB_USERNAME="{{ github_username }}"
 ARG ARG_APP_GITHUB_REPO="{{ github_repo_name }}"
-ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
-ARG ARG_APP_CLONE_DIR=$ARG_APP_GITHUB_REPO
-ENV APP_GITHUB_USERNAME $ARG_APP_GITHUB_USERNAME
+ARG ARG_APP_INSTALL_ROOT="{{ app_install_root }}"
+ARG ARG_APP_CLONE_DIRNAME="{{ app_clone_dirname }}"
 ENV APP_GITHUB_REPO $ARG_APP_GITHUB_REPO
 ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
-ENV APP_CLONE_DIR $ARG_APP_CLONE_DIR
+ENV APP_CLONE_DIRNAME $ARG_APP_CLONE_DIRNAME
 
 # Clones the app repository from GitHub
-# RUN git clone "https://github.com/$APP_GITHUB_USERNAME/$APP_GITHUB_REPO.git" $APP_INSTALL_ROOT/$APP_CLONE_DIR
-# RUN sudo chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT/$APP_CLONE_DIR
+{% if clone_source_code -%}
+RUN git clone "https://github.com/$APP_GITHUB_REPO.git" $APP_INSTALL_ROOT/$APP_CLONE_DIRNAME
+RUN sudo chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT/$APP_CLONE_DIRNAME
+{% endif -%}
 
 # Setting ARGs and ENVs for GitHub branch and server name
-ARG ARG_APP_GITHUB_BRANCH="main"
+ARG ARG_APP_SOURCE_BRANCH="main"
 ARG ARG_APP_SERVER_NAME
-ENV APP_GITHUB_BRANCH $ARG_APP_GITHUB_BRANCH
+ENV APP_SOURCE_BRANCH $ARG_APP_SOURCE_BRANCH
 ENV APP_SERVER_NAME $ARG_APP_SERVER_NAME
 
 # Specifies the command that will be executed when the container is run

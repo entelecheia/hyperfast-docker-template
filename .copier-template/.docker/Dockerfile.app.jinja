@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="ghcr.io/entelecheia/hyperfast-docker-base:latest"
+ARG ARG_BUILD_FROM="ghcr.io/{{ github_username }}/hyperfast-docker-base:latest"
 FROM $ARG_BUILD_FROM
 
 # Setting ARGs and ENVs for user creation and workspace setup
@@ -33,6 +33,7 @@ USER $USERNAME
 RUN sudo rm -rf $WORKSPACE_ROOT && sudo mkdir -p $WORKSPACE_ROOT/projects
 RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 
+{% if install_dotfiles -%}
 # Install dotfiles
 ARG ARG_USER_FULLNAME
 ARG ARG_USER_EMAIL
@@ -59,17 +60,22 @@ RUN if [ -d "/home/$USERNAME/.dotfiles" ]; then \
     else \
         sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"; \
     fi
+{% endif -%}
 
 # Sets the working directory to workspace root
 WORKDIR $WORKSPACE_ROOT
+{% if copy_scripts_dir -%}
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
+{% endif -%}
+{% if install_pip_requirements -%}
 # Installs Python dependencies listed in requirements.txt
-# RUN pip install -r ./scripts/requirements.txt
+RUN pip install -r ./scripts/requirements.txt
+{% endif -%}
 
 # Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
-ARG ARG_APP_GITHUB_USERNAME="entelecheia"
-ARG ARG_APP_GITHUB_REPO="entelecheia"
+ARG ARG_APP_GITHUB_USERNAME="{{ github_username }}"
+ARG ARG_APP_GITHUB_REPO="{{ github_repo_name }}"
 ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
 ARG ARG_APP_CLONE_DIR=$ARG_APP_GITHUB_REPO
 ENV APP_GITHUB_USERNAME $ARG_APP_GITHUB_USERNAME
@@ -88,4 +94,4 @@ ENV APP_GITHUB_BRANCH $ARG_APP_GITHUB_BRANCH
 ENV APP_SERVER_NAME $ARG_APP_SERVER_NAME
 
 # Specifies the command that will be executed when the container is run
-CMD ["zsh"]
+CMD ["{{ docker_run_command }}"]

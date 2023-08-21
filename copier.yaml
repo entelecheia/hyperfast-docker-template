@@ -49,7 +49,21 @@ project_license:
     - GPLv3
     - None
 
+github_username:
+  type: str
+  help: What is your GitHub username?
+  validator: >-
+    {% if not (github_username | regex_search('^[a-z0-9][a-z0-9\-]+$')) %}
+    github_username must start with a letter or digit, followed one or more letters, digits or dashes in lowercase only
+    {% endif %}
+
+github_repo_name:
+  default: "{{ project_name }}"
+  type: str
+  help: What is your GitHub repository name?
+
 docker_username:
+  default: "{{ github_username }}"
   type: str
   help: What is your Docker username?
 
@@ -137,16 +151,3 @@ jupyter_host_port:
   default: 8888
   type: int
   help: "What is your Jupyter host port to expose? (default: 8888)"
-
-github_username:
-  type: str
-  help: What is your GitHub username?
-  validator: >-
-    {% if not (github_username | regex_search('^[a-z0-9][a-z0-9\-]+$')) %}
-    github_username must start with a letter or digit, followed one or more letters, digits or dashes in lowercase only
-    {% endif %}
-
-github_repo_name:
-  default: "{{ docker_name }}"
-  type: str
-  help: What is your GitHub repository name?

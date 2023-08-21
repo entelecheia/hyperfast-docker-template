@@ -1,5 +1,19 @@
 <!--next-version-placeholder-->
 
+## v0.5.0 (2023-08-21)
+
+### Feature
+
+* **copier.yaml:** Add new fields for source repository cloning ([`1013717`](https://github.com/entelecheia/hyperfast-docker-template/commit/1013717361bf96e20ec432da6061ef72e6233cd3))
+* **docker:** Add conditional execution for starting ssh service, add cloning app repository from Github, add starting Jupyter notebook in background ([`d332aa9`](https://github.com/entelecheia/hyperfast-docker-template/commit/d332aa98506bce7ecf0c178d72c7e6e15e842c47))
+* **dockerfile:** Clone source code based on clone_source_code value ([`442c18d`](https://github.com/entelecheia/hyperfast-docker-template/commit/442c18d8a1d1ff458b413c93a9309ac7cac3579e))
+* **copier.yaml:** Add NVIDIA GPU enable option ([`5701513`](https://github.com/entelecheia/hyperfast-docker-template/commit/570151349e7fb67c9d7cdcd48d1f76cb09d14e90))
+* **docker:** Enable pip installation of python dependencies ([`0f12dea`](https://github.com/entelecheia/hyperfast-docker-template/commit/0f12deacd603496f82004da076e1e79296eb7aa4))
+* **Dockerfile:** Add command customization via template variable ([`d9649d8`](https://github.com/entelecheia/hyperfast-docker-template/commit/d9649d866f11a88c0726b356b3a2d5308405d7a6))
+* **copier.yaml:** Add project_license selection ([`67a0193`](https://github.com/entelecheia/hyperfast-docker-template/commit/67a01930161b9913eda7e4f7b13df8382697fc95))
+* **github-actions:** Add workflows for deploying app and base images ([`1ff6d3f`](https://github.com/entelecheia/hyperfast-docker-template/commit/1ff6d3f8b4441672fb0f106b0acc0e10120e0d06))
+* **Makefile:** Add Docker-related commands ([`a744019`](https://github.com/entelecheia/hyperfast-docker-template/commit/a7440196ae6e0f2f0cba2030e9e0cff9711ac378))
+
 ## v0.4.3 (2023-08-21)
 
 ### Fix

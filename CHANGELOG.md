@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.4.1 (2023-08-21)
+
+### Fix
+
+* **release:** Remove skip ci from commit subject ([`83c1c7a`](https://github.com/entelecheia/hyperfast-docker-template/commit/83c1c7aeb0e6e719c0df7a7e9f5fd92963e52b30))
+
 ## v0.4.0 (2023-08-21)
 
 ### Feature

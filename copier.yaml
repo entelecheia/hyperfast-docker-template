@@ -70,7 +70,12 @@ docker_username:
 docker_base_image_variant_name:
   default: base
   type: str
-  help: What is your Docker image variant?
+  help: What is your Docker base image variant?
+
+docker_app_image_variant_name:
+  default: app
+  type: str
+  help: What is your Docker app image variant? (it will be built from the base image)
 
 docker_build_from:
   default: python:3.9-slim-bookworm
@@ -122,22 +127,46 @@ docker_run_command:
   type: str
   help: "What is your docker command to run? (default: /bin/bash)"
 
-launch_scripts:
-  default: docker-launch.sh
-  type: str
-  help: What is your launch script to run when the docker image is run? (put it in the docker scripts directory)
-
 clone_source_code:
   default: true
   type: bool
   help: Do you want to clone source code?
+
+app_source_repo:
+  type: str
+  help: What is your source repository URL to clone? (e.g. github_username/repo_name)
+
+app_source_branch:
+  default: main
+  type: str
+  help: "What is your source repository branch to clone? (default: main)"
+
+app_install_root:
+  default: "{{ workspace_root }}/projects"
+  type: str
+  help: What is your source install root?
+
+app_clone_dirname:
+  default: source
+  type: str
+  help: "What is your source repository directory name to clone? (default: source)"
+
+app_server_name:
+  default: app
+  type: str
+  help: What is your app server name?
+
+launch_scripts:
+  default: launch.sh
+  type: str
+  help: What is your launch script to run when the docker image is run? (put it in the docker scripts directory)
 
 enable_nvidia_gpu:
   default: true
   type: bool
   help: Do you want to enable NVIDIA GPU?
 
-use_ssh:
+start_ssh_service:
   default: true
   type: bool
   help: Do you want to use SSH?
@@ -147,7 +176,7 @@ ssh_host_port:
   type: int
   help: "What is your SSH host port to expose? (default: 2222)"
 
-use_jupyter:
+start_jupyter:
   default: true
   type: bool
   help: Do you want to use Jupyter?

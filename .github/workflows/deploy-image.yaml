@@ -47,7 +47,7 @@ jobs:
           context: .
           file: ./.docker/Dockerfile.base
           build-args: |
-            ARG_BUILD_FROM=mcr.microsoft.com/devcontainers/python:3.9
+            ARG_BUILD_FROM=python:3.9-slim-bookworm
             ARG_USERNAME=app
             ARG_USER_UID=1000
             ARG_USER_GID=1000

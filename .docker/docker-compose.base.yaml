@@ -17,6 +17,10 @@ services:
         ARG_WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
     # Sets the image name for the built image
     image: $IMAGE_NAME
+    tags:
+      # Tags the built image with the specified tags
+      - $IMAGE_TAG
+      - latest
     # Sets the hostname of the container
     hostname: $CONTAINER_HOSTNAME
     command:

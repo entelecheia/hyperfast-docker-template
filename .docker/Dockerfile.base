@@ -2,11 +2,15 @@
 ARG ARG_BUILD_FROM="python:3.9-slim-bookworm"
 FROM $ARG_BUILD_FROM
 
+LABEL org.opencontainers.image.source=https://github.com/entelecheia/hyperfast-docker-template
+LABEL org.opencontainers.image.description="Hyperfast Docker Template is a powerful tool that leverages copier to streamline the creation of new Docker projects."
+LABEL org.opencontainers.image.licenses=MIT
+# change apt source to korea
+# RUN sed -i 's@archive.ubuntu.com@kr.archive.ubuntu.com@g' /etc/apt/sources.list
 # Setting this argument prevents interactive prompts during the build process
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
-RUN apt-get update && apt-get install -y ca-certificates
-RUN apt-get update \
+RUN apt-get update --fix-missing \
     && apt-get install -y curl sudo software-properties-common \
     fontconfig fonts-nanum tzdata locales locales-all \
     # Adds PPA for the latest git version

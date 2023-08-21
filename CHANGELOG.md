@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.4.2 (2023-08-21)
+
+### Fix
+
+* **github-workflows:** Update tags trigger for app and base image deployments ([`ce5c741`](https://github.com/entelecheia/hyperfast-docker-template/commit/ce5c74103b624233f6096bd1e6db5058351d4cd0))
+
 ## v0.4.1 (2023-08-21)
 
 ### Fix

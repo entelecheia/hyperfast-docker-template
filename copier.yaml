@@ -53,18 +53,13 @@ docker_username:
   type: str
   help: What is your Docker username?
 
-docker_image_version:
-  default: 1.0.0
-  type: str
-  help: What is your Docker image version?
-
-docker_image_variant:
+docker_base_image_variant_name:
   default: base
   type: str
   help: What is your Docker image variant?
 
 docker_build_from:
-  default: nvcr.io/nvidia/pytorch:23.04-py3
+  default: python:3.9-slim-bookworm
   type: str
   help: What is your Docker image build from?
 
@@ -74,9 +69,19 @@ docker_timezone:
   help: What is your Docker time zone?
 
 docker_apt_packages:
-  default: "fontconfig fonts-nanum tzdata locales locales-all"
+  default: "fontconfig fonts-nanum"
   type: str
-  help: What is your Docker apt packages to install? (separated by space, "fontconfig fonts-nanum tzdata locales locales-all fontconfig fonts-nanum tzdata locales locales-all" by default)
+  help: What is your Docker apt packages to install? (separated by space, "curl wget jq sudo tzdata locales locales-all python3-launchpadlib software-properties-common" by default)
+
+docker_container_username:
+  default: "app"
+  type: str
+  help: What is the username of the docker container? (non-root user)
+
+docker_container_uid:
+  default: 9001
+  type: int
+  help: What is the uid of the docker container user?
 
 install_dotfiles:
   default: true
@@ -88,15 +93,20 @@ workspace_root:
   type: str
   help: What is your workspace root?
 
-docker_scripts_dir:
-  default: .docker-scripts
-  type: str
-  help: What is your docker scripts directory? (it will be copied to the docker image. You can use it to install your own packages or run your own scripts)
+copy_scripts_dir:
+  default: true
+  type: bool
+  help: "Do you want to copy scripts directory under the workspace root? ? (COPY ./.docker/scripts/ ./scripts/)"
 
-pip_requirements:
-  default: requirements.txt
+install_pip_requirements:
+  default: true
+  type: bool
+  help: "Do you want to install pip requirements? (add dependencies to requirements.txt under the scripts directory)"
+
+docker_run_command:
+  default: /bin/zsh
   type: str
-  help: What is your pip requirements file to install at the docker image? (put it in the docker scripts directory)
+  help: "What is your docker command to run? (default: /bin/bash)"
 
 launch_scripts:
   default: docker-launch.sh

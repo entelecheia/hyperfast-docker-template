@@ -3,15 +3,9 @@ jupyterhub*
 .vscode
 .history
 workspace
-notebooks
-.workspace
 data
 refs
 tmp
-_tmp_
 logs
 outputs
-runs
 .env*
-!.env.project
-!.env.vault

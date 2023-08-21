@@ -19,30 +19,6 @@
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-25s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-
-##@ Clean-up
-
-clean: ## run all clean commands
-	@poe clean
-
-##@ Git Branches
-
-show-branches: ## show all branches
-	@git show-branch --list
-
-dev-checkout: ## checkout the dev branch
-	@branch=$(shell echo $${branch:-"dev"}) && \
-	    git show-branch --list | grep -q $${branch} && \
-		git checkout $${branch}
-
-dev-checkout-upstream: ## create and checkout the dev branch, and set the upstream
-	@branch=$(shell echo $${branch:-"dev"}) && \
-		git checkout -B $${branch} && \
-		git push --set-upstream origin $${branch} || true
-
-main-checkout: ## checkout the main branch
-	@git checkout main
-
 ##@ Utilities
 
 large-files: ## show the 20 largest files in the repo
@@ -111,8 +87,7 @@ reinit-project: install-copier ## reinitialize the project (Warning: this may ov
 ##@ Docker
 
 docker-build: ## build the docker image
-	@bash -c 'set -a; source .docker/docker.app.env; set +a; docker-compose --project-directory . -f .docker/docker-compose-app.yaml build'
+	@bash .docker/.docker-scripts/docker-build.sh
 
 docker-config: ## show the docker config
-	@bash -c 'set -a; source .docker/docker.app.env; set +a; docker-compose --project-directory . -f .docker/docker-compose-app.yaml config'
-
+	@bash .docker/.docker-scripts/docker-config.sh

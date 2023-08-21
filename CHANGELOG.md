@@ -1,5 +1,14 @@
 <!--next-version-placeholder-->
 
+## v0.3.0 (2023-08-21)
+
+### Feature
+
+* **docker:** Add container registry ([`a87d022`](https://github.com/entelecheia/hyperfast-docker-template/commit/a87d022cf4c30a21ca9b9f6f268bc5b6ca0ca3f1))
+* **docker:** Add new docker-compose script ([`5ef6e90`](https://github.com/entelecheia/hyperfast-docker-template/commit/5ef6e90223bc9e9d2cc5fffbe5689fb7c4c48023))
+* **.github:** Add deploy-app-image workflow ([`91e1e78`](https://github.com/entelecheia/hyperfast-docker-template/commit/91e1e7889af9bba4b894a1715522ea97a941f62d))
+* **docker-compose.base:** Add new ARGs to docker ([`d3eca6f`](https://github.com/entelecheia/hyperfast-docker-template/commit/d3eca6fd9b90461a8caf90b06a7364295984452a))
+
 ## v0.2.0 (2023-08-21)
 
 ### Feature

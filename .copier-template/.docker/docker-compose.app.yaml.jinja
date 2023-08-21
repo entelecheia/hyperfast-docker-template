@@ -34,7 +34,7 @@ services:
     command:
       # Specifies the command to be executed when the container is run
       - bash
-      - $CONTAINER_WORKSPACE_ROOT/scripts/launch.sh
+      - $LAUNCH_SCRIPT
     # set the environment variables
     environment:
       USER_FULLNAME: $USER_FULLNAME
@@ -53,7 +53,7 @@ services:
       stack: 67108864
       memlock: -1
     # Allows the container to use the host's IPC namespace
-    ipc: host
+    ipc: $CONTAINER_IPC
     ports:
       # Maps the container's SSH and Web service ports to the host's ports
       - "$HOST_SSH_PORT:$SSH_PORT"
@@ -67,6 +67,7 @@ services:
       - "$HOME/.ssh:/home/$USERNAME/.ssh"
       - "$HOME/.config/gh:/home/$USERNAME/.config/gh"
       - "$HOME/.passage:/home/$USERNAME/.passage"
+{% if enable_nvidia_gpu -%}
     deploy:
       resources:
         reservations:
@@ -75,6 +76,7 @@ services:
             - driver: nvidia
               device_ids: ["${CUDA_DEVICE_ID}"]
               capabilities: [gpu]
+{% endif -%}
 networks:
   default:
     # Sets the name of the default network and makes it external

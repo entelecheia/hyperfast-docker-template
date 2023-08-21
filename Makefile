@@ -86,6 +86,9 @@ reinit-project: install-copier ## reinitialize the project (Warning: this may ov
 
 ##@ Docker
 
+docker-login: ## login to docker
+	@bash .docker/.docker-scripts/docker-login.sh
+
 docker-build-base: ## build the docker base image
 	@bash .docker/.docker-scripts/docker-compose.sh build base
 
@@ -98,8 +101,8 @@ docker-config-base: ## show the docker base config
 docker-config-app: ## show the docker app config
 	@bash .docker/.docker-scripts/docker-compose.sh config app
 
-docker-push-base: ## show the docker base config
+docker-push-base: ## push the docker base image
 	@bash .docker/.docker-scripts/docker-compose.sh push base
 
-docker-push-app: ## build the docker app image
+docker-push-app: ## push the docker app image
 	@bash .docker/.docker-scripts/docker-compose.sh push app

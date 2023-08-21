@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  # Defines a service named "workspace"
+  workspace:
+    build:
+      # Sets the build context to the current directory
+      context: .
+      # Specifies the Dockerfile to use for the build
+      dockerfile: .docker/Dockerfile.base
+      # Specifies build-time variables (ARGs)
+      args:
+        ARG_BUILD_FROM: $BUILD_FROM
+        ARG_USERNAME: $USERNAME
+        ARG_USER_UID: $USER_UID
+        ARG_USER_GID: $USER_GID
+        ARG_WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
+    # Sets the image name for the built image
+    image: $IMAGE_NAME
+    # Sets the hostname of the container
+    hostname: $CONTAINER_HOSTNAME
+    command:
+      # Specifies the command to be executed when the container is run
+      - bash
+      - $LAUNCH_SCRIPT
+    ulimits:
+      # Sets the stack size and memory lock limits
+      stack: 67108864
+      memlock: -1
+    # Allows the container to use the host's IPC namespace
+    ipc: $CONTAINER_IPC
+networks:
+  default:
+    # Sets the name of the default network and makes it external
+    name: $DOCKER_NETWORK_NAME
+    external: true

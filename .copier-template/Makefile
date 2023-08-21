@@ -19,30 +19,6 @@
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-25s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-
-##@ Clean-up
-
-clean: ## run all clean commands
-	@poe clean
-
-##@ Git Branches
-
-show-branches: ## show all branches
-	@git show-branch --list
-
-dev-checkout: ## checkout the dev branch
-	@branch=$(shell echo $${branch:-"dev"}) && \
-	    git show-branch --list | grep -q $${branch} && \
-		git checkout $${branch}
-
-dev-checkout-upstream: ## create and checkout the dev branch, and set the upstream
-	@branch=$(shell echo $${branch:-"dev"}) && \
-		git checkout -B $${branch} && \
-		git push --set-upstream origin $${branch} || true
-
-main-checkout: ## checkout the main branch
-	@git checkout main
-
 ##@ Utilities
 
 large-files: ## show the 20 largest files in the repo
@@ -103,10 +79,30 @@ initialize: install-pipx ## initialize the project environment
 	@pre-commit install
 
 init-project: initialize ## initialize the project (Warning: do this only once!)
-	@copier --answers-file .copier-config.yaml --vcs-ref=HEAD gh:entelecheia/hyperfast-python-template .
+	@copier --answers-file .copier-config.yaml --vcs-ref=HEAD gh:entelecheia/hyperfast-docker-template .
 
 reinit-project: install-copier ## reinitialize the project (Warning: this may overwrite existing files!)
-	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier "$${args[@]}" --answers-file .copier-config.yaml --vcs-ref=HEAD . .'
+	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier "$${args[@]}" --answers-file .copier-config.yaml --vcs-ref=HEAD gh:entelecheia/hyperfast-docker-template .'
 
-reinit-project-force: install-copier ## initialize the project ignoring existing files (Warning: this will overwrite existing files!)
-	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier "$${args[@]}" --answers-file .copier-config.yaml --force --vcs-ref=HEAD . .'
+##@ Docker
+
+docker-login: ## login to docker
+	@bash .docker/.docker-scripts/docker-login.sh
+
+docker-build-base: ## build the docker base image
+	@bash .docker/.docker-scripts/docker-compose.sh build base
+
+docker-build-app: ## build the docker app image
+	@bash .docker/.docker-scripts/docker-compose.sh build app
+
+docker-config-base: ## show the docker base config
+	@bash .docker/.docker-scripts/docker-compose.sh config base
+
+docker-config-app: ## show the docker app config
+	@bash .docker/.docker-scripts/docker-compose.sh config app
+
+docker-push-base: ## push the docker base image
+	@bash .docker/.docker-scripts/docker-compose.sh push base
+
+docker-push-app: ## push the docker app image
+	@bash .docker/.docker-scripts/docker-compose.sh push app

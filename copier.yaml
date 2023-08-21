@@ -19,7 +19,7 @@ _tasks:
   - "{% if github_repo_name %}git add remote origin https://github.com/{{ github_username }}/{{ github_repo_name }}.git 2>/dev/null || echo 'origin already exists'{% else %}echo 'No GitHub repository name provided. Skipping git remote add.'{% endif %}"
 
 # questions
-docker_name:
+docker_project_name:
   type: str
   help: What is your docker project name? (it will be used as docker image name)
   validator: >-
@@ -40,89 +40,14 @@ project_description:
   type: str
   help: What is your project description?
 
-docker_username:
+project_license:
   type: str
-  help: What is your Docker username?
-
-docker_image_version:
-  default: 1.0.0
-  type: str
-  help: What is your Docker image version?
-
-docker_image_variant:
-  default: base
-  type: str
-  help: What is your Docker image variant?
-
-docker_build_from:
-  default: nvcr.io/nvidia/pytorch:23.04-py3
-  type: str
-  help: What is your Docker image build from?
-
-docker_timezone:
-  default: Asia/Seoul
-  type: str
-  help: What is your Docker time zone?
-
-docker_apt_packages:
-  default: "fontconfig fonts-nanum curl git tzdata locales locales-all libcairo2-dev imagemagick ffmpeg sudo software-properties-common"
-  type: str
-  help: What is your Docker apt packages to install? (separated by space)
-
-install_dotfiles:
-  default: true
-  type: bool
-  help: Do you want to install dotfiles?
-
-workspace_root:
-  default: /workspace
-  type: str
-  help: What is your workspace root?
-
-docker_scripts_dir:
-  default: .docker-scripts
-  type: str
-  help: What is your docker scripts directory? (it will be copied to the docker image. You can use it to install your own packages or run your own scripts)
-
-pip_requirements:
-  default: requirements.txt
-  type: str
-  help: What is your pip requirements file to install at the docker image? (put it in the docker scripts directory)
-
-build_scripts:
-  default: docker-build.sh
-  type: str
-  help: What is your build script to run at the docker image? (put it in the docker scripts directory)
-
-launch_scripts:
-  default: docker-launch.sh
-  type: str
-  help: What is your launch script to run when the docker image is run? (put it in the docker scripts directory)
-
-clone_source_code:
-  default: true
-  type: bool
-  help: Do you want to clone source code?
-
-use_ssh:
-  default: true
-  type: bool
-  help: Do you want to use SSH?
-
-ssh_host_port:
-  default: 2222
-  type: int
-  help: "What is your SSH host port to expose? (default: 2222)"
-
-use_jupyter:
-  default: true
-  type: bool
-  help: Do you want to use Jupyter?
-
-jupyter_host_port:
-  default: 8888
-  type: int
-  help: "What is your Jupyter host port to expose? (default: 8888)"
+  choices:
+    - MIT
+    - CC-BY-4.0
+    - Apache-2.0
+    - GPLv3
+    - None
 
 github_username:
   type: str
@@ -133,6 +58,135 @@ github_username:
     {% endif %}
 
 github_repo_name:
-  default: "{{ docker_name }}"
+  default: "{{ project_name }}"
   type: str
   help: What is your GitHub repository name?
+
+docker_username:
+  default: "{{ github_username }}"
+  type: str
+  help: What is your Docker username?
+
+docker_base_image_variant_name:
+  default: base
+  type: str
+  help: What is your Docker base image variant?
+
+docker_app_image_variant_name:
+  default: app
+  type: str
+  help: What is your Docker app image variant? (it will be built from the base image)
+
+docker_registry:
+  default: ghcr.io
+  type: str
+  help: What is your Docker registry? (e.g. ghcr.io)
+
+docker_base_build_from:
+  default: python:3.9-slim-bookworm
+  type: str
+  help: What is your Docker image build from?
+
+docker_timezone:
+  default: Asia/Seoul
+  type: str
+  help: What is your Docker time zone?
+
+docker_apt_packages:
+  default: "fontconfig fonts-nanum"
+  type: str
+  help: What is your Docker apt packages to install? (separated by space, "curl wget jq sudo tzdata locales locales-all python3-launchpadlib software-properties-common" by default)
+
+docker_container_username:
+  default: "app"
+  type: str
+  help: What is the username of the docker container? (non-root user)
+
+docker_container_uid:
+  default: 9001
+  type: int
+  help: What is the uid of the docker container user?
+
+install_dotfiles:
+  default: true
+  type: bool
+  help: Do you want to install dotfiles?
+
+container_workspace_root:
+  default: /workspace
+  type: str
+  help: What is the workspace root in the docker container?
+
+copy_scripts_dir:
+  default: true
+  type: bool
+  help: "Do you want to copy scripts directory under the workspace root? ? (COPY ./.docker/scripts/ ./scripts/)"
+
+install_pip_requirements:
+  default: true
+  type: bool
+  help: "Do you want to install pip requirements? (add dependencies to requirements.txt under the scripts directory)"
+
+docker_run_command:
+  default: /bin/zsh
+  type: str
+  help: "What is your docker command to run? (default: /bin/bash)"
+
+clone_source_code:
+  default: true
+  type: bool
+  help: Do you want to clone source code?
+
+app_source_repo:
+  type: str
+  help: What is your source repository URL to clone? (e.g. github_username/repo_name)
+
+app_source_branch:
+  default: main
+  type: str
+  help: "What is your source repository branch to clone? (default: main)"
+
+app_install_root:
+  default: "{{ workspace_root }}/projects"
+  type: str
+  help: What is your source install root?
+
+app_clone_dirname:
+  default: source
+  type: str
+  help: "What is your source repository directory name to clone? (default: source)"
+
+app_server_name:
+  default: app
+  type: str
+  help: What is your app server name?
+
+launch_scripts:
+  default: launch.sh
+  type: str
+  help: What is your launch script to run when the docker image is run? (put it in the docker scripts directory)
+
+enable_nvidia_gpu:
+  default: true
+  type: bool
+  help: Do you want to enable NVIDIA GPU?
+
+start_ssh_service:
+  default: true
+  type: bool
+  help: Do you want to use SSH?
+
+ssh_host_port:
+  default: 2222
+  type: int
+  help: "What is your SSH host port to expose? (default: 2222)"
+
+start_jupyter:
+  default: true
+  type: bool
+  help: Do you want to use Jupyter?
+
+jupyter_host_port:
+  default: 8888
+  type: int
+  help: "What is your Jupyter host port to expose? (default: 8888)"

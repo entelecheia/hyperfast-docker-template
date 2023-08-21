@@ -79,10 +79,10 @@ initialize: install-pipx ## initialize the project environment
 	@pre-commit install
 
 init-project: initialize ## initialize the project (Warning: do this only once!)
-	@copier --answers-file .copier-config.yaml --vcs-ref=HEAD gh:entelecheia/hyperfast-docker-template .
+	@copier copy --trust --answers-file .copier-config.yaml --vcs-ref=HEAD . .
 
 reinit-project: install-copier ## reinitialize the project (Warning: this may overwrite existing files!)
-	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier "$${args[@]}" --answers-file .copier-config.yaml --vcs-ref=HEAD gh:entelecheia/hyperfast-docker-template .'
+	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier "$${args[@]}" --answers-file .copier-config.yaml --vcs-ref=HEAD . .'
 
 ##@ Docker
 

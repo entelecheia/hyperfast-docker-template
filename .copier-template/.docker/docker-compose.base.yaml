@@ -28,13 +28,13 @@ services:
     command:
       # Specifies the command to be executed when the container is run
       - bash
-      - $CONTAINER_WORKSPACE_ROOT/scripts/docker-launch.sh
+      - $LAUNCH_SCRIPT
     ulimits:
       # Sets the stack size and memory lock limits
       stack: 67108864
       memlock: -1
     # Allows the container to use the host's IPC namespace
-    ipc: host
+    ipc: $CONTAINER_IPC
     ports:
       # Maps the container's SSH and Web service ports to the host's ports
       - "$HOST_SSH_PORT:$SSH_PORT"

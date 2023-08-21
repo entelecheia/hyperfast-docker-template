@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.6.2 (2023-08-21)
+
+### Fix
+
+* **docker:** Remove APP_VERSION from docker.app.env ([`6a5bd11`](https://github.com/entelecheia/hyperfast-docker-template/commit/6a5bd11a8da2820f0cb99bc6a282a588ba51560d))
+* **project:** Rename Makefile to Makefile.jinja ([`c94bd52`](https://github.com/entelecheia/hyperfast-docker-template/commit/c94bd521132d0d176513ecbb12eaa10fa55a6574))
+
 ## v0.6.1 (2023-08-21)
 
 ### Fix

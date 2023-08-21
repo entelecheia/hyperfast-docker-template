@@ -1,0 +1,5 @@
+.copierignore
+.tasks-extra.toml
+CHANGELOG.md
+pyproject.toml
+LICENSE

@@ -49,12 +49,29 @@ project_license:
     - GPLv3
     - None
 
+author:
+  type: str
+  help: What is your name?
+  validator: >-
+    {% if not (author | regex_search('^[a-zA-Z][a-zA-Z ]+$')) %}
+    author must start with a letter, followed one or more letters or spaces
+    {% endif %}
+
 github_username:
   type: str
   help: What is your GitHub username?
   validator: >-
     {% if not (github_username | regex_search('^[a-z0-9][a-z0-9\-]+$')) %}
     github_username must start with a letter or digit, followed one or more letters, digits or dashes in lowercase only
+    {% endif %}
+
+email:
+  default: "{{ github_username }}@"
+  type: str
+  help: What is your email?
+  validator: >-
+    {% if not (email | regex_search('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')) %}
+    email must be a valid email address
     {% endif %}
 
 github_repo_name:
@@ -171,6 +188,11 @@ enable_nvidia_gpu:
   type: bool
   help: Do you want to enable NVIDIA GPU?
 
+cuda_device_id:
+  default: all
+  type: str
+  help: "What is your CUDA device to use? (default: all)"
+
 start_ssh_service:
   default: true
   type: bool
@@ -187,6 +209,6 @@ start_jupyter:
   help: Do you want to use Jupyter?
 
 jupyter_host_port:
-  default: 8888
+  default: 18888
   type: int
   help: "What is your Jupyter host port to expose? (default: 8888)"

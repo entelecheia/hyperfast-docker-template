@@ -45,6 +45,13 @@ jobs:
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
+          file: ./.docker/Dockerfile.base
+          build-args: |
+            ARG_BUILD_FROM=mcr.microsoft.com/devcontainers/python:3.9
+            ARG_USERNAME=app
+            ARG_USER_UID=1000
+            ARG_USER_GID=1000
+            ARG_WORKSPACE_ROOT=/workspace
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.licenses=MIT
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl sudo software-properties-common \
+    && apt-get install -y curl sudo python3-launchpadlib software-properties-common \
     fontconfig fonts-nanum tzdata locales locales-all \
     # Adds PPA for the latest git version
     && add-apt-repository ppa:git-core/ppa -y \

@@ -79,7 +79,7 @@ initialize: install-pipx ## initialize the project environment
 	@pre-commit install
 
 init-project: initialize ## initialize the project (Warning: do this only once!)
-	@copier --trust --answers-file .copier-config.yaml gh:entelecheia/hyperfast-docker-template .
+	@copier copy --trust --answers-file .copier-config.yaml gh:entelecheia/hyperfast-docker-template .
 
 {% if project_name == 'hyperfast-python-template' -%}
 reinit-project: install-copier ## reinitialize the project (Warning: this may overwrite existing files!)

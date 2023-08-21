@@ -30,7 +30,7 @@ version_toml = "pyproject.toml:tool.poetry.version"
 version_pattern = '.docker/docker.version:APP_VERSION="{version}"'
 version_source = "tag"
 commit_version_number = true                                                             # required for version_source = "tag"
-commit_subject = "chore(release): :rocket: {version} [skip ci]"
+commit_subject = "chore(release): :rocket: {version}"
 prerelease_tag = "rc"
 major_on_zero = true
 tag_commit = true

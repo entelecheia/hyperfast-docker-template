@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "{{ docker_project_name }}"
+version = "0.0.0"
+description = "{{ project_short_description }}"
+authors = ["{{ author }} <{{ email }}>"]
+license = "{{ project_license }}"
+repository = "https://github.com/{{ github_username }}/{{ github_repo_name }}"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<3.12"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+python-semantic-release = "^7.33.1"
+
+{% if poe_task_files -%}
+[tool.poe]
+include = {{ poe_task_files|to_json }}
+{%- endif %}
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+
+[tool.semantic_release]
+branch = "main"
+version_toml = "pyproject.toml:tool.poetry.version"
+version_pattern = '.docker/docker.version:APP_VERSION="{version}"'
+version_source = "tag"
+commit_version_number = true # required for version_source = "tag"
+commit_subject = "chore(release): :rocket: {version} [skip ci]"
+prerelease_tag = "rc"
+major_on_zero = true
+tag_commit = true
+changelog_file = "CHANGELOG.md"
+upload_to_repository = false
+upload_to_release = false
+hvcs = "github" # hosting version control system, gitlab is also supported
+build_command = "mkdir -p dist && echo 'No build command configured' > dist/release.txt"

@@ -87,7 +87,7 @@ reinit-project: install-copier ## reinitialize the project (Warning: this may ov
 ##@ Docker
 
 docker-login: ## login to docker
-	@bash .docker/.docker-scripts/docker-login.sh
+	@bash .docker/.docker-scripts/docker-compose.sh login
 
 docker-build-base: ## build the docker base image
 	@bash .docker/.docker-scripts/docker-compose.sh build base

@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.4.0 (2023-08-21)
+
+### Feature
+
+* **Makefile:** Add docker-login command ([`08fe3a7`](https://github.com/entelecheia/hyperfast-docker-template/commit/08fe3a773555c22e048c95bd1dbb593d1195c73e))
+
 ## v0.3.0 (2023-08-21)
 
 ### Feature

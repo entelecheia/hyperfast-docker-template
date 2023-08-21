@@ -15,12 +15,6 @@ services:
         ARG_USER_UID: $USER_UID
         ARG_USER_GID: $USER_GID
         ARG_WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
-        ARG_APP_GITHUB_USERNAME: $APP_GITHUB_USERNAME
-        ARG_APP_GITHUB_REPO: $APP_GITHUB_REPO
-        ARG_APP_PROJECT_ROOT: $APP_PROJECT_ROOT
-        ARG_APP_CLONE_DIR: $APP_CLONE_DIR
-        ARG_APP_GITHUB_BRANCH: $APP_GITHUB_BRANCH
-        ARG_APP_SERVER_NAME: $APP_SERVER_NAME
     # Sets the image name for the built image
     image: $IMAGE_NAME
     # Sets the hostname of the container
@@ -35,25 +29,6 @@ services:
       memlock: -1
     # Allows the container to use the host's IPC namespace
     ipc: $CONTAINER_IPC
-    ports:
-      # Maps the container's SSH and Web service ports to the host's ports
-      - "$HOST_SSH_PORT:$SSH_PORT"
-      - "$HOST_WEB_SVC_PORT:$WEB_SVC_PORT"
-    volumes:
-      # Maps directories from the host to the container
-      - "$HOME/.cache:/home/$USERNAME/.cache"
-      - "$WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
-      - "$PWD/.docker/scripts:$CONTAINER_WORKSPACE_ROOT/scripts"
-{% if enable_nvidia_gpu -%}
-    deploy:
-      resources:
-        reservations:
-          devices:
-            # Reserves the specified GPU for the container
-            - driver: nvidia
-              device_ids: ["${CUDA_DEVICE_ID}"]
-              capabilities: [gpu]
-{% endif -%}
 networks:
   default:
     # Sets the name of the default network and makes it external

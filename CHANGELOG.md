@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.4.3 (2023-08-21)
+
+### Fix
+
+* **.github/workflows:** Update triggers and tags in deployment workflows ([`81419c5`](https://github.com/entelecheia/hyperfast-docker-template/commit/81419c5b65e6e4af8b7e39f35323acc9e0fd70ff))
+
 ## v0.4.2 (2023-08-21)
 
 ### Fix

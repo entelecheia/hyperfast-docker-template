@@ -81,7 +81,6 @@ initialize: install-pipx ## initialize the project environment
 init-project: initialize ## initialize the project (Warning: do this only once!)
 	@copier copy --trust --answers-file .copier-docker-config.yaml gh:entelecheia/hyperfast-docker-template .
 
-{% if docker_project_name == 'hyperfast-docker' -%}
 reinit-project: install-copier ## reinitialize the project (Warning: this may overwrite existing files!)
 	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --vcs-ref=HEAD . .'
 
@@ -89,17 +88,12 @@ reinit-project-force: install-copier ## initialize the project ignoring existing
 	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --force --vcs-ref=HEAD . .'
 
 test-init-project: install-copier ## test initializing the project to a temporary directory
-	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --vcs-ref=HEAD . tmp'
+	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --vcs-ref=HEAD . tests/copier'
 	@rm -rf tmp/.git
 
 test-init-project-force: install-copier ## test initializing the project to a temporary directory forcing overwrite
-	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --force --vcs-ref=HEAD . tmp'
+	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --force --vcs-ref=HEAD . tests/copier'
 	@rm -rf tmp/.git
-{% else -%}
-reinit-project: install-copier ## reinitialize the project (Warning: this may overwrite existing files!)
-	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust {%- if docker_project_name.endswith('-template') %} --vcs-ref=HEAD{% endif %} gh:entelecheia/hyperfast-docker-template .'
-{% endif -%}
-
 ##@ Docker
 
 docker-login: ## login to docker

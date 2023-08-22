@@ -8,17 +8,24 @@ sudo service ssh start
 if [[ "${VARIANT}" == "app" ]]; then
     if [ ! -d "$APP_INSTALL_ROOT/$APP_CLONE_DIRNAME" ]; then
         # clone app repo
-        git clone "https://github.com/$APP_SOURCE_REPO.git" $APP_INSTALL_ROOT/$APP_CLONE_DIR
+        echo "Cloning app repo"
+        echo "from $APP_SOURCE_REPO to $APP_INSTALL_ROOT/$APP_CLONE_DIRNAME"
+        git clone "https://github.com/$APP_SOURCE_REPO.git" "$APP_INSTALL_ROOT/$APP_CLONE_DIRNAME"
     else
         echo "App repo already cloned"
     fi
     # install app dependencies
-    # pip install -r $APP_INSTALL_ROOT/$APP_CLONE_DIR/requirements.txt
+    # pip install -r $APP_INSTALL_ROOT/$APP_CLONE_DIRNAME/requirements.txt
 fi
 # start jupyter notebook in background and redirect output to logfile
 # change working directory to workspace root
 # set token to value of JUPYTER_TOKEN
 # set port to value of JUPYTER_DOCKER_PORT
+# check if juptyer is installed
+if [[ -z "$(command -v jupyter)" ]]; then
+    echo "Jupyter not installed. Exiting..."
+    exit 1
+fi
 jupyter lab \
     --no-browser \
     --notebook-dir="$WORKSPACE_ROOT" \

@@ -11,9 +11,11 @@ LABEL org.opencontainers.image.licenses="{{ project_license }}"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo tzdata locales locales-all \
+    && apt-get install -y curl wget jq sudo \
     # !! Without python3-launchpadlib, software-properties-common fails to install
-    python3-launchpadlib software-properties-common {{ docker_apt_packages }} \
+    python3-launchpadlib software-properties-common \
+    locales locales-all {{ docker_apt_packages }} \
+    tzdata {% if start_ssh_service %}openssh-server{% endif %} \
     # Adds PPA for the latest git version
     && add-apt-repository ppa:git-core/ppa -y \
     && apt-get update \

@@ -2,4 +2,6 @@
 .tasks-extra.toml
 CHANGELOG.md
 pyproject.toml
-Makefile
+LICENSE
+README.md
+.docker/docker.version

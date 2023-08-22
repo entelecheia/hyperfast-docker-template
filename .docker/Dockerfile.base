@@ -11,9 +11,11 @@ LABEL org.opencontainers.image.licenses="MIT"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo tzdata locales locales-all \
+    && apt-get install -y curl wget jq sudo \
     # !! Without python3-launchpadlib, software-properties-common fails to install
-    python3-launchpadlib software-properties-common fontconfig fonts-nanum \
+    python3-launchpadlib software-properties-common \
+    locales locales-all fontconfig fonts-nanum \
+    tzdata openssh-server \
     # Adds PPA for the latest git version
     && add-apt-repository ppa:git-core/ppa -y \
     && apt-get update \
@@ -91,4 +93,4 @@ RUN pip install -r ./scripts/requirements.txt
 ENV TZ="Asia/Seoul"
 
 # Specifies the command that will be executed when the container is run
-CMD ["/bin/zsh"]
+CMD ["bash"]

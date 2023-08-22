@@ -6,11 +6,11 @@ echo "Starting docker container..."
 sudo service ssh start
 # Clones the app repository from GitHub
 if [[ "${VARIANT}" == "app" ]]; then
-    if [ ! -d "$APP_INSTALL_ROOT/$APP_CLONE_DIRNAME" ]; then
+    if [ ! -d "${APP_INSTALL_ROOT}/${APP_CLONE_DIRNAME}" ]; then
         # clone app repo
         echo "Cloning app repo"
-        echo "from $APP_SOURCE_REPO to $APP_INSTALL_ROOT/$APP_CLONE_DIRNAME"
-        git clone "https://github.com/$APP_SOURCE_REPO.git" "$APP_INSTALL_ROOT/$APP_CLONE_DIRNAME"
+        echo "from ${APP_SOURCE_REPO} to ${APP_INSTALL_ROOT}/${APP_CLONE_DIRNAME}"
+        git clone "https://github.com/${APP_SOURCE_REPO}.git" "$APP_INSTALL_ROOT/${APP_CLONE_DIRNAME}"
     else
         echo "App repo already cloned"
     fi
@@ -21,7 +21,6 @@ fi
 # change working directory to workspace root
 # set token to value of JUPYTER_TOKEN
 # set port to value of JUPYTER_DOCKER_PORT
-# check if juptyer is installed
 if [[ -z "$(command -v jupyter)" ]]; then
     echo "Jupyter not installed. Exiting..."
     exit 1

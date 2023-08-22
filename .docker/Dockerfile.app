@@ -4,7 +4,7 @@ FROM $ARG_BUILD_FROM
 
 # Setting ARGs and ENVs for user creation and workspace setup
 ARG ARG_USERNAME="app"
-ARG ARG_USER_UID=1000
+ARG ARG_USER_UID=9001
 ARG ARG_USER_GID=$ARG_USER_UID
 ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV USERNAME $ARG_USERNAME
@@ -16,15 +16,15 @@ ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 USER root
 # check if user exists and if not, create user
 RUN if id -u $USERNAME >/dev/null 2>&1; then \
-        echo "User exists"; \
+    echo "User exists"; \
     else \
-        groupadd --gid $USER_GID $USERNAME && \
-        adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME && \
-        echo "$USERNAME:$USERNAME" | chpasswd && \
-        adduser $USERNAME sudo && \
-        echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
-        echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
-        chmod 0440 /etc/sudoers.d/$USERNAME; \
+    groupadd --gid $USER_GID $USERNAME && \
+    adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME && \
+    echo "$USERNAME:$USERNAME" | chpasswd && \
+    adduser $USERNAME sudo && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
+    chmod 0440 /etc/sudoers.d/$USERNAME; \
     fi
 
 # Switches to the newly created user
@@ -55,37 +55,27 @@ ENV REMOTE_CONTAINERS=1
 RUN echo "Current user: $USERNAME"
 RUN echo "Dotfiles version: $DOTFILES_VERSION"
 RUN if [ -d "/home/$USERNAME/.dotfiles" ]; then \
-        echo "Dotfiles already installed"; \
+    echo "Dotfiles already installed"; \
     else \
-        sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"; \
+    sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"; \
     fi
-
 # Sets the working directory to workspace root
 WORKDIR $WORKSPACE_ROOT
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
 # Installs Python dependencies listed in requirements.txt
-# RUN pip install -r ./scripts/requirements.txt
-
+RUN pip install -r ./scripts/requirements.txt
 # Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
-ARG ARG_APP_GITHUB_USERNAME="entelecheia"
-ARG ARG_APP_GITHUB_REPO="entelecheia"
+ARG ARG_APP_SOURCE_REPO="entelecheia/entelecheia"
 ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
-ARG ARG_APP_CLONE_DIR=$ARG_APP_GITHUB_REPO
-ENV APP_GITHUB_USERNAME $ARG_APP_GITHUB_USERNAME
-ENV APP_GITHUB_REPO $ARG_APP_GITHUB_REPO
+ARG ARG_APP_CLONE_DIRNAME="entelecheia/entelecheia"
+ARG ARG_APP_SOURCE_BRANCH="main"
+ARG ARG_APP_SERVER_NAME="app"
+ENV APP_SOURCE_REPO $ARG_APP_SOURCE_REPO
 ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
-ENV APP_CLONE_DIR $ARG_APP_CLONE_DIR
-
-# Clones the app repository from GitHub
-# RUN git clone "https://github.com/$APP_GITHUB_USERNAME/$APP_GITHUB_REPO.git" $APP_INSTALL_ROOT/$APP_CLONE_DIR
-# RUN sudo chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT/$APP_CLONE_DIR
-
-# Setting ARGs and ENVs for GitHub branch and server name
-ARG ARG_APP_GITHUB_BRANCH="main"
-ARG ARG_APP_SERVER_NAME
-ENV APP_GITHUB_BRANCH $ARG_APP_GITHUB_BRANCH
+ENV APP_CLONE_DIRNAME $ARG_APP_CLONE_DIRNAME
+ENV APP_SOURCE_BRANCH $ARG_APP_SOURCE_BRANCH
 ENV APP_SERVER_NAME $ARG_APP_SERVER_NAME
 
 # Specifies the command that will be executed when the container is run
-CMD ["zsh"]
+CMD ["/bin/zsh"]

@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="ghcr.io/entelecheia/hyperfast-docker-base:latest"
+ARG ARG_BUILD_FROM="ghcr.io/entelecheia/hyperfast-docker:latest-base"
 FROM $ARG_BUILD_FROM
 
 # Setting ARGs and ENVs for user creation and workspace setup

@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="{{ docker_registry }}/{{ github_username }}/{{ docker_project_name }}-{{ docker_base_image_variant_name }}:latest"
+ARG ARG_BUILD_FROM="{{ docker_registry }}/{{ github_username }}/{{ docker_project_name }}:latest-{{ docker_base_image_variant_name }}"
 FROM $ARG_BUILD_FROM
 
 # Setting ARGs and ENVs for user creation and workspace setup
@@ -86,4 +86,4 @@ ENV APP_SOURCE_BRANCH $ARG_APP_SOURCE_BRANCH
 ENV APP_SERVER_NAME $ARG_APP_SERVER_NAME
 
 # Specifies the command that will be executed when the container is run
-CMD ["{{ docker_run_command }}"]
+CMD ["bash"]

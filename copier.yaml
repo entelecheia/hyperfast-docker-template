@@ -112,7 +112,7 @@ docker_timezone:
 docker_apt_packages:
   default: "fontconfig fonts-nanum"
   type: str
-  help: What is your Docker apt packages to install? (separated by space, "curl wget jq sudo tzdata locales locales-all python3-launchpadlib software-properties-common" by default)
+  help: What is your additional apt packages to install? (separated by space, "curl wget jq sudo tzdata locales locales-all python3-launchpadlib software-properties-common" by default)
 
 docker_container_username:
   default: "app"
@@ -147,7 +147,7 @@ install_pip_requirements:
 docker_run_command:
   default: /bin/zsh
   type: str
-  help: "What is your docker command to run? (default: /bin/bash)"
+  help: "What is your command to run when the docker image is run? (default: /bin/zsh)"
 
 clone_source_code:
   default: true
@@ -164,14 +164,14 @@ app_source_branch:
   help: "What is your source repository branch to clone? (default: main)"
 
 app_install_root:
-  default: "{{ workspace_root }}/projects"
+  default: "{{ container_workspace_root }}/projects"
   type: str
   help: What is your source install root?
 
 app_clone_dirname:
-  default: source
+  default: "{{ app_source_repo | regex_replace('.*/', '') }}"
   type: str
-  help: "What is your source repository directory name to clone? (default: source)"
+  help: "What is your source repository directory name to clone? (default: {{ app_source_repo | regex_replace('.*/', '') }}"
 
 app_server_name:
   default: app

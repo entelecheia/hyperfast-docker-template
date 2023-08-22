@@ -75,7 +75,7 @@ email:
     {% endif %}
 
 github_repo_name:
-  default: "{{ project_name }}"
+  default: "{{ docker_project_name }}"
   type: str
   help: What is your GitHub repository name?
 
@@ -166,12 +166,12 @@ app_source_branch:
 app_install_root:
   default: "{{ container_workspace_root }}/projects"
   type: str
-  help: What is your source install root?
+  help: "What is your source install root? (default: {{ container_workspace_root }}/projects)"
 
 app_clone_dirname:
   default: "{{ app_source_repo | regex_replace('.*/', '') }}"
   type: str
-  help: "What is your source repository directory name to clone? (default: {{ app_source_repo | regex_replace('.*/', '') }}"
+  help: "What is your source repository directory name to clone? (default: {{ app_source_repo | regex_replace('.*/', '') }})"
 
 app_server_name:
   default: app

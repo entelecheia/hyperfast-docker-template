@@ -116,3 +116,12 @@ docker-push-base: ## push the docker base image
 
 docker-push-app: ## push the docker app image
 	@bash .docker/.docker-scripts/docker-compose.sh push app
+
+docker-run-base: ## run the docker base image
+	@bash .docker/.docker-scripts/docker-compose.sh run base
+
+docker-run-app: ## run the docker app image
+	@bash .docker/.docker-scripts/docker-compose.sh run app
+
+docker-up-app: ## launch the docker app image
+	@bash .docker/.docker-scripts/docker-compose.sh up app

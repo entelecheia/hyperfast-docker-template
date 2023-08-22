@@ -1,5 +1,16 @@
 <!--next-version-placeholder-->
 
+## v0.7.2 (2023-08-22)
+
+### Fix
+
+* **Makefile.jinja:** Change test-initialize directory to tmp ([`77b2b48`](https://github.com/entelecheia/hyperfast-docker-template/commit/77b2b4894138da9a98d460ad29a24ed9a209cd71))
+
+### Documentation
+
+* **README:** Update setup instructions and environment variable info ([`2ea6175`](https://github.com/entelecheia/hyperfast-docker-template/commit/2ea6175774fe36b0487a1d8d6fbb15a08b08e8e6))
+* **.copier-template:** Add detailed README.md.jinja template ([`816b4ec`](https://github.com/entelecheia/hyperfast-docker-template/commit/816b4ec620d86f3ea9e380c47cbdb3f5251b1b2b))
+
 ## v0.7.1 (2023-08-22)
 
 ### Fix

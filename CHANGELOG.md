@@ -1,5 +1,25 @@
 <!--next-version-placeholder-->
 
+## v0.7.0 (2023-08-22)
+
+### Feature
+
+* **docker:** Add user email, full name and GitHub username, update clone directory name, add Jupyter port and token configuration ([`3b260c3`](https://github.com/entelecheia/hyperfast-docker-template/commit/3b260c30aa9180ac4aac1ee0f19dc827139b647b))
+* **docker:** Add commands to run and launch app and base images ([`5a628be`](https://github.com/entelecheia/hyperfast-docker-template/commit/5a628be05f1bcbc9f860fd596a2e6be940fc9186))
+* **Makefile:** Add force and test initialization commands ([`9f7d9fa`](https://github.com/entelecheia/hyperfast-docker-template/commit/9f7d9fabf59b58ad64cf57f446e375ed590ba3e1))
+* **.copier-config:** Update config values and add new configs ([`716434a`](https://github.com/entelecheia/hyperfast-docker-template/commit/716434af7645756e0720b27ceafd8d43a34c0c5f))
+* **docker-compose:** Allow specification of image tags ([`93c10e3`](https://github.com/entelecheia/hyperfast-docker-template/commit/93c10e3f77e79f72018a524ca8bfee9fe752995d))
+* **docker-compose:** Add new environment variables and volume mappings ([`5a1eb60`](https://github.com/entelecheia/hyperfast-docker-template/commit/5a1eb60a0f1148fa68234c5d3af0d588f57c322d))
+* **docker:** Add logic to clone repo and start jupyter lab ([`8500480`](https://github.com/entelecheia/hyperfast-docker-template/commit/8500480c2b764657a4beeabc7f585919913b8d68))
+
+### Fix
+
+* **dockerfile:** Change installation order and condition for openssh-server ([`5ec40d2`](https://github.com/entelecheia/hyperfast-docker-template/commit/5ec40d22f4298713ac9d72317ea80d69a5c22d7f))
+* **template:** Replace project_name with docker_project_name ([`0fd36e9`](https://github.com/entelecheia/hyperfast-docker-template/commit/0fd36e9ef0165245a785dadf31bcb29a30b0a136))
+* **copier.yaml:** Update variable names and default value messages ([`26832cb`](https://github.com/entelecheia/hyperfast-docker-template/commit/26832cb134243fce243da99d495bfb1a7ba1eaaa))
+* **copier-template:** Rename .copier-config.yaml to .copier-docker-config ([`555a384`](https://github.com/entelecheia/hyperfast-docker-template/commit/555a38420ba806e8c1a4607eadf9328a300ee399))
+* **docker:** Change variable docker_registry to docker_project_name ([`c76f859`](https://github.com/entelecheia/hyperfast-docker-template/commit/c76f859c75c1a8ad82acebe045187e8616d3e8cb))
+
 ## v0.6.2 (2023-08-21)
 
 ### Fix

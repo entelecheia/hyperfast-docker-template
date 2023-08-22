@@ -1,0 +1,71 @@
+# Changes here will be overwritten by Copier; do NOT edit manually
+_commit: v0.6.2-52-ge1c86a5
+_src_path: .
+app_clone_dirname: entelecheia/entelecheia
+app_install_root: /workspace/projects
+app_server_name: app
+app_source_branch: main
+app_source_repo: entelecheia/entelecheia
+author: Young Joon Lee
+clone_source_code: true
+container_workspace_root: /workspace
+copy_scripts_dir: true
+cuda_device_id: all
+docker_app_image_variant_name: app
+docker_apt_packages: fontconfig fonts-nanum
+docker_base_build_from: python:3.9-slim-bookworm
+docker_base_image_variant_name: base
+docker_container_uid: 9001
+docker_container_username: app
+docker_project_name: hyperfast-docker
+docker_registry: ghcr.io
+docker_run_command: /bin/zsh
+docker_timezone: Asia/Seoul
+docker_username: entelecheia
+email: entelecheia@hotmail.com
+enable_nvidia_gpu: true
+friendly_name: Hyperfast Docker Template
+github_repo_name: hyperfast-docker-template
+github_username: entelecheia
+install_dotfiles: true
+install_pip_requirements: true
+jupyter_host_port: 18888
+launch_scripts: launch.sh
+project_description: 'Hyperfast Docker Template is an innovative project creation
+    tool that merges the flexibility of Docker with the simplicity of Copier to optimize
+    the project creation process. This tool allows developers to quickly and efficiently
+    set up Docker projects, thereby significantly reducing the time and effort traditionally
+    associated with this process.
+
+
+    By harnessing the power of Copier, Hyperfast Docker Template provides a user-friendly
+    interface that developers can utilize to duplicate Docker projects with minimal
+    hassle. It eradicates the need for extensive coding knowledge, making Docker more
+    accessible to a wider range of users.
+
+
+    Furthermore, this tool employs a hyperfast approach to Docker project templating,
+    ensuring that new projects are up and running in the quickest time possible. This
+    speed does not compromise the quality or functionality of the Docker projects
+    created, but instead enhances their performance, reliability, and scalability.
+
+
+    Hyperfast Docker Template also ensures consistency across Docker projects, as
+    the use of a template guarantees that all projects conform to a standardized layout
+    and configuration. This, in turn, enhances the overall workflow, as developers
+    can familiarize themselves with a consistent project structure and configuration,
+    leading to increased productivity and efficiency.
+
+
+    Whether you are an experienced developer or a novice just starting out, Hyperfast
+    Docker Template is the ideal tool to fast-track your Docker project creation process,
+    ensuring a seamless, efficient, and highly productive development experience.'
+project_license: MIT
+project_short_description: Hyperfast Docker Template is a powerful tool that leverages
+    copier to streamline the creation of new Docker projects. It simplifies and accelerates
+    Docker configurations, fostering a highly efficient and user-friendly development
+    experience.
+ssh_host_port: 2222
+start_jupyter: true
+start_ssh_service: true
+

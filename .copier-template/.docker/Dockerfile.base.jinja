@@ -11,9 +11,11 @@ LABEL org.opencontainers.image.licenses="{{ project_license }}"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo tzdata locales locales-all \
+    && apt-get install -y curl wget jq sudo \
     # !! Without python3-launchpadlib, software-properties-common fails to install
-    python3-launchpadlib software-properties-common {{ docker_apt_packages }} \
+    python3-launchpadlib software-properties-common \
+    locales locales-all {{ docker_apt_packages }} \
+    tzdata {% if start_ssh_service %}openssh-server{% endif %} \
     # Adds PPA for the latest git version
     && add-apt-repository ppa:git-core/ppa -y \
     && apt-get update \
@@ -31,7 +33,7 @@ RUN echo "Set disable_coredump false" > /etc/sudo.conf
 ARG ARG_USERNAME="{{ docker_container_username }}"
 ARG ARG_USER_UID={{ docker_container_uid }}
 ARG ARG_USER_GID=$ARG_USER_UID
-ARG ARG_WORKSPACE_ROOT="{{ container_workspace_root }}"
+ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV USERNAME $ARG_USERNAME
 ENV USER_UID $ARG_USER_UID
 ENV USER_GID $ARG_USER_GID
@@ -100,4 +102,4 @@ RUN pip install -r ./scripts/requirements.txt
 ENV TZ="{{ docker_timezone }}"
 
 # Specifies the command that will be executed when the container is run
-CMD ["{{ docker_run_command }}"]
+CMD ["bash"]

@@ -1,5 +1,13 @@
 <!--next-version-placeholder-->
 
+## v0.7.1 (2023-08-22)
+
+### Fix
+
+* **docker:** Simplify Docker image naming ([`0354dfb`](https://github.com/entelecheia/hyperfast-docker-template/commit/0354dfb985898af5737808c3e74eff934464b8a0))
+* **docker:** Modify IMAGE_NAME in docker base env file ([`caa0d2e`](https://github.com/entelecheia/hyperfast-docker-template/commit/caa0d2e6bc03861ee86004afe400bb66a5aee3ea))
+* **.github/workflows:** Change VARIANT to BASE_VARIANT in deploy-base-image workflow ([`e999414`](https://github.com/entelecheia/hyperfast-docker-template/commit/e999414cf9efbd8fb924116ea5b6db0d675f23b4))
+
 ## v0.7.0 (2023-08-22)
 
 ### Feature

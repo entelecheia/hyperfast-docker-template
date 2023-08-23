@@ -59,12 +59,14 @@ RUN if [ -d "/home/$USERNAME/.dotfiles" ]; then \
     else \
     sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"; \
     fi
+
 # Sets the working directory to workspace root
 WORKDIR $WORKSPACE_ROOT
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
 # Installs Python dependencies listed in requirements.txt
 RUN pip install -r ./scripts/requirements.txt
+
 # Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
 ARG ARG_APP_SOURCE_REPO="entelecheia/entelecheia"
 ARG ARG_APP_INSTALL_ROOT="/workspace/projects"

@@ -5,3 +5,4 @@ pyproject.toml
 LICENSE
 README.md
 .docker/docker.version
+.github/workflows/release.yaml

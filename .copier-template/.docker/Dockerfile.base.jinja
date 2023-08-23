@@ -59,7 +59,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Installs Python packages required for the build
-RUN sudo pip install -U pip setuptools
+RUN sudo pip3 install -U pip setuptools
 
 {% if install_dotfiles -%}
 # install dotfiles

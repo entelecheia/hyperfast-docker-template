@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.7.2-5-g5b60703
+_commit: v0.9.0-3-g45d791a
 _src_path: .
 app_clone_dirname: entelecheia/entelecheia
 app_install_root: /workspace/projects
@@ -71,6 +71,7 @@ ssh_host_port: 2222
 ssh_port: 22
 start_jupyter: true
 start_ssh_service: true
+use_deploy_workflows: false
 web_service_host_port: 18080
 web_service_port: 8080
 

@@ -79,10 +79,20 @@ github_repo_name:
   type: str
   help: What is your GitHub repository name?
 
+docker_registry:
+  default: ghcr.io
+  type: str
+  help: What is your Docker registry? (e.g. ghcr.io)
+
 docker_username:
   default: "{{ github_username }}"
   type: str
-  help: What is your Docker username?
+  help: What is your Docker username? (if you use ghcr.io, it should be the same as your GitHub username)
+
+use_deploy_workflows:
+  default: false
+  type: bool
+  help: Do you want to use GitHub Actions deploy workflows? (certain images are not supported by GitHub Actions.)
 
 docker_base_image_variant_name:
   default: base
@@ -93,11 +103,6 @@ docker_app_image_variant_name:
   default: app
   type: str
   help: What is your Docker app image variant? (it will be built from the base image)
-
-docker_registry:
-  default: ghcr.io
-  type: str
-  help: What is your Docker registry? (e.g. ghcr.io)
 
 docker_base_build_from:
   default: python:3.9-slim-bookworm

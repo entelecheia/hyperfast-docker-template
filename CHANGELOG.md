@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.9.0 (2023-08-23)
+
+### Feature
+
+* **.github/workflows:** Add new semantic-release workflow ([`119b96c`](https://github.com/entelecheia/hyperfast-docker-template/commit/119b96cd06dbd39cd2cfe95d4c279fcc12a73450))
+
 ## v0.8.0 (2023-08-23)
 
 ### Feature

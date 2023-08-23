@@ -59,7 +59,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Installs Python packages required for the build
-RUN sudo pip install -U pip setuptools
+RUN sudo pip3 install -U pip setuptools
 
 # install dotfiles
 ARG ARG_USER_FULLNAME="Dev User"

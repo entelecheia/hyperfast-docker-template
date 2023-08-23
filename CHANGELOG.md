@@ -1,5 +1,16 @@
 <!--next-version-placeholder-->
 
+## v0.11.0 (2023-08-23)
+
+### Feature
+
+* **.github/workflows:** Add success check for workflow run ([`ce8e16d`](https://github.com/entelecheia/hyperfast-docker-template/commit/ce8e16dbee37975411b064ae338b81647c1443fd))
+
+### Fix
+
+* **workflows:** Allow manual dispatch for deploy-app-image workflow ([`a272115`](https://github.com/entelecheia/hyperfast-docker-template/commit/a2721150d2c4ce9762951a74a4240a40a264ba4d))
+* **docker:** Switch from pip to pip3 in Dockerfile.base.jinja ([`fa70f04`](https://github.com/entelecheia/hyperfast-docker-template/commit/fa70f04d9200b08a32b001f8c8d7b4811efee7c2))
+
 ## v0.10.0 (2023-08-23)
 
 ### Feature

@@ -90,7 +90,7 @@ docker_username:
   help: What is your Docker username? (if you use ghcr.io, it should be the same as your GitHub username)
 
 use_deploy_workflows:
-  default: false
+  default: yes
   type: bool
   help: Do you want to use GitHub Actions deploy workflows? (certain images are not supported by GitHub Actions.)
 

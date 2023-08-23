@@ -1,5 +1,13 @@
 <!--next-version-placeholder-->
 
+## v0.8.0 (2023-08-23)
+
+### Feature
+
+* **docker-config:** Add new ports and tokens ([`1f35d2b`](https://github.com/entelecheia/hyperfast-docker-template/commit/1f35d2bc8582c8ba4bd870a4716be7f7e0621e3a))
+* **docker-compose:** Add workspace location and system hostname arguments ([`6514a56`](https://github.com/entelecheia/hyperfast-docker-template/commit/6514a565766410701a0c943a27bfab4113736670))
+* **copier.yaml:** Add ssh_port, jupyter_port, jupyter_token, web_service_port and web_service_host_port configurations ([`e50f184`](https://github.com/entelecheia/hyperfast-docker-template/commit/e50f184039fe26018d77d82e478825876c06dd61))
+
 ## v0.7.2 (2023-08-22)
 
 ### Fix

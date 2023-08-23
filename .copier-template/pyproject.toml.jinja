@@ -19,8 +19,8 @@ python-semantic-release = "^7.33.1"
 {% if poe_task_files -%}
 [tool.poe]
 include = {{ poe_task_files|to_json }}
-{%- endif %}
 
+{% endif -%}
 [tool.commitizen]
 name = "cz_conventional_commits"
 tag_format = "v$version"

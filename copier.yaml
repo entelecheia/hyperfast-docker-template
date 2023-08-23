@@ -145,9 +145,9 @@ install_pip_requirements:
   help: "Do you want to install pip requirements? (add dependencies to requirements.txt under the scripts directory)"
 
 docker_run_command:
-  default: /bin/zsh
+  default: bash
   type: str
-  help: "What is your command to run when the docker image is run? (default: /bin/zsh)"
+  help: "What is your command to run when the docker image is run? (default: bash)"
 
 clone_source_code:
   default: true

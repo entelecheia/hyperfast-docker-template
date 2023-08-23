@@ -19,7 +19,7 @@ docker_container_uid: 9001
 docker_container_username: app
 docker_project_name: hyperfast-docker
 docker_registry: ghcr.io
-docker_run_command: /bin/zsh
+docker_run_command: bash
 docker_timezone: Asia/Seoul
 docker_username: entelecheia
 email: entelecheia@hotmail.com

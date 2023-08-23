@@ -1,5 +1,15 @@
 <!--next-version-placeholder-->
 
+## v0.10.0 (2023-08-23)
+
+### Feature
+
+* **copier.yaml:** Reorganize docker related configurations and add deploy workflows option ([`2518dc8`](https://github.com/entelecheia/hyperfast-docker-template/commit/2518dc8765408d58bc1427230693601bfa338d7f))
+
+### Fix
+
+* **github-workflows:** Rename deploy-app-image and deploy-base-image files with conditional inclusion ([`45d791a`](https://github.com/entelecheia/hyperfast-docker-template/commit/45d791aa255e6b060cc8618f0ac5ab941f669048))
+
 ## v0.9.0 (2023-08-23)
 
 ### Feature

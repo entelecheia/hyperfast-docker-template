@@ -198,6 +198,11 @@ start_ssh_service:
   type: bool
   help: Do you want to use SSH?
 
+ssh_port:
+  default: 22
+  type: int
+  help: "What is your SSH container port to expose? (default: 22)"
+
 ssh_host_port:
   default: 2222
   type: int
@@ -208,7 +213,27 @@ start_jupyter:
   type: bool
   help: Do you want to use Jupyter?
 
+jupyter_port:
+  default: 8585
+  type: int
+  help: "What is your Jupyter container port to expose? (default: 8888)"
+
 jupyter_host_port:
   default: 18888
   type: int
-  help: "What is your Jupyter host port to expose? (default: 8888)"
+  help: "What is your Jupyter host port to expose? (default: 18888)"
+
+jupyter_token:
+  default: "__juypter_token_(change_me)__"
+  type: str
+  help: "What is your Jupyter token? (default: empty)"
+
+web_service_port:
+  default: 8080
+  type: int
+  help: "What is your web service container port to expose? (default: 8080)"
+
+web_service_host_port:
+  default: 18080
+  type: int
+  help: "What is your web service host port to expose? (default: 18080)"

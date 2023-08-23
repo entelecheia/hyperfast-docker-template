@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.9.0-3-g45d791a
+_commit: v0.10.0-2-gce8e16d
 _src_path: .
 app_clone_dirname: entelecheia/entelecheia
 app_install_root: /workspace/projects

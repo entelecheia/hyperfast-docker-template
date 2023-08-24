@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.7.1-6-g8aaa069
+_commit: v0.11.0-9-g11fa3ce
 _src_path: .
 app_clone_dirname: entelecheia/entelecheia
 app_install_root: /workspace/projects
@@ -30,7 +30,10 @@ github_username: entelecheia
 install_dotfiles: true
 install_pip_requirements: true
 jupyter_host_port: 18888
+jupyter_port: 8585
+jupyter_token: __juypter_token_(change_me)__
 launch_scripts: launch.sh
+main_branch: main
 project_description: 'Hyperfast Docker Template is an innovative project creation
     tool that merges the flexibility of Docker with the simplicity of Copier to optimize
     the project creation process. This tool allows developers to quickly and efficiently
@@ -66,6 +69,10 @@ project_short_description: Hyperfast Docker Template is a powerful tool that lev
     Docker configurations, fostering a highly efficient and user-friendly development
     experience.
 ssh_host_port: 2222
+ssh_port: 22
 start_jupyter: true
 start_ssh_service: true
+use_deploy_workflows: true
+web_service_host_port: 18080
+web_service_port: 8080
 

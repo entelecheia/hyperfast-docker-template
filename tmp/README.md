@@ -4,16 +4,6 @@
 [![release-date-image]][release-url]
 [![license-image]][license-url]
 
-Hyperfast Docker Template is an innovative project creation tool that merges the flexibility of Docker with the simplicity of Copier to optimize the project creation process. This tool allows developers to quickly and efficiently set up Docker projects, thereby significantly reducing the time and effort traditionally associated with this process.
-
-By harnessing the power of Copier, Hyperfast Docker Template provides a user-friendly interface that developers can utilize to duplicate Docker projects with minimal hassle. It eradicates the need for extensive coding knowledge, making Docker more accessible to a wider range of users.
-
-Furthermore, this tool employs a hyperfast approach to Docker project templating, ensuring that new projects are up and running in the quickest time possible. This speed does not compromise the quality or functionality of the Docker projects created, but instead enhances their performance, reliability, and scalability.
-
-Hyperfast Docker Template also ensures consistency across Docker projects, as the use of a template guarantees that all projects conform to a standardized layout and configuration. This, in turn, enhances the overall workflow, as developers can familiarize themselves with a consistent project structure and configuration, leading to increased productivity and efficiency.
-
-Whether you are an experienced developer or a novice just starting out, Hyperfast Docker Template is the ideal tool to fast-track your Docker project creation process, ensuring a seamless, efficient, and highly productive development experience.
-
 Hyperfast Docker Template is a powerful tool that leverages copier to streamline the creation of new Docker projects. It simplifies and accelerates Docker configurations, fostering a highly efficient and user-friendly development experience.
 
 - GitHub: [https://github.com/entelecheia/hyperfast-docker-template][repo-url]
@@ -66,7 +56,7 @@ Whether you are an experienced developer or a novice just starting out, Hyperfas
 
 ## Usage
 
-After starting the container, you can access the application at `localhost:<APP_HOST_WEB_SVC_PORT>`. By default, the port is set to `18888`.
+After starting the container, you can access the application at `localhost:<APP_HOST_WEB_SVC_PORT>`. By default, the port is set to `18080`.
 
 You can also SSH into the container using the SSH port specified in `APP_HOST_SSH_PORT`. By default, the port is set to `2222`.
 
@@ -106,12 +96,11 @@ Contributions are welcome! Please see the [contributing guidelines] for more inf
 This project is released under the [MIT License][license-url].
 <!-- Links: -->
 [license-image]: https://img.shields.io/github/license/entelecheia/hyperfast-docker-template
-[license-url]: https://github.com/entelecheia/hyperfast-docker-template/blob//LICENSE
+[license-url]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/LICENSE
 [version-image]: https://img.shields.io/github/v/release/entelecheia/hyperfast-docker-template?sort=semver
 [release-date-image]: https://img.shields.io/github/release-date/entelecheia/hyperfast-docker-template
 [release-url]: https://github.com/entelecheia/hyperfast-docker-template/releases
 [repo-url]: https://github.com/entelecheia/hyperfast-docker-template
-[docs-url]: 
-[changelog]: https://github.com/entelecheia/hyperfast-docker-template/blob//CHANGELOG.md
-[contributing guidelines]: https://github.com/entelecheia/hyperfast-docker-template/blob//CONTRIBUTING.md
+[changelog]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/CHANGELOG.md
+[contributing guidelines]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/CONTRIBUTING.md
 <!-- Links: -->

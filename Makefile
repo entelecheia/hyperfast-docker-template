@@ -88,11 +88,11 @@ reinit-project-force: install-copier ## initialize the project ignoring existing
 	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --force --vcs-ref=HEAD . .'
 
 test-init-project: install-copier ## test initializing the project to a temporary directory
-	@bash -c copier copy --answers-file .copier-docker-config.yaml --trust --vcs-ref=HEAD . tmp'
+	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --vcs-ref=HEAD . tmp'
 	@rm -rf tmp/.git
 
 test-init-project-force: install-copier ## test initializing the project to a temporary directory forcing overwrite
-	@bash -c copier copy --answers-file .copier-docker-config.yaml --trust --force --vcs-ref=HEAD . tmp'
+	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust --force --vcs-ref=HEAD . tmp'
 	@rm -rf tmp/.git
 ##@ Docker
 

@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.11.1 (2023-08-24)
+
+### Fix
+
+* **readme:** Replace hardcoded port values with template variables ([`c88db9d`](https://github.com/entelecheia/hyperfast-docker-template/commit/c88db9dc3d06dc0a13c0c9b1d7567214fb2f0d12))
+* **copier:** Add main branch configuration ([`98b59de`](https://github.com/entelecheia/hyperfast-docker-template/commit/98b59de33b346829f619a0300f0d3476b63aeace))
+
 ## v0.11.0 (2023-08-23)
 
 ### Feature

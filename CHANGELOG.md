@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.12.0 (2023-08-27)
+
+### Feature
+
+* **docker-scripts:** Load secret environment variables from .env.secret ([`771e368`](https://github.com/entelecheia/hyperfast-docker-template/commit/771e36816c899102e48240c4c9a5bf859073ee53))
+* **.copier-template:** Add .env.secret file ([`e128d6f`](https://github.com/entelecheia/hyperfast-docker-template/commit/e128d6fd55072fcb69a83d80bd6d5b96aecae369))
+
 ## v0.11.1 (2023-08-24)
 
 ### Fix

@@ -25,7 +25,13 @@ else
 fi
 echo "---"
 
+# load environment variables
 set -a
+# load secert environment variables from .env.secret
+if [ -f .env.secret ]; then
+    # shellcheck disable=SC1091
+    source .docker/.env.secret
+fi
 # shellcheck disable=SC1091
 source .docker/docker.version
 # shellcheck disable=SC1091,SC1090

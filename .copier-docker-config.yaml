@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.11.0-17-g5480944
+_commit: v0.12.0-4-g665c21e
 _src_path: .
 app_clone_dirname: entelecheia/entelecheia
 app_install_root: /workspace/projects
@@ -7,6 +7,7 @@ app_server_name: app
 app_source_branch: main
 app_source_repo: entelecheia/entelecheia
 author: Young Joon Lee
+build_images_from_dockerfile: true
 clone_source_code: true
 container_workspace_root: /workspace
 copy_scripts_dir: true
@@ -70,9 +71,9 @@ project_short_description: Hyperfast Docker Template is a powerful tool that lev
     experience.
 ssh_host_port: 2222
 ssh_port: 22
-start_jupyter: true
 start_ssh_service: true
 use_deploy_workflows: false
+use_jupyter: true
 web_service_host_port: 18080
 web_service_port: 8080
 

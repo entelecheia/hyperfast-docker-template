@@ -23,7 +23,7 @@ if [[ "${VARIANT}" == "{{ docker_app_image_variant_name }}" ]]; then
 fi
 {% endif -%}
 
-{% if start_jupyter -%}
+{% if use_jupyter -%}
 # start jupyter notebook in background and redirect output to logfile
 # change working directory to workspace root
 # set token to value of JUPYTER_TOKEN

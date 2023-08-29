@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.15.0 (2023-08-29)
+
+### Feature
+
+* **docker:** Add option to install latest pip and setuptools ([`76695b4`](https://github.com/entelecheia/hyperfast-docker-template/commit/76695b410bb4347227f3a70773d09538b4eff74b))
+
 ## v0.14.3 (2023-08-29)
 
 ### Fix

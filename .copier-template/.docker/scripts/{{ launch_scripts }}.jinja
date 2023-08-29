@@ -7,18 +7,6 @@ echo "Starting docker container..."
 sudo service ssh start
 {% endif -%}
 
-# Sync host folder group permissions to container
-if [[ -n "$DOCKER_GID" ]]; then
-    # Add docker group with $DOCKER_GID
-    sudo groupadd -g $DOCKER_GID docker
-
-    # Add user to the docker group
-    sudo usermod -aG docker $USER
-
-    # Change ownership of $CONTAINER_WORKSPACE_ROOT
-    sudo chown -R :docker $CONTAINER_WORKSPACE_ROOT
-fi
-
 # Clones the app repository from GitHub
 {% if clone_source_code and app_source_repo -%}
 if [[ "${VARIANT}" == "{{ docker_app_image_variant_name }}" ]]; then

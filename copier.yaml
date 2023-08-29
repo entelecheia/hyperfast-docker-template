@@ -94,11 +94,17 @@ docker_username:
   type: str
   help: What is your Docker username? (if you use ghcr.io, it should be the same as your GitHub username)
 
+build_images_from_dockerfile:
+  default: true
+  type: bool
+  help: Do you want to build images from Dockerfile?
+
 use_deploy_workflows:
-  default: yes
+  default: true
   type: bool
   help: Do you want to use GitHub Actions deploy workflows? (certain images are not supported by GitHub Actions.)
 
+# Conditional prompting is not supported
 docker_base_image_variant_name:
   default: base
   type: str
@@ -218,7 +224,7 @@ ssh_host_port:
   type: int
   help: "What is your SSH host port to expose? (default: 2222)"
 
-start_jupyter:
+use_jupyter:
   default: true
   type: bool
   help: Do you want to use Jupyter?

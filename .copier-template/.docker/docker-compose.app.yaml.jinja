@@ -45,7 +45,7 @@ services:
       SYSTEM_HOSTNAME: $CONTAINER_HOSTNAME
       IMAGE_VARIANT: $IMAGE_VARIANT
       GIT_COMMIT_GPGSIGN: $GIT_COMMIT_GPGSIGN
-{% if use_jupyter -%}
+{%- if use_jupyter %}
       HOST_JUPYTER_PORT: $HOST_JUPYTER_PORT
       JUPYTER_PORT: $JUPYTER_PORT
       JUPYTER_TOKEN: $JUPYTER_TOKEN
@@ -58,13 +58,13 @@ services:
     ipc: $CONTAINER_IPC
     ports:
       # Maps the container's SSH and Web service ports to the host's ports
-{% if use_ssh_service -%}
+{%- if use_ssh_service %}
       - "$HOST_SSH_PORT:$SSH_PORT"
 {%- endif %}
-{% if use_jupyter -%}
+{%- if use_jupyter %}
       - "$HOST_JUPYTER_PORT:$JUPYTER_PORT"
 {%- endif %}
-{% if use_web_service -%}
+{%- if use_web_service %}
       - "$HOST_WEB_SVC_PORT:$WEB_SVC_PORT"
 {%- endif %}
     volumes:
@@ -84,7 +84,7 @@ services:
             - driver: nvidia
               device_ids: ["${CUDA_DEVICE_ID}"]
               capabilities: [gpu]
-{% endif -%}
+{%- endif %}
 networks:
   default:
     # Sets the name of the default network and makes it external

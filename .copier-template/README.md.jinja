@@ -75,6 +75,13 @@ However, the environment variables we set in the `.docker/docker.app.env` file a
 
 This method also allows us to use shell commands in the variable definitions, like `"$(whoami)"` for the `USERNAME` variable, which wouldn't be possible if we used the `--env-file` argument. Shell commands in the `.env` file are not evaluated.
 
+### Files for Environment Variables
+
+- `.docker/docker.common.env`: Common environment variables for all Docker images.
+- `.docker/docker.base.env`: Environment variables for the base Docker image.
+- `.docker/docker.app.env`: Environment variables for the application Docker image.
+- `.env.secret`: Secret environment variables that are not committed to the repository.
+
 ## Changelog
 
 See the [CHANGELOG] for more information.

@@ -37,7 +37,6 @@ services:
       - $LAUNCH_SCRIPT
     # set the environment variables
     environment:
-      DOCKER_GID: $DOCKER_GID
       USER_FULLNAME: $APP_USER_FULLNAME
       USER_EMAIL: $APP_USER_EMAIL
       GITHUB_USERNAME: $APP_GITHUB_USERNAME
@@ -70,12 +69,14 @@ services:
 {%- endif %}
     volumes:
       # Maps directories from the host to the container
-      - "$HOME/.cache:/home/$USERNAME/.cache"
-      - "$WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
       - "$PWD/.docker/scripts:$CONTAINER_WORKSPACE_ROOT/scripts"
+{%- if install_dotfiles %}
+      - "$WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
+      - "$HOME/.cache:/home/$USERNAME/.cache"
       - "$HOME/.ssh:/home/$USERNAME/.ssh"
       - "$HOME/.config/gh:/home/$USERNAME/.config/gh"
       - "$HOME/.passage:/home/$USERNAME/.passage"
+{%- endif %}
 {%- if enable_nvidia_gpu %}
     deploy:
       resources:

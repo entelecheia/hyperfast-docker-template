@@ -55,7 +55,7 @@ elif [ "${COMMAND}" == "login" ]; then
     echo "GITHUB_CR_PAT: $GITHUB_CR_PAT"
     docker login ghcr.io -u "$GITHUB_USERNAME"
 elif [ "${COMMAND}" == "run" ]; then
-    docker-compose --project-directory . -f ".docker/docker-compose.${COMPOSE_VARIANT}.yaml" run "workspace" "${RUN_COMMAND}"
+    docker-compose --project-directory . -f ".docker/docker-compose.${COMPOSE_VARIANT}.yaml" run "workspace" "${RUN_COMMAND}" "$@"
 else
-    docker-compose --project-directory . -f ".docker/docker-compose.${COMPOSE_VARIANT}.yaml" "${COMMAND}"
+    docker-compose --project-directory . -f ".docker/docker-compose.${COMPOSE_VARIANT}.yaml" "${COMMAND}" "$@"
 fi

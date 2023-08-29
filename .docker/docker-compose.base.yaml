@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  # Defines a service named "workspace"
+  # Defines a service name
   workspace:
     build:
       # Sets the build context to the current directory
@@ -11,9 +11,9 @@ services:
       # Specifies build-time variables (ARGs)
       args:
         ARG_BUILD_FROM: $BUILD_FROM
-        ARG_USERNAME: $USERNAME
-        ARG_USER_UID: $USER_UID
-        ARG_USER_GID: $USER_GID
+        ARG_USERNAME: $CONTAINER_USERNAME
+        ARG_USER_UID: $CONTAINER_USER_UID
+        ARG_USER_GID: $CONTAINER_USER_GID
         ARG_WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
         ARG_WORKSPACE_LOCATION: $CONTAINER_WORKSPACE_LOCATION
         ARG_SYSTEM_HOSTNAME: $CONTAINER_HOSTNAME
@@ -23,15 +23,14 @@ services:
     hostname: $CONTAINER_HOSTNAME
     command:
       # Specifies the command to be executed when the container is run
-      - $RUN_COMMAND
+      - $DEFAULT_RUN_COMMAND
     ulimits:
       # Sets the stack size and memory lock limits
       stack: 67108864
       memlock: -1
-    # Allows the container to use the host's IPC namespace
     ipc: $CONTAINER_IPC
 networks:
   default:
     # Sets the name of the default network and makes it external
-    name: $DOCKER_NETWORK_NAME
+    name: $CONTAINER_NETWORK_NAME
     external: true

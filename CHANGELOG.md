@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.15.1 (2023-08-29)
+
+### Fix
+
+* **dockerfile:** Correct duplication in 'get-pip.py' download command ([`8565f7e`](https://github.com/entelecheia/hyperfast-docker-template/commit/8565f7e5dbdd685f6627ac731c897989fed4e2c6))
+
 ## v0.15.0 (2023-08-29)
 
 ### Feature

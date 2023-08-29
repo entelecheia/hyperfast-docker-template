@@ -70,7 +70,7 @@ project_short_description: Hyperfast Docker Template is a powerful tool that lev
     experience.
 ssh_host_port: 2222
 ssh_port: 22
-start_jupyter: true
+use_jupyter: true
 start_ssh_service: true
 use_deploy_workflows: false
 web_service_host_port: 18080

@@ -76,9 +76,9 @@ jobs:
           file: ./.docker/Dockerfile.base
           build-args: |
             ARG_BUILD_FROM=${{ env.BUILD_FROM }}
-            ARG_USERNAME=${{ env.USERNAME }}
-            ARG_USER_UID=${{ env.USER_UID }}
-            ARG_USER_GID=${{ env.USER_GID }}
+            ARG_USERNAME=${{ env.CONTAINER_USERNAME }}
+            ARG_USER_UID=${{ env.CONTAINER_USER_UID }}
+            ARG_USER_GID=${{ env.CONTAINER_USER_GID }}
             ARG_WORKSPACE_ROOT=${{ env.CONTAINER_WORKSPACE_ROOT }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}

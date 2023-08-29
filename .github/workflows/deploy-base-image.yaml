@@ -62,7 +62,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=${{ env.APP_VERSION }}-${{ env.BASE_VARIANT }}
+            type=raw,value=${{ env.IMAGE_VERSION }}-${{ env.BASE_VARIANT }}
             # set latest tag for main branch
             type=raw,value=latest-${{ env.BASE_VARIANT }},enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
 

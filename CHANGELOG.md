@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.13.0 (2023-08-29)
+
+### Feature
+
+* **docker-config:** Enable building images from Dockerfile ([`0cfcfc7`](https://github.com/entelecheia/hyperfast-docker-template/commit/0cfcfc7d4dbe632c05c91d6dae758c31cc6aa652))
+* **docker:** Add build images from Dockerfile option ([`9d38c0c`](https://github.com/entelecheia/hyperfast-docker-template/commit/9d38c0c8d4372a79580708f9e77cfdd8cd992db5))
+
 ## v0.12.0 (2023-08-27)
 
 ### Feature

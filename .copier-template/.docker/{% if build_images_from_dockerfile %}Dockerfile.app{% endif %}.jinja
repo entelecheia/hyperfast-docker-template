@@ -78,12 +78,12 @@ ARG ARG_APP_SOURCE_REPO="{{ app_source_repo }}"
 ARG ARG_APP_INSTALL_ROOT="{{ app_install_root }}"
 ARG ARG_APP_CLONE_DIRNAME="{{ app_clone_dirname }}"
 ARG ARG_APP_SOURCE_BRANCH="{{ app_source_branch }}"
-ARG ARG_APP_SERVER_NAME="{{ app_server_name }}"
+ARG ARG_APP_SERVICE_NAME="{{ app_service_name }}"
 ENV APP_SOURCE_REPO $ARG_APP_SOURCE_REPO
 ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
 ENV APP_CLONE_DIRNAME $ARG_APP_CLONE_DIRNAME
 ENV APP_SOURCE_BRANCH $ARG_APP_SOURCE_BRANCH
-ENV APP_SERVER_NAME $ARG_APP_SERVER_NAME
+ENV APP_SERVICE_NAME $ARG_APP_SERVICE_NAME
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

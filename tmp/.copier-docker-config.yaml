@@ -1,9 +1,9 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.12.0-6-g09429b8
+_commit: v0.13.0-38-gf840aaa
 _src_path: .
 app_clone_dirname: entelecheia/entelecheia
 app_install_root: /workspace/projects
-app_server_name: app
+app_service_name: app
 app_source_branch: main
 app_source_repo: entelecheia/entelecheia
 author: Young Joon Lee
@@ -21,6 +21,7 @@ docker_container_username: app
 docker_project_name: hyperfast-docker
 docker_registry: ghcr.io
 docker_run_command: /bin/zsh
+docker_service_name: workspace
 docker_timezone: Asia/Seoul
 docker_username: entelecheia
 email: entelecheia@hotmail.com
@@ -71,9 +72,10 @@ project_short_description: Hyperfast Docker Template is a powerful tool that lev
     experience.
 ssh_host_port: 2222
 ssh_port: 22
-start_ssh_service: true
 use_deploy_workflows: true
 use_jupyter: true
+use_ssh_service: true
+use_web_service: true
 web_service_host_port: 18080
 web_service_port: 8080
 

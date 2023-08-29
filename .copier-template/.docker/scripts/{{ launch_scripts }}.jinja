@@ -2,7 +2,7 @@
 # add your custom commands here that should be executed every time the docker container starts
 echo "Starting docker container..."
 
-{% if start_ssh_service -%}
+{% if use_ssh_service -%}
 # start ssh server
 sudo service ssh start
 {% endif -%}
@@ -39,4 +39,4 @@ jupyter lab \
     --port="$JUPYTER_PORT" \
     --ip=0.0.0.0 \
     --allow-root
-{% endif -%}
+{%- endif %}

@@ -15,7 +15,7 @@ RUN apt-get update --fix-missing \
     # !! Without python3-launchpadlib, software-properties-common fails to install
     python3-launchpadlib software-properties-common \
     locales locales-all {{ docker_apt_packages }} \
-    tzdata {% if start_ssh_service %}openssh-server{% endif %} \
+    tzdata {% if use_ssh_service %}openssh-server{% endif %} \
     # Adds PPA for the latest git version
     && add-apt-repository ppa:git-core/ppa -y \
     && apt-get update \

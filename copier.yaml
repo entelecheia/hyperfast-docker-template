@@ -104,7 +104,11 @@ use_deploy_workflows:
   type: bool
   help: Do you want to use GitHub Actions deploy workflows? (certain images are not supported by GitHub Actions.)
 
-# Conditional prompting is not supported
+docker_service_name:
+  default: workspace
+  type: str
+  help: What is your container service name? (e.g. workspace)
+
 docker_base_image_variant_name:
   default: base
   type: str
@@ -189,7 +193,7 @@ app_clone_dirname:
   type: str
   help: "What is your source repository directory name to clone? (default: {{ app_source_repo | regex_replace('.*/', '') }})"
 
-app_server_name:
+app_service_name:
   default: app
   type: str
   help: What is your app server name?
@@ -209,7 +213,7 @@ cuda_device_id:
   type: str
   help: "What is your CUDA device to use? (default: all)"
 
-start_ssh_service:
+use_ssh_service:
   default: true
   type: bool
   help: Do you want to use SSH?
@@ -243,6 +247,11 @@ jupyter_token:
   default: "__juypter_token_(change_me)__"
   type: str
   help: "What is your Jupyter token? (default: empty)"
+
+use_web_service:
+  default: true
+  type: bool
+  help: Do you want to use web service?
 
 web_service_port:
   default: 8080

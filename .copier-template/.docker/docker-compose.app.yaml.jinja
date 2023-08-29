@@ -37,6 +37,7 @@ services:
       - $LAUNCH_SCRIPT
     # set the environment variables
     environment:
+      DOCKER_GID: $DOCKER_GID
       USER_FULLNAME: $APP_USER_FULLNAME
       USER_EMAIL: $APP_USER_EMAIL
       GITHUB_USERNAME: $APP_GITHUB_USERNAME

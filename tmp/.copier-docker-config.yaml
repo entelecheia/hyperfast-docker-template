@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.12.0-1-g926a9b9
+_commit: v0.12.0-6-g09429b8
 _src_path: .
 app_clone_dirname: entelecheia/entelecheia
 app_install_root: /workspace/projects
@@ -7,7 +7,7 @@ app_server_name: app
 app_source_branch: main
 app_source_repo: entelecheia/entelecheia
 author: Young Joon Lee
-build_images_from_dockerfile: true
+build_images_from_dockerfile: false
 clone_source_code: true
 container_workspace_root: /workspace
 copy_scripts_dir: true

@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  # Defines a service named "workspace"
-  workspace:
+  # Defines a service name
+  {{ docker_service_name }}:
     build:
       # Sets the build context to the current directory
       context: .
@@ -11,22 +11,22 @@ services:
       # Specifies build-time variables (ARGs)
       args:
         ARG_BUILD_FROM: $BUILD_FROM
-        ARG_USERNAME: $USERNAME
-        ARG_USER_UID: $USER_UID
-        ARG_USER_GID: $USER_GID
+        ARG_USERNAME: $CONTAINER_USERNAME
+        ARG_USER_UID: $CONTAINER_USER_UID
+        ARG_USER_GID: $CONTAINER_USER_GID
         ARG_WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
         ARG_USER_FULLNAME: $APP_USER_FULLNAME
         ARG_USER_EMAIL: $APP_USER_EMAIL
         ARG_GITHUB_USERNAME: $GITHUB_USERNAME
         ARG_SYSTEM_HOSTNAME: $CONTAINER_HOSTNAME
         ARG_WORKSPACE_LOCATION: $CONTAINER_WORKSPACE_LOCATION
-        ARG_DOTFILES_VERSION: $DOTFILES_VERSION
         ARG_APP_GITHUB_USERNAME: $APP_GITHUB_USERNAME
         ARG_APP_SOURCE_REPO: $APP_SOURCE_REPO
         ARG_APP_INSTALL_ROOT: $APP_INSTALL_ROOT
         ARG_APP_CLONE_DIRNAME: $APP_CLONE_DIRNAME
         ARG_APP_SOURCE_BRANCH: $APP_SOURCE_BRANCH
-        ARG_APP_SERVER_NAME: $APP_SERVER_NAME
+        ARG_APP_SERVICE_NAME: $APP_SERVICE_NAME
+        ARG_DOTFILES_VERSION: $DOTFILES_VERSION
     # Sets the image name for the built image
     image: $IMAGE_NAME:$IMAGE_TAG
     # Sets the hostname of the container
@@ -43,11 +43,13 @@ services:
       WORKSPACE_LOCATION: $CONTAINER_WORKSPACE_LOCATION
       WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
       SYSTEM_HOSTNAME: $CONTAINER_HOSTNAME
+      IMAGE_VARIANT: $IMAGE_VARIANT
+      GIT_COMMIT_GPGSIGN: $GIT_COMMIT_GPGSIGN
+{% if use_jupyter -%}
       HOST_JUPYTER_PORT: $HOST_JUPYTER_PORT
       JUPYTER_PORT: $JUPYTER_PORT
       JUPYTER_TOKEN: $JUPYTER_TOKEN
-      VARIANT: $VARIANT
-      GIT_COMMIT_GPGSIGN: $GIT_COMMIT_GPGSIGN
+{%- endif %}
     ulimits:
       # Sets the stack size and memory lock limits
       stack: 67108864
@@ -56,9 +58,15 @@ services:
     ipc: $CONTAINER_IPC
     ports:
       # Maps the container's SSH and Web service ports to the host's ports
+{% if use_ssh_service -%}
       - "$HOST_SSH_PORT:$SSH_PORT"
+{%- endif %}
+{% if use_jupyter -%}
       - "$HOST_JUPYTER_PORT:$JUPYTER_PORT"
+{%- endif %}
+{% if use_web_service -%}
       - "$HOST_WEB_SVC_PORT:$WEB_SVC_PORT"
+{%- endif %}
     volumes:
       # Maps directories from the host to the container
       - "$HOME/.cache:/home/$USERNAME/.cache"
@@ -80,5 +88,5 @@ services:
 networks:
   default:
     # Sets the name of the default network and makes it external
-    name: $DOCKER_NETWORK_NAME
+    name: $CONTAINER_NETWORK_NAME
     external: true

@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.14.2 (2023-08-29)
+
+### Fix
+
+* **github-actions:** Rename variable names for container user details ([`ba1d3f8`](https://github.com/entelecheia/hyperfast-docker-template/commit/ba1d3f8263d26b27427c20108ef51dae6f102d82))
+* **deploy-scripts:** Update environment variable names ([`4ffbd47`](https://github.com/entelecheia/hyperfast-docker-template/commit/4ffbd47339dcb0eee757108280ce0f4cf9bbc271))
+
 ## v0.14.1 (2023-08-29)
 
 ### Fix

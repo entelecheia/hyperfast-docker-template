@@ -1,5 +1,17 @@
 <!--next-version-placeholder-->
 
+## v0.14.0 (2023-08-29)
+
+### Feature
+
+* **README:** Add description for different environment variables files ([`c2fdc7a`](https://github.com/entelecheia/hyperfast-docker-template/commit/c2fdc7afa0c37d64aa001cddda7bbcc3d11a741d))
+* **docker:** Add sync host folder group permissions to container ([`78f5736`](https://github.com/entelecheia/hyperfast-docker-template/commit/78f57367f9fdb7eedcaba52df8ca5e5fc4d5ce49))
+* **docker:** Add Docker group ID to environment variables ([`977aa13`](https://github.com/entelecheia/hyperfast-docker-template/commit/977aa13201b075e97dfd6c8091eaea25c75bc195))
+* **docker-compose:** Add DOCKER_GID environment variable ([`b518a17`](https://github.com/entelecheia/hyperfast-docker-template/commit/b518a174a549e701abc8d6731c8fd933a56a78ab))
+* **docker-config:** Update variables and arrangement ([`3dd22fa`](https://github.com/entelecheia/hyperfast-docker-template/commit/3dd22fa36ae288cd59666bd0ca3424c727cad8a6))
+* **docker:** Add common env variables for docker configuration ([`238ce12`](https://github.com/entelecheia/hyperfast-docker-template/commit/238ce122961cac1bf8aaf943929e19c7cf063a34))
+* **copier.yaml:** Add docker_service_name field ([`b603672`](https://github.com/entelecheia/hyperfast-docker-template/commit/b6036722226ef42f69279c25d20435020e0f706d))
+
 ## v0.13.0 (2023-08-29)
 
 ### Feature

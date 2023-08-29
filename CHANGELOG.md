@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.14.3 (2023-08-29)
+
+### Fix
+
+* **workflows:** Change APP_VERSION to IMAGE_VERSION in deploy-base-image.yaml ([`8a836e2`](https://github.com/entelecheia/hyperfast-docker-template/commit/8a836e27bc5fbe6a02c0ecdf45702c9ba241999e))
+
 ## v0.14.2 (2023-08-29)
 
 ### Fix

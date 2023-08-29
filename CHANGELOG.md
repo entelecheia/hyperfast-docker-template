@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.14.1 (2023-08-29)
+
+### Fix
+
+* **workflows:** Add common environment variables from dotenv ([`c1a8982`](https://github.com/entelecheia/hyperfast-docker-template/commit/c1a8982ab6e80b851928322bf9ef02f8a35afaef))
+
 ## v0.14.0 (2023-08-29)
 
 ### Feature

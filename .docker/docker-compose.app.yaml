@@ -61,9 +61,9 @@ services:
       - "$HOST_WEB_SVC_PORT:$WEB_SVC_PORT"
     volumes:
       # Maps directories from the host to the container
-      - "$HOME/.cache:/home/$USERNAME/.cache"
-      - "$WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
       - "$PWD/.docker/scripts:$CONTAINER_WORKSPACE_ROOT/scripts"
+      - "$WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
+      - "$HOME/.cache:/home/$USERNAME/.cache"
       - "$HOME/.ssh:/home/$USERNAME/.ssh"
       - "$HOME/.config/gh:/home/$USERNAME/.config/gh"
       - "$HOME/.passage:/home/$USERNAME/.passage"

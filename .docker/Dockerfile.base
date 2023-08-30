@@ -58,6 +58,9 @@ USER $USERNAME
 RUN sudo rm -rf $WORKSPACE_ROOT && sudo mkdir -p $WORKSPACE_ROOT/projects
 RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 
+# Adds .local/bin to PATH
+ENV PATH="/home/$USERNAME/.local/bin:${PATH}"
+# Sets Python environment variables
 ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1

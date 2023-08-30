@@ -28,20 +28,24 @@ echo "---"
 # load environment variables
 set -a
 # load secert environment variables from .env.secret
-if [ -f .env.secret ]; then
+if [ -e .env.secret ]; then
     # shellcheck disable=SC1091
     source .env.secret
 fi
 # shellcheck disable=SC1091
 source .docker/docker.version
-# shellcheck disable=SC1091
-source .docker/docker.common.env
-# shellcheck disable=SC1091,SC1090
-source ".docker/docker.${VARIANT}.env"
+if [ -e .docker/docker.common.env ]; then
+    # shellcheck disable=SC1091
+    source .docker/docker.common.env
+fi
+if [ -e ".docker/docker.${VARIANT}.env" ]; then
+    # shellcheck disable=SC1091,SC1090
+    source ".docker/docker.${VARIANT}.env"
+fi
 set +a
 
 # prepare docker network
-if [[ -z "$(docker network ls | grep "${CONTAINER_NETWORK_NAME}")" ]]; then
+if [[ -n "${CONTAINER_NETWORK_NAME}" ]] && ! docker network ls | grep -q "${CONTAINER_NETWORK_NAME}"; then
     echo "Creating network ${CONTAINER_NETWORK_NAME}"
     docker network create "${CONTAINER_NETWORK_NAME}"
 else

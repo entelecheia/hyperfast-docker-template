@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.16.1 (2023-08-30)
+
+### Fix
+
+* **docker:** Add python environment variables and set timezone in Dockerfile.app ([`610e245`](https://github.com/entelecheia/hyperfast-docker-template/commit/610e245fed582408e02276fb15400fee8966f15f))
+
 ## v0.16.0 (2023-08-30)
 
 ### Feature

@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.15.3 (2023-08-30)
+
+### Fix
+
+* **docker:** Update pip installation in Dockerfile.base ([`3492bca`](https://github.com/entelecheia/hyperfast-docker-template/commit/3492bcac80c602c018102a1509402e62b231f8ee))
+* **dockerfile:** Update pip installation in Dockerfile base template ([`513ffb4`](https://github.com/entelecheia/hyperfast-docker-template/commit/513ffb426daaa9f41eb321280a4c26492337e170))
+
 ## v0.15.2 (2023-08-30)
 
 ### Fix

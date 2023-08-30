@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.16.0 (2023-08-30)
+
+### Feature
+
+* **docker:** Add Python local bin to PATH ([`b978e4c`](https://github.com/entelecheia/hyperfast-docker-template/commit/b978e4c59984d4d240833ff76dac15beecf89530))
+
 ## v0.15.3 (2023-08-30)
 
 ### Fix

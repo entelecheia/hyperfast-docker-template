@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.15.2 (2023-08-30)
+
+### Fix
+
+* **docker:** Improve environment variable loading and network preparation checks ([`9975d50`](https://github.com/entelecheia/hyperfast-docker-template/commit/9975d504822b220bef673a0be10eb0618978e4d6))
+
 ## v0.15.1 (2023-08-29)
 
 ### Fix

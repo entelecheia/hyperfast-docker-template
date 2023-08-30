@@ -66,6 +66,8 @@ ENV PATH="/home/$USERNAME/.local/bin:${PATH}"
 ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+# Sets the time zone within the container
+ENV TZ="{{ docker_timezone }}"
 
 {% if install_dotfiles -%}
 # install dotfiles
@@ -98,9 +100,6 @@ WORKDIR $WORKSPACE_ROOT
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
 {%- endif %}
-
-# Sets the time zone within the container
-ENV TZ="{{ docker_timezone }}"
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

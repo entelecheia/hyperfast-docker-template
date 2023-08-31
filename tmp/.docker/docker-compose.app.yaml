@@ -34,7 +34,7 @@ services:
     command:
       # Specifies the command to be executed when the container is run
       - bash
-      - $LAUNCH_SCRIPT
+      - $CONTAINER_LAUNCH_SCRIPT
     # set the environment variables
     environment:
       USER_FULLNAME: $APP_USER_FULLNAME
@@ -72,7 +72,7 @@ services:
           devices:
             # Reserves the specified GPU for the container
             - driver: nvidia
-              device_ids: ["${CUDA_DEVICE_ID}"]
+              device_ids: ["${CONTAINER_CUDA_DEVICE_ID}"]
               capabilities: [gpu]
 networks:
   default:

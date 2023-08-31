@@ -1,5 +1,18 @@
 <!--next-version-placeholder-->
 
+## v0.17.0 (2023-08-31)
+
+### Feature
+
+* **docker-scripts:** Add detached mode for launching docker app image ([`e4959c5`](https://github.com/entelecheia/hyperfast-docker-template/commit/e4959c5f4521a7ea22b30282152e9318574beeb2))
+* **copier.yaml:** Add docker_name_prefix configuration ([`efdf17e`](https://github.com/entelecheia/hyperfast-docker-template/commit/efdf17eece52996aedc53f5f2ad9a9514f05b4b9))
+* **docker:** Enhance environment variables loading ([`50d33b0`](https://github.com/entelecheia/hyperfast-docker-template/commit/50d33b06286e066afc744bf4dabc8ae9ddd9bc75))
+
+### Fix
+
+* **github-actions:** Use correct syntax for GitHub Actions variables ([`cdfc363`](https://github.com/entelecheia/hyperfast-docker-template/commit/cdfc36387a59619462112b92229389590567ff4a))
+* **docker:** Correct typo in CONTAINER_REGISTRY variable name ([`09db2b4`](https://github.com/entelecheia/hyperfast-docker-template/commit/09db2b474ee0d8769b0d438d93893e81961ccf0c))
+
 ## v0.16.1 (2023-08-30)
 
 ### Fix

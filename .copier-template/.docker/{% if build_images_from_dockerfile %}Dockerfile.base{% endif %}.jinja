@@ -1,11 +1,11 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="{{ docker_base_build_from }}"
+ARG ARG_BUILD_FROM="`{{ docker_base_build_from }}`"
 FROM $ARG_BUILD_FROM
 
 # Sets labels for the image
-LABEL org.opencontainers.image.source="https://github.com/{{ github_username }}/{{ github_repo_name }}"
-LABEL org.opencontainers.image.description="{{ project_short_description }}"
-LABEL org.opencontainers.image.licenses="{{ project_license }}"
+LABEL org.opencontainers.image.source="https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`"
+LABEL org.opencontainers.image.description="`{{ project_short_description }}`"
+LABEL org.opencontainers.image.licenses="`{{ project_license }}`"
 
 # Setting this argument prevents interactive prompts during the build process
 ARG DEBIAN_FRONTEND=noninteractive
@@ -14,7 +14,7 @@ RUN apt-get update --fix-missing \
     && apt-get install -y curl wget jq sudo \
     # !! Without python3-launchpadlib, software-properties-common fails to install
     python3-launchpadlib software-properties-common \
-    locales locales-all {{ docker_apt_packages }} \
+    locales locales-all `{{ docker_apt_packages }}` \
     tzdata {% if use_ssh_service %}openssh-server{% endif %} \
     # Adds PPA for the latest git version
     && add-apt-repository ppa:git-core/ppa -y \
@@ -36,8 +36,8 @@ RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || true
 RUN echo "Set disable_coredump false" > /etc/sudo.conf
 
 # Setting ARGs and ENVs for user creation and workspace setup
-ARG ARG_USERNAME="{{ docker_container_username }}"
-ARG ARG_USER_UID={{ docker_container_uid }}
+ARG ARG_USERNAME="`{{ docker_container_username }}`"
+ARG ARG_USER_UID=`{{ docker_container_uid }}`
 ARG ARG_USER_GID=$ARG_USER_UID
 ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV USERNAME $ARG_USERNAME
@@ -67,7 +67,7 @@ ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 # Sets the time zone within the container
-ENV TZ="{{ docker_timezone }}"
+ENV TZ="`{{ docker_timezone }}`"
 
 {% if install_dotfiles -%}
 # install dotfiles

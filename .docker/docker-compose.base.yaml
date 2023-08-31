@@ -23,7 +23,7 @@ services:
     hostname: $CONTAINER_HOSTNAME
     command:
       # Specifies the command to be executed when the container is run
-      - $DEFAULT_RUN_COMMAND
+      - $CONTAINER_RUN_COMMAND
     ulimits:
       # Sets the stack size and memory lock limits
       stack: 67108864

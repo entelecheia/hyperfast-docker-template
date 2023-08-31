@@ -2,7 +2,7 @@ version: "3"
 
 services:
   # Defines a service name
-  {{ docker_service_name }}:
+  `{{ docker_service_name }}`:
     build:
       # Sets the build context to the current directory
       context: .
@@ -23,7 +23,7 @@ services:
     hostname: $CONTAINER_HOSTNAME
     command:
       # Specifies the command to be executed when the container is run
-      - $DEFAULT_RUN_COMMAND
+      - $CONTAINER_RUN_COMMAND
     ulimits:
       # Sets the stack size and memory lock limits
       stack: 67108864

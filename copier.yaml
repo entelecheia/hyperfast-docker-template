@@ -8,15 +8,15 @@ _envops:
   comment_end_string: "#}"
   comment_start_string: "{#"
   keep_trailing_newline: true
-  variable_end_string: "}}"
-  variable_start_string: "{{"
+  variable_end_string: "}}`"
+  variable_start_string: "`{{"
 
 _answers_file: .copier-docker-config.yaml
 
 _tasks:
   # Strings get executed under system's default shell
   - "[ -d .git ] || git init"
-  - "{% if github_repo_name %}git add remote origin https://github.com/{{ github_username }}/{{ github_repo_name }}.git 2>/dev/null || echo 'origin already exists'{% else %}echo 'No GitHub repository name provided. Skipping git remote add.'{% endif %}"
+  - "{% if github_repo_name %}git add remote origin https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`.git 2>/dev/null || echo 'origin already exists'{% else %}echo 'No GitHub repository name provided. Skipping git remote add.'{% endif %}"
 
 # questions
 docker_project_name:
@@ -27,8 +27,17 @@ docker_project_name:
     docker_project_name must start with a letter, followed one or more letters, digits or dashes in lowercase only
     {% endif %}
 
+docker_name_prefix:
+  default: "`{{ docker_project_name | replace('-', '_') | upper }}`"
+  type: str
+  help: What is your docker name prefix? (it will be used as prefix for environment variables)
+  validator: >-
+    {% if not (docker_name_prefix | regex_search('^[A-Z][A-Z0-9_]+$')) %}
+    docker_name_prefix must start with a letter, followed one or more letters, digits or underscores in uppercase only
+    {% endif %}
+
 friendly_name:
-  default: "{{ docker_project_name }}"
+  default: "`{{ docker_project_name }}`"
   type: str
   help: What is your project friendly name? (it will be used for the title of the documentation)
 
@@ -66,7 +75,7 @@ github_username:
     {% endif %}
 
 email:
-  default: "{{ github_username }}@"
+  default: "`{{ github_username }}`@"
   type: str
   help: What is your email?
   validator: >-
@@ -75,7 +84,7 @@ email:
     {% endif %}
 
 github_repo_name:
-  default: "{{ docker_project_name }}"
+  default: "`{{ docker_project_name }}`"
   type: str
   help: What is your GitHub repository name?
 
@@ -90,7 +99,7 @@ docker_registry:
   help: What is your Docker registry? (e.g. ghcr.io)
 
 docker_username:
-  default: "{{ github_username }}"
+  default: "`{{ github_username }}`"
   type: str
   help: What is your Docker username? (if you use ghcr.io, it should be the same as your GitHub username)
 
@@ -184,14 +193,14 @@ app_source_branch:
   help: "What is your source repository branch to clone? (default: main)"
 
 app_install_root:
-  default: "{{ container_workspace_root }}/projects"
+  default: "`{{ container_workspace_root }}`/projects"
   type: str
-  help: "What is your source install root? (default: {{ container_workspace_root }}/projects)"
+  help: "What is your source install root? (default: `{{ container_workspace_root }}`/projects)"
 
 app_clone_dirname:
-  default: "{{ app_source_repo | regex_replace('.*/', '') }}"
+  default: "`{{ app_source_repo | regex_replace('.*/', '') }}`"
   type: str
-  help: "What is your source repository directory name to clone? (default: {{ app_source_repo | regex_replace('.*/', '') }})"
+  help: "What is your source repository directory name to clone? (default: `{{ app_source_repo | regex_replace('.*/', '') }}`)"
 
 app_service_name:
   default: app

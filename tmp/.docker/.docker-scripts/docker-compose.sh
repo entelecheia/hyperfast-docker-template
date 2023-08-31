@@ -54,7 +54,7 @@ fi
 
 # run docker-compose
 if [ "${COMMAND}" == "push" ]; then
-    docker push "${CONTAINTER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+    docker push "${CONTAINER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
 elif [ "${COMMAND}" == "login" ]; then
     echo "GITHUB_CR_PAT: $GITHUB_CR_PAT"
     docker login ghcr.io -u "$GITHUB_USERNAME"

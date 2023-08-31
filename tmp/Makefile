@@ -94,6 +94,8 @@ test-init-project: install-copier ## test initializing the project to a temporar
 test-init-project-force: install-copier ## test initializing the project to a temporary directory forcing overwrite
 	@copier copy --answers-file .copier-docker-config.yaml --trust --force --vcs-ref=HEAD . tmp
 	@rm -rf tmp/.git
+
+
 ##@ Docker
 
 docker-login: ## login to docker

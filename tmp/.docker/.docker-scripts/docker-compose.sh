@@ -134,12 +134,14 @@ fi
 
 # run docker-compose
 if [ "${COMMAND}" == "push" ]; then
-    docker push "${CONTAINER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+    CMD="docker push ${CONTAINER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
 elif [ "${COMMAND}" == "login" ]; then
     echo "GITHUB_CR_PAT: $GITHUB_CR_PAT"
-    docker login ghcr.io -u "$GITHUB_USERNAME"
+    CMD="docker login ghcr.io -u $GITHUB_USERNAME"
 elif [ "${COMMAND}" == "run" ]; then
-    docker-compose --project-directory . -f ".docker/docker-compose.${VARIANT}.yaml" run "workspace" "${RUN_COMMAND}" "$ADDITIONAL_ARGS"
+    CMD="docker compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml run workspace ${RUN_COMMAND} ${ADDITIONAL_ARGS}"
 else
-    docker-compose --project-directory . -f ".docker/docker-compose.${VARIANT}.yaml" "${COMMAND}" "$ADDITIONAL_ARGS"
+    CMD="docker-compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml ${COMMAND} ${ADDITIONAL_ARGS}"
 fi
+echo "Running command: ${CMD}"
+eval "${CMD}"

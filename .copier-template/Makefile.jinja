@@ -98,7 +98,7 @@ test-init-project-force: install-copier ## test initializing the project to a te
 {% else -%}
 reinit-project: install-copier ## reinitialize the project (Warning: this may overwrite existing files!)
 	@bash -c 'args=(); while IFS= read -r file; do args+=("--skip" "$$file"); done < .copierignore; copier copy "$${args[@]}" --answers-file .copier-docker-config.yaml --trust {%- if docker_project_name.endswith('-template') %} --vcs-ref=HEAD{% endif %} gh:entelecheia/hyperfast-docker-template .'
-{% endif -%}
+{%- endif %}
 
 ##@ Docker
 

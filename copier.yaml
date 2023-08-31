@@ -27,6 +27,15 @@ docker_project_name:
     docker_project_name must start with a letter, followed one or more letters, digits or dashes in lowercase only
     {% endif %}
 
+docker_name_prefix:
+  default: "{{ docker_project_name | replace('-', '_') | upper }}"
+  type: str
+  help: What is your docker name prefix? (it will be used as prefix for environment variables)
+  validator: >-
+    {% if not (docker_name_prefix | regex_search('^[A-Z][A-Z0-9_]+$')) %}
+    docker_name_prefix must start with a letter, followed one or more letters, digits or underscores in uppercase only
+    {% endif %}
+
 friendly_name:
   default: "{{ docker_project_name }}"
   type: str

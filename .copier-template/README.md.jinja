@@ -1,14 +1,14 @@
-# {{ friendly_name }}
+# `{{ friendly_name }}`
 
 [![version-image]][release-url]
 [![release-date-image]][release-url]
 {% if project_lincense != 'None' %}[![license-image]][license-url]{% endif %}
 
-{{ project_short_description }}
+`{{ project_short_description }}`
 
-- GitHub: [https://github.com/{{ github_username }}/{{ github_repo_name }}][repo-url]
+- GitHub: [https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`][repo-url]
 
-{{ project_description }}
+`{{ project_description }}`
 
 ## Prerequisites
 
@@ -48,9 +48,9 @@
 
 ## Usage
 
-After starting the container, you can access the application at `localhost:<APP_HOST_WEB_SVC_PORT>`. By default, the port is set to `{{ web_service_host_port }}`.
+After starting the container, you can access the application at `localhost:<APP_HOST_WEB_SVC_PORT>`. By default, the port is set to ``{{ web_service_host_port }}``.
 
-You can also SSH into the container using the SSH port specified in `APP_HOST_SSH_PORT`. By default, the port is set to `{{ ssh_host_port }}`.
+You can also SSH into the container using the SSH port specified in `APP_HOST_SSH_PORT`. By default, the port is set to ``{{ ssh_host_port }}``.
 
 ## Volumes
 
@@ -93,16 +93,16 @@ Contributions are welcome! Please see the [contributing guidelines] for more inf
 {% if project_lincense != 'None' -%}
 ## License
 
-This project is released under the [{{ project_license }} License][license-url].
+This project is released under the [`{{ project_license }}` License][license-url].
 {% endif -%}
 
 <!-- Links: -->
-[license-image]: https://img.shields.io/github/license/{{ github_username }}/{{ github_repo_name }}
-[license-url]: https://github.com/{{ github_username }}/{{ github_repo_name }}/blob/{{ main_branch }}/LICENSE
-[version-image]: https://img.shields.io/github/v/release/{{ github_username }}/{{ github_repo_name }}?sort=semver
-[release-date-image]: https://img.shields.io/github/release-date/{{ github_username }}/{{ github_repo_name }}
-[release-url]: https://github.com/{{ github_username }}/{{ github_repo_name }}/releases
-[repo-url]: https://github.com/{{ github_username }}/{{ github_repo_name }}
-[changelog]: https://github.com/{{ github_username }}/{{ github_repo_name }}/blob/{{ main_branch }}/CHANGELOG.md
-[contributing guidelines]: https://github.com/{{ github_username }}/{{ github_repo_name }}/blob/{{ main_branch }}/CONTRIBUTING.md
+[license-image]: https://img.shields.io/github/license/`{{ github_username }}`/`{{ github_repo_name }}`
+[license-url]: https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`/blob/`{{ main_branch }}`/LICENSE
+[version-image]: https://img.shields.io/github/v/release/`{{ github_username }}`/`{{ github_repo_name }}`?sort=semver
+[release-date-image]: https://img.shields.io/github/release-date/`{{ github_username }}`/`{{ github_repo_name }}`
+[release-url]: https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`/releases
+[repo-url]: https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`
+[changelog]: https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`/blob/`{{ main_branch }}`/CHANGELOG.md
+[contributing guidelines]: https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`/blob/`{{ main_branch }}`/CONTRIBUTING.md
 <!-- Links: -->

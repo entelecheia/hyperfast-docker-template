@@ -1,12 +1,12 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="{{ docker_registry }}/{{ github_username }}/{{ docker_project_name }}:latest-{{ docker_base_image_variant_name }}"
+ARG ARG_BUILD_FROM="`{{ docker_registry }}`/`{{ github_username }}`/`{{ docker_project_name }}`:latest-`{{ docker_base_image_variant_name }}`"
 FROM $ARG_BUILD_FROM
 
 # Setting ARGs and ENVs for user creation and workspace setup
-ARG ARG_USERNAME="{{ docker_container_username }}"
-ARG ARG_USER_UID={{ docker_container_uid }}
+ARG ARG_USERNAME="`{{ docker_container_username }}`"
+ARG ARG_USER_UID=`{{ docker_container_uid }}`
 ARG ARG_USER_GID=$ARG_USER_UID
-ARG ARG_WORKSPACE_ROOT="{{ container_workspace_root }}"
+ARG ARG_WORKSPACE_ROOT="`{{ container_workspace_root }}`"
 ENV USERNAME $ARG_USERNAME
 ENV USER_UID $ARG_USER_UID
 ENV USER_GID $ARG_USER_GID
@@ -40,7 +40,7 @@ ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 # Sets the time zone within the container
-ENV TZ="{{ docker_timezone }}"
+ENV TZ="`{{ docker_timezone }}`"
 
 {% if install_dotfiles -%}
 # Install dotfiles
@@ -83,11 +83,11 @@ RUN pip install -r ./scripts/requirements.txt
 {%- endif %}
 
 # Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
-ARG ARG_APP_SOURCE_REPO="{{ app_source_repo }}"
-ARG ARG_APP_INSTALL_ROOT="{{ app_install_root }}"
-ARG ARG_APP_CLONE_DIRNAME="{{ app_clone_dirname }}"
-ARG ARG_APP_SOURCE_BRANCH="{{ app_source_branch }}"
-ARG ARG_APP_SERVICE_NAME="{{ app_service_name }}"
+ARG ARG_APP_SOURCE_REPO="`{{ app_source_repo }}`"
+ARG ARG_APP_INSTALL_ROOT="`{{ app_install_root }}`"
+ARG ARG_APP_CLONE_DIRNAME="`{{ app_clone_dirname }}`"
+ARG ARG_APP_SOURCE_BRANCH="`{{ app_source_branch }}`"
+ARG ARG_APP_SERVICE_NAME="`{{ app_service_name }}`"
 ENV APP_SOURCE_REPO $ARG_APP_SOURCE_REPO
 ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
 ENV APP_CLONE_DIRNAME $ARG_APP_CLONE_DIRNAME

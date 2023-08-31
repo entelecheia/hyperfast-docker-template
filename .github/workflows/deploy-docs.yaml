@@ -28,7 +28,7 @@ jobs:
 
       - uses: actions/cache@v3
         with:
-          key: ${{ github.ref }}
+          key: $`{{ github.ref }}`
           path: .cache
       - run: |
           pip install -r docs/requirements.txt

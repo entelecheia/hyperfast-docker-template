@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "{{ docker_project_name }}"
+name = "`{{ docker_project_name }}`"
 version = "0.0.0"
-description = "{{ project_short_description }}"
-authors = ["{{ author }} <{{ email }}>"]
-license = "{{ project_license }}"
-repository = "https://github.com/{{ github_username }}/{{ github_repo_name }}"
+description = "`{{ project_short_description }}`"
+authors = ["`{{ author }}` <`{{ email }}`>"]
+license = "`{{ project_license }}`"
+repository = "https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`"
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -18,7 +18,7 @@ python-semantic-release = "^7.33.1"
 
 {% if poe_task_files -%}
 [tool.poe]
-include = {{ poe_task_files|to_json }}
+include = `{{ poe_task_files|to_json }}`
 
 {% endif -%}
 [tool.commitizen]

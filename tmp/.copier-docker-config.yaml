@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.16.1-4-g76f1a07
+_commit: v0.16.1-10-g7f0e06d
 _src_path: .
 app_clone_dirname: entelecheia/entelecheia
 app_install_root: /workspace/projects
@@ -18,6 +18,7 @@ docker_base_build_from: python:3.9-slim-bookworm
 docker_base_image_variant_name: base
 docker_container_uid: 9001
 docker_container_username: app
+docker_name_prefix: HYPERFAST_DOCKER
 docker_project_name: hyperfast-docker
 docker_registry: ghcr.io
 docker_run_command: /bin/zsh

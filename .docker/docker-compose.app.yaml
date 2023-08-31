@@ -45,9 +45,8 @@ services:
       SYSTEM_HOSTNAME: $CONTAINER_HOSTNAME
       IMAGE_VARIANT: $IMAGE_VARIANT
       GIT_COMMIT_GPGSIGN: $GIT_COMMIT_GPGSIGN
-      HOST_JUPYTER_PORT: $HOST_JUPYTER_PORT
-      JUPYTER_PORT: $JUPYTER_PORT
-      JUPYTER_TOKEN: $JUPYTER_TOKEN
+      JUPYTER_PORT: $CONTAINER_JUPYTER_PORT
+      JUPYTER_TOKEN: $CONTAINER_JUPYTER_TOKEN
     ulimits:
       # Sets the stack size and memory lock limits
       stack: 67108864
@@ -56,9 +55,9 @@ services:
     ipc: $CONTAINER_IPC
     ports:
       # Maps the container's SSH and Web service ports to the host's ports
-      - "$HOST_SSH_PORT:$SSH_PORT"
-      - "$HOST_JUPYTER_PORT:$JUPYTER_PORT"
-      - "$HOST_WEB_SVC_PORT:$WEB_SVC_PORT"
+      - "$HOST_SSH_PORT:$CONTAINER_SSH_PORT"
+      - "$HOST_JUPYTER_PORT:$CONTAINER_JUPYTER_PORT"
+      - "$HOST_WEB_SVC_PORT:$CONTAINER_WEB_SVC_PORT"
     volumes:
       # Maps directories from the host to the container
       - "$PWD/.docker/scripts:$CONTAINER_WORKSPACE_ROOT/scripts"
@@ -73,7 +72,7 @@ services:
           devices:
             # Reserves the specified GPU for the container
             - driver: nvidia
-              device_ids: ["${CUDA_DEVICE_ID}"]
+              device_ids: ["${CONTAINER_CUDA_DEVICE_ID}"]
               capabilities: [gpu]
 networks:
   default:

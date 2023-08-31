@@ -25,7 +25,7 @@ jobs:
     # Name the Job
     name: prerelease
     # Set the agent to run on
-    runs-on: $`{{ matrix.os }}`
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -47,7 +47,7 @@ jobs:
       - name: Python Semantic Release to PyPI
         uses: relekang/python-semantic-release@master
         with:
-          github_token: $`{{ secrets.GITHUB_TOKEN }}`
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           repository_username: __token__
-          repository_password: $`{{ secrets.PYPI_API_TOKEN }}`
-          additional_options: --prerelease --verbosity=DEBUG --define=branch=$`{{ env.BRANCH }}`
+          repository_password: ${{ secrets.PYPI_API_TOKEN }}
+          additional_options: --prerelease --verbosity=DEBUG --define=branch=${{ env.BRANCH }}

@@ -1,8 +1,71 @@
 #!/bin/bash
 # add your custom commands here that should be executed when building the docker image
-COMMAND=${1:-"build"}
-VARIANT=${2:-"base"}
-RUN_COMMAND=${3:-"bash"}
+# arguments usage
+USAGE="
+$0 COMMAND [OPTIONS]
+
+Arguments:
+COMMAND                The operation to be performed. Must be one of: [build|config|push|login|up|down|run]
+
+Options:
+-v, --variant IMAGE_VARIANT     Specify a variant for the Docker image.
+-r, --run RUN_COMMAND           Specify a command to run when using the 'run' command. Default: bash
+-h, --help                      Display this help message.
+
+Additional arguments can be provided after the Docker name, and they will be passed directly to the Docker Compose command.
+
+Example:
+$0 build -v base
+"
+
+# declare arguments
+COMMAND="build"
+VARIANT="base"
+RUN_COMMAND="bash"
+ADDITIONAL_ARGS=""
+
+set +u
+# read arguments
+# first argument is the command
+COMMAND="$1"
+shift
+
+# parse options
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -v | --variant)
+        VARIANT="$2"
+        shift
+        ;;
+    --variant=*)
+        VARIANT="${1#*=}"
+        ;;
+    -r | --run)
+        RUN_COMMAND="$2"
+        shift
+        ;;
+    --run=*)
+        RUN_COMMAND="${1#*=}"
+        ;;
+    -h | --help)
+        echo "Usage: $0 $USAGE" >&2
+        exit 0
+        ;;
+    -h*)
+        echo "Usage: $0 $USAGE" >&2
+        exit 0
+        ;;
+    *)
+        ADDITIONAL_ARGS="$ADDITIONAL_ARGS $1"
+        ;;
+    esac
+    shift
+done
+# check if remaining arguments exist
+if [[ -n "$ADDITIONAL_ARGS" ]]; then
+    echo "Additional arguments: $ADDITIONAL_ARGS" >&2
+fi
+set -u
 
 if [ "${COMMAND}" == "build" ]; then
     echo "Building docker image for variant: ${VARIANT}"
@@ -19,8 +82,8 @@ elif [ "${COMMAND}" == "run" ]; then
 elif [ "${COMMAND}" == "login" ]; then
     echo "Logging into docker registry for variant: ${VARIANT}"
 else
-    echo "Invalid command: ${COMMAND}"
-    echo "Usage: $0 [build|config|push|login|up|down|run] [base|app]"
+    echo "Invalid command: $COMMAND" >&2
+    echo "Usage: $0 $USAGE" >&2
     exit 1
 fi
 echo "---"
@@ -71,12 +134,14 @@ fi
 
 # run docker-compose
 if [ "${COMMAND}" == "push" ]; then
-    docker push "${CONTAINER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+    CMD="docker push ${CONTAINER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
 elif [ "${COMMAND}" == "login" ]; then
     echo "GITHUB_CR_PAT: $GITHUB_CR_PAT"
-    docker login ghcr.io -u "$GITHUB_USERNAME"
+    CMD="docker login ghcr.io -u $GITHUB_USERNAME"
 elif [ "${COMMAND}" == "run" ]; then
-    docker-compose --project-directory . -f ".docker/docker-compose.${VARIANT}.yaml" run "workspace" "${RUN_COMMAND}"
+    CMD="docker compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml run workspace ${RUN_COMMAND} ${ADDITIONAL_ARGS}"
 else
-    docker-compose --project-directory . -f ".docker/docker-compose.${VARIANT}.yaml" "${COMMAND}"
+    CMD="docker-compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml ${COMMAND} ${ADDITIONAL_ARGS}"
 fi
+echo "Running command: ${CMD}"
+eval "${CMD}"

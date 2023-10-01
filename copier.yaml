@@ -168,6 +168,11 @@ copy_scripts_dir:
   type: bool
   help: "Do you want to copy scripts directory under the workspace root? ? (COPY ./.docker/scripts/ ./scripts/)"
 
+python_version:
+  default: 3.9
+  type: str
+  help: "What is your Python version? (default: 3.9, only first two digits are used)"
+
 install_pip_requirements:
   default: true
   type: bool

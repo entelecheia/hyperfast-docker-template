@@ -74,7 +74,7 @@ WORKDIR $WORKSPACE_ROOT
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
 # Installs Python dependencies listed in requirements.txt
-RUN pip install -r ./scripts/requirements.txt
+RUN pip3.9 install -r ./scripts/requirements.txt
 
 # Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
 ARG ARG_APP_SOURCE_REPO="entelecheia/entelecheia"

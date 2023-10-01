@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.20.0 (2023-10-01)
+
+### Feature
+
+* **Makefile:** Add symlink for global docker env file for local development ([`d25159c`](https://github.com/entelecheia/hyperfast-docker-template/commit/d25159c8b2431af87dfd1195d5748fc1991749d2))
+* **Makefile.jinja:** Add symlink global docker env function ([`f25a88e`](https://github.com/entelecheia/hyperfast-docker-template/commit/f25a88ef14ab434dbe72bae5f6bdc9cb98553907))
+
 ## v0.19.0 (2023-10-01)
 
 ### Feature

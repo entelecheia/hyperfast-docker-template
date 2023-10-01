@@ -1,5 +1,15 @@
 <!--next-version-placeholder-->
 
+## v0.19.0 (2023-10-01)
+
+### Feature
+
+* **copier:** Add python version option ([`ba0ea05`](https://github.com/entelecheia/hyperfast-docker-template/commit/ba0ea059a1071de690678abe71ab60e029e5858e))
+
+### Fix
+
+* **dockerfile:** Support dynamic python version ([`8e209d8`](https://github.com/entelecheia/hyperfast-docker-template/commit/8e209d8e340cdc323b8d4573d640141468c6c266))
+
 ## v0.18.0 (2023-10-01)
 
 ### Feature

@@ -27,7 +27,7 @@ RUN apt-get update --fix-missing \
 {% if install_pip_requirements -%}
 # Installs the latest pip and setuptools from PyPI
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python3.9 get-pip.py \
+    && python`{{ python_version }}` get-pip.py \
     && rm get-pip.py
 {%- endif %}
 # Sets up the locale to en_US.UTF-8
@@ -99,7 +99,7 @@ WORKDIR $WORKSPACE_ROOT
 {% if copy_scripts_dir -%}
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
-RUN if [ -f ./scripts/requirements-base.txt ]; then sudo pip install -r ./scripts/requirements-base.txt; fi
+RUN if [ -f ./scripts/requirements-base.txt ]; then sudo pip`{{ python_version }}` install -r ./scripts/requirements-base.txt; fi
 {%- endif %}
 
 # Specifies the command that will be executed when the container is run

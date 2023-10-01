@@ -79,7 +79,7 @@ COPY ./.docker/scripts/ ./scripts/
 {%- endif %}
 {% if install_pip_requirements -%}
 # Installs Python dependencies listed in requirements.txt
-RUN pip install -r ./scripts/requirements.txt
+RUN pip`{{ python_version }}` install -r ./scripts/requirements.txt
 {%- endif %}
 
 # Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository

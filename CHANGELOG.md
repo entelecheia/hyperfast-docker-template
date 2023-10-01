@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.18.0 (2023-10-01)
+
+### Feature
+
+* **docker:** Add requirements-base pip installation in Dockerfile ([`5ce007f`](https://github.com/entelecheia/hyperfast-docker-template/commit/5ce007ff936d208edccb4d4ed6365b468e01928c))
+
 ## v0.17.0 (2023-08-31)
 
 ### Feature

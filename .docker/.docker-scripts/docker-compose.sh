@@ -97,7 +97,7 @@ if [ -e "${DOCKER_SECRET_ENV_FILENAME}" ]; then
     set -x # print commands and thier arguments
     # shellcheck disable=SC1091,SC1090
     source "${DOCKER_SECRET_ENV_FILENAME}"
-    set +x
+    set +x # disable printing of environment variables
 fi
 # load global environment variables from .env.docker
 DOCKERFILES_SHARE_DIR=${DOCKERFILES_SHARE_DIR:-"$HOME/.local/share/dockerfiles"}

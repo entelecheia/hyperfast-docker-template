@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.20.1 (2023-10-02)
+
+### Fix
+
+* **docker:** Remove sudo from pip install command in dockerfile.base ([`25c23db`](https://github.com/entelecheia/hyperfast-docker-template/commit/25c23db79fc962ab0491af2ddeea771260bc91fe))
+* **docker:** Remove sudo from pip install command ([`29d1e36`](https://github.com/entelecheia/hyperfast-docker-template/commit/29d1e3607e220b7075f1909af3105fcea8edbc6c))
+
 ## v0.20.0 (2023-10-01)
 
 ### Feature

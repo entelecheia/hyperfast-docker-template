@@ -99,7 +99,7 @@ WORKDIR $WORKSPACE_ROOT
 {% if copy_scripts_dir -%}
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
-RUN if [ -f ./scripts/requirements-base.txt ]; then sudo `{{ pip_command }}` install -r ./scripts/requirements-base.txt; fi
+RUN if [ -f ./scripts/requirements-base.txt ]; then `{{ pip_command }}` install -r ./scripts/requirements-base.txt; fi
 {%- endif %}
 
 # Specifies the command that will be executed when the container is run

@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.22.0 (2023-10-02)
+
+### Feature
+
+* **docker-scripts:** Load and print environment variables ([`fa3935c`](https://github.com/entelecheia/hyperfast-docker-template/commit/fa3935cb8f733fa017c47b80fcac0c01a3511443))
+* **.docker:** Add printing of loaded environment variables ([`509bafa`](https://github.com/entelecheia/hyperfast-docker-template/commit/509bafa6ea1c55fbacbe0d7ad5a74a0c9f4b9083))
+
 ## v0.21.0 (2023-10-02)
 
 ### Feature

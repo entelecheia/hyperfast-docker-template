@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.21.0 (2023-10-02)
+
+### Feature
+
+* **scripts:** Add free disk space script in .github folder ([`dcbdc6f`](https://github.com/entelecheia/hyperfast-docker-template/commit/dcbdc6f7cd25770131e4b9166562782a637a639c))
+* **.github/workflows:** Add disk space securing script before build ([`5224a92`](https://github.com/entelecheia/hyperfast-docker-template/commit/5224a9216b3475d3218a2e22d12cbb830578f52f))
+
 ## v0.20.1 (2023-10-02)
 
 ### Fix

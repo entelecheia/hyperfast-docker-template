@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.22.1 (2023-10-08)
+
+### Fix
+
+* **docker:** Add user permissions fix-up in container startup script ([`d1bb50b`](https://github.com/entelecheia/hyperfast-docker-template/commit/d1bb50bbbdc4bc94d7f37aab81c59b0f64eaf107))
+
 ## v0.22.0 (2023-10-02)
 
 ### Feature

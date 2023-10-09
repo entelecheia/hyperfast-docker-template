@@ -23,7 +23,6 @@ updates:
     labels:
       - ":game_die: dependencies"
       - ":robot: bot"
-{% if install_pip_requirements -%}
   - package-ecosystem: "pip"
     directory: "/.docker/scripts"
     schedule:
@@ -35,4 +34,3 @@ updates:
     labels:
       - ":game_die: dependencies"
       - ":robot: bot"
-{%- endif %}

@@ -15,13 +15,6 @@ ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 # Sets up the workspace for the user
 RUN if [ ! -d $WORKSPACE_ROOT/projects ]; then mkdir -p $WORKSPACE_ROOT/projects; fi
 
-# Sets the working directory to workspace root
-WORKDIR $WORKSPACE_ROOT
-# Copies scripts from host into the image
-COPY ./.docker/scripts/ ./scripts/
-# Installs Python dependencies listed in requirements.txt
-RUN if [ -f ./scripts/requirements.txt ]; then pip3 install -r ./scripts/requirements.txt; fi
-
 # Setting ARGs and ENVs for the app
 ARG ARG_APP_SOURCE_REPO="entelecheia/entelecheia"
 ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
@@ -42,6 +35,14 @@ ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
 RUN git clone --branch $APP_SOURCE_BRANCH https://github.com/${ARG_APP_SOURCE_REPO}.git ${APP_SRC_DIR} &&\
     cd ${APP_SRC_DIR} &&\
     git checkout $APP_SOURCE_BRANCH
+
+# Sets the working directory to workspace root
+WORKDIR $WORKSPACE_ROOT
+# Copies scripts from host into the image
+COPY ./.docker/scripts/ ./scripts/
+
+# Installs Python dependencies listed in requirements.txt
+RUN if [ -f ./scripts/requirements.txt ]; then pip3 install -r ./scripts/requirements.txt; fi
 
 RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 RUN chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT

@@ -23,10 +23,6 @@ RUN apt-get update --fix-missing \
     && apt-get autoremove -y \
     && apt-get clean -y
 
-# Create symbolic links for Python and pip
-RUN ln -sf /usr/bin/python3 /usr/bin/python \
-    && ln -sf /usr/bin/pip3 /usr/bin/pip
-
 # Sets Python environment variables
 ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1

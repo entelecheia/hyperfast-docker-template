@@ -68,5 +68,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 
 
+RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
+
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

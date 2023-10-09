@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.23.4 (2023-10-09)
+
+### Fix
+
+* **dockerfile:** Change python command syntax ([`f1e17ab`](https://github.com/entelecheia/hyperfast-docker-template/commit/f1e17ab5569148484e5bd59889b6a6dc53e56465))
+
 ## v0.23.3 (2023-10-09)
 
 ### Fix

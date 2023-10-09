@@ -1,6 +1,55 @@
 # Sets the base image for subsequent instructions
 ARG ARG_BUILD_FROM="python:3.9-slim-bookworm"
-FROM $ARG_BUILD_FROM
+
+## Builder stage
+FROM $ARG_BUILD_FROM as builder
+
+# Setting this argument prevents interactive prompts during the build process
+ARG DEBIAN_FRONTEND=noninteractive
+# Updates the image and installs necessary packages
+RUN apt-get update --fix-missing \
+    && apt-get install -y \
+    git python3-venv build-essential \
+    # Cleans up unnecessary packages to reduce image size
+    && apt-get autoremove -y \
+    && apt-get clean -y
+
+# Installs the latest pip and setuptools from PyPI
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python3 get-pip.py \
+    && rm get-pip.py
+
+# Create symbolic links for Python and pip
+RUN ln -sf /usr/bin/python3 /usr/bin/python \
+    && ln -sf /usr/bin/python3 /usr/bin/python3 \
+    && ln -sf /usr/bin/pip3 /usr/bin/pip
+
+# Sets Python environment variables
+ENV PIP_DEFAULT_TIMEOUT 100
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Setting ARGs and ENVs for the app
+ENV APP_INSTALL_ROOT="/opt"
+ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/builder
+ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
+
+# Create the app directory
+RUN mkdir -p $APP_INSTALL_ROOT
+WORKDIR $APP_INSTALL_ROOT
+# Copies scripts from host into the image
+COPY ./.docker/scripts/ ./scripts/
+# Install pytorch before all other pip packages
+RUN --mount=type=cache,target=/root/.cache/pip \
+    python3 -m venv ${APP_VIRTUAL_ENV} &&\
+    pip install -r ./scripts/requirements-base.txt
+
+#### Runtime stage ---------------------------------------
+
+# Runtime image (copy built virtual environment)
+FROM library/ubuntu:22.04 AS runtime
+
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/hyperfast-docker-template"
@@ -11,37 +60,37 @@ LABEL org.opencontainers.image.licenses="MIT"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo \
-    # !! Without python3-launchpadlib, software-properties-common fails to install
-    python3-launchpadlib software-properties-common \
+    && apt-get install -y curl wget jq sudo gosu \
+    git python3-venv python3-pip build-essential \
     locales locales-all fontconfig fonts-nanum \
     tzdata openssh-server \
-    # Adds PPA for the latest git version
-    && add-apt-repository ppa:git-core/ppa -y \
-    && apt-get update \
-    && apt-get -y install --no-install-recommends git \
     # Cleans up unnecessary packages to reduce image size
     && apt-get autoremove -y \
     && apt-get clean -y
 
-# Installs the latest pip and setuptools from PyPI
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python3 get-pip.py \
-    && rm get-pip.py
+# Create symbolic links for Python and pip
+RUN ln -sf /usr/bin/python3 /usr/bin/python \
+    && ln -sf /usr/bin/python3 /usr/bin/python3 \
+    && ln -sf /usr/bin/pip3 /usr/bin/pip
+
 # Sets Python environment variables
 ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Sets the working directory to workspace root
-ARG ARG_WORKSPACE_ROOT="/workspace"
-ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
-# Sets up the workspace for the user
-RUN rm -rf $WORKSPACE_ROOT && mkdir -p $WORKSPACE_ROOT/projects
-WORKDIR $WORKSPACE_ROOT
-# Copies scripts from host into the image
-COPY ./.docker/scripts/ ./scripts/
-RUN if [ -f ./scripts/requirements-base.txt ]; then pip3 install -r ./scripts/requirements-base.txt; fi
+# Setting ARGs and ENVs for the app
+ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
+ARG ARG_APP_DIRNAME="entelecheia"
+ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
+ENV APP_DIRNAME $ARG_APP_DIRNAME
+ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
+ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
+ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
+
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
+
+# Copy the virtual environment from the builder stage
+COPY --link --from=builder /opt/.venvs/builder ${APP_VIRTUAL_ENV}
 
 # Sets the time zone within the container
 ENV TZ="Asia/Seoul"
@@ -64,7 +113,6 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
-
 
 # Fixes sudo error related to core dumps
 RUN echo "Set disable_coredump false" > /etc/sudo.conf
@@ -95,7 +143,9 @@ RUN sudo rm -rf $WORKSPACE_ROOT && sudo mkdir -p $WORKSPACE_ROOT
 RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 RUN sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"
 
-RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
+USER root
+
+RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

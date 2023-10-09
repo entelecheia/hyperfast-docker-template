@@ -1,6 +1,10 @@
 # Sets the base image for subsequent instructions
 ARG ARG_BUILD_FROM="python:3.9-slim-bookworm"
+
+
 FROM $ARG_BUILD_FROM
+
+
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/hyperfast-docker-template"
@@ -11,27 +15,32 @@ LABEL org.opencontainers.image.licenses="MIT"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo \
-    # !! Without python3-launchpadlib, software-properties-common fails to install
-    python3-launchpadlib software-properties-common \
+    && apt-get install -y curl wget jq sudo gosu \
+    git python3-venv python3-pip build-essential \
     locales locales-all fontconfig fonts-nanum \
     tzdata openssh-server \
-    # Adds PPA for the latest git version
-    && add-apt-repository ppa:git-core/ppa -y \
-    && apt-get update \
-    && apt-get -y install --no-install-recommends git \
     # Cleans up unnecessary packages to reduce image size
     && apt-get autoremove -y \
     && apt-get clean -y
 
-# Installs the latest pip and setuptools from PyPI
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python3 get-pip.py \
-    && rm get-pip.py
+# Create symbolic links for Python and pip
+RUN ln -sf /usr/bin/python3 /usr/bin/python \
+    && ln -sf /usr/bin/pip3 /usr/bin/pip
+
 # Sets Python environment variables
 ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
+# Setting ARGs and ENVs for the app
+ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
+ARG ARG_APP_DIRNAME="entelecheia"
+ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
+ENV APP_DIRNAME $ARG_APP_DIRNAME
+ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
+ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
+ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
+
 
 # Sets the working directory to workspace root
 ARG ARG_WORKSPACE_ROOT="/workspace"
@@ -67,6 +76,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 
 
+RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

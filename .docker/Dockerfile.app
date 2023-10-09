@@ -12,8 +12,41 @@ ENV USER_UID $ARG_USER_UID
 ENV USER_GID $ARG_USER_GID
 ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 
+# Sets up the workspace for the user
+RUN if [ ! -d $WORKSPACE_ROOT/projects ]; then mkdir -p $WORKSPACE_ROOT/projects; fi
+
+# Sets the working directory to workspace root
+WORKDIR $WORKSPACE_ROOT
+# Copies scripts from host into the image
+COPY ./.docker/scripts/ ./scripts/
+# Installs Python dependencies listed in requirements.txt
+RUN if [ -f ./scripts/requirements.txt ]; then pip3 install -r ./scripts/requirements.txt; fi
+
+# Setting ARGs and ENVs for the app
+ARG ARG_APP_SOURCE_REPO="entelecheia/entelecheia"
+ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
+ARG ARG_APP_DIRNAME="entelecheia"
+ARG ARG_APP_SOURCE_BRANCH="main"
+ARG ARG_APP_SERVICE_NAME="app"
+ENV APP_SOURCE_REPO $ARG_APP_SOURCE_REPO
+ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
+ENV APP_DIRNAME $ARG_APP_DIRNAME
+ENV APP_SOURCE_BRANCH $ARG_APP_SOURCE_BRANCH
+ENV APP_SERVICE_NAME $ARG_APP_SERVICE_NAME
+ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
+ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
+ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
+
+# Clones the app repository from GitHub
+RUN git clone --branch $APP_SOURCE_BRANCH https://github.com/${ARG_APP_SOURCE_REPO}.git ${APP_SRC_DIR} &&\
+    cd ${APP_SRC_DIR} &&\
+    git checkout $APP_SOURCE_BRANCH
+
+RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
+RUN chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT
+
 # Creates a non-root user with sudo privileges
-USER root
 # check if user exists and if not, create user
 RUN if id -u $USERNAME >/dev/null 2>&1; then \
     echo "User exists"; \
@@ -29,18 +62,6 @@ RUN if id -u $USERNAME >/dev/null 2>&1; then \
 
 # Switches to the newly created user
 USER $USERNAME
-# Sets up the workspace for the user
-RUN sudo rm -rf $WORKSPACE_ROOT && sudo mkdir -p $WORKSPACE_ROOT/projects
-RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
-
-# Adds .local/bin to PATH
-ENV PATH="/home/$USERNAME/.local/bin:${PATH}"
-# Sets Python environment variables
-ENV PIP_DEFAULT_TIMEOUT 100
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-# Sets the time zone within the container
-ENV TZ="Asia/Seoul"
 
 # Install dotfiles
 ARG ARG_USER_FULLNAME
@@ -68,25 +89,6 @@ RUN if [ -d "/home/$USERNAME/.dotfiles" ]; then \
     else \
     sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"; \
     fi
-
-# Sets the working directory to workspace root
-WORKDIR $WORKSPACE_ROOT
-# Copies scripts from host into the image
-COPY ./.docker/scripts/ ./scripts/
-# Installs Python dependencies listed in requirements.txt
-RUN pip3 install -r ./scripts/requirements.txt
-
-# Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
-ARG ARG_APP_SOURCE_REPO="entelecheia/entelecheia"
-ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
-ARG ARG_APP_CLONE_DIRNAME="entelecheia/entelecheia"
-ARG ARG_APP_SOURCE_BRANCH="main"
-ARG ARG_APP_SERVICE_NAME="app"
-ENV APP_SOURCE_REPO $ARG_APP_SOURCE_REPO
-ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
-ENV APP_CLONE_DIRNAME $ARG_APP_CLONE_DIRNAME
-ENV APP_SOURCE_BRANCH $ARG_APP_SOURCE_BRANCH
-ENV APP_SERVICE_NAME $ARG_APP_SERVICE_NAME
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

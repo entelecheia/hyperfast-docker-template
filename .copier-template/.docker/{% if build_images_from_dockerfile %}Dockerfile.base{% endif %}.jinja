@@ -99,7 +99,7 @@ ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
 
 # Copy the virtual environment from the builder stage
 COPY --link --from=builder /opt/.venvs/builder ${APP_VIRTUAL_ENV}
-{%- else }
+{%- else %}
 # Sets the working directory to workspace root
 ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT

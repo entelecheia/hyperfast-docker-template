@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.22.1-7-gc101bef
+_commit: v0.22.1-10-g60d98aa
 _src_path: .
 app_clone_dirname: entelecheia/entelecheia
 app_install_root: /workspace/projects
@@ -7,7 +7,7 @@ app_service_name: app
 app_source_branch: main
 app_source_repo: entelecheia/entelecheia
 author: Young Joon Lee
-build_images_from_dockerfile: false
+build_images_from_dockerfile: true
 clone_source_code: true
 container_workspace_root: /workspace
 copy_scripts_dir: true
@@ -30,7 +30,7 @@ enable_nvidia_gpu: true
 friendly_name: Hyperfast Docker Template
 github_repo_name: hyperfast-docker-template
 github_username: entelecheia
-install_dotfiles: true
+install_dotfiles: false
 install_pip_requirements: true
 jupyter_host_port: 18888
 jupyter_port: 8585

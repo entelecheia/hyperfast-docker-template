@@ -1,0 +1,72 @@
+# Sets the base image for subsequent instructions
+ARG ARG_BUILD_FROM="python:3.9-slim-bookworm"
+FROM $ARG_BUILD_FROM
+
+# Sets labels for the image
+LABEL org.opencontainers.image.source="https://github.com/entelecheia/hyperfast-docker-template"
+LABEL org.opencontainers.image.description="Hyperfast Docker Template is a powerful tool that leverages copier to streamline the creation of new Docker projects. It simplifies and accelerates Docker configurations, fostering a highly efficient and user-friendly development experience."
+LABEL org.opencontainers.image.licenses="MIT"
+
+# Setting this argument prevents interactive prompts during the build process
+ARG DEBIAN_FRONTEND=noninteractive
+# Updates the image and installs necessary packages
+RUN apt-get update --fix-missing \
+    && apt-get install -y curl wget jq sudo \
+    # !! Without python3-launchpadlib, software-properties-common fails to install
+    python3-launchpadlib software-properties-common \
+    locales locales-all fontconfig fonts-nanum \
+    tzdata openssh-server \
+    # Adds PPA for the latest git version
+    && add-apt-repository ppa:git-core/ppa -y \
+    && apt-get update \
+    && apt-get -y install --no-install-recommends git \
+    # Cleans up unnecessary packages to reduce image size
+    && apt-get autoremove -y \
+    && apt-get clean -y
+
+# Installs the latest pip and setuptools from PyPI
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python3 get-pip.py \
+    && rm get-pip.py
+# Sets Python environment variables
+ENV PIP_DEFAULT_TIMEOUT 100
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Sets the working directory to workspace root
+ARG ARG_WORKSPACE_ROOT="/workspace"
+ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
+# Sets up the workspace for the user
+RUN rm -rf $WORKSPACE_ROOT && mkdir -p $WORKSPACE_ROOT/projects
+WORKDIR $WORKSPACE_ROOT
+# Copies scripts from host into the image
+COPY ./.docker/scripts/ ./scripts/
+RUN if [ -f ./scripts/requirements-base.txt ]; then pip3 install -r ./scripts/requirements-base.txt; fi
+
+# Sets the time zone within the container
+ENV TZ="Asia/Seoul"
+# Sets up the locale to en_US.UTF-8
+RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || true
+
+# Setting ARGs and ENVs for user creation and workspace setup
+ARG ARG_USERNAME="app"
+ARG ARG_USER_UID=9001
+ARG ARG_USER_GID=$ARG_USER_UID
+ENV USERNAME $ARG_USERNAME
+ENV USER_UID $ARG_USER_UID
+ENV USER_GID $ARG_USER_GID
+
+# Creates a non-root user with sudo privileges
+RUN groupadd --gid $USER_GID $USERNAME \
+    && adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME  \
+    && echo "$USERNAME:$USERNAME" | chpasswd \
+    && adduser $USERNAME sudo \
+    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
+
+
+
+# Specifies the command that will be executed when the container is run
+CMD ["bash"]

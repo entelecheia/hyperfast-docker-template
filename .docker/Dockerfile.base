@@ -28,20 +28,33 @@ RUN apt-get update --fix-missing \
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python3 get-pip.py \
     && rm get-pip.py
+# Sets Python environment variables
+ENV PIP_DEFAULT_TIMEOUT 100
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Sets the working directory to workspace root
+ARG ARG_WORKSPACE_ROOT="/workspace"
+ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
+# Sets up the workspace for the user
+RUN rm -rf $WORKSPACE_ROOT && mkdir -p $WORKSPACE_ROOT/projects
+WORKDIR $WORKSPACE_ROOT
+# Copies scripts from host into the image
+COPY ./.docker/scripts/ ./scripts/
+RUN if [ -f ./scripts/requirements-base.txt ]; then pip3 install -r ./scripts/requirements-base.txt; fi
+
+# Sets the time zone within the container
+ENV TZ="Asia/Seoul"
 # Sets up the locale to en_US.UTF-8
 RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || true
-# Fixes sudo error related to core dumps
-RUN echo "Set disable_coredump false" > /etc/sudo.conf
 
 # Setting ARGs and ENVs for user creation and workspace setup
 ARG ARG_USERNAME="app"
 ARG ARG_USER_UID=9001
 ARG ARG_USER_GID=$ARG_USER_UID
-ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV USERNAME $ARG_USERNAME
 ENV USER_UID $ARG_USER_UID
 ENV USER_GID $ARG_USER_GID
-ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 
 # Creates a non-root user with sudo privileges
 RUN groupadd --gid $USER_GID $USERNAME \
@@ -52,20 +65,12 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
+
+# Fixes sudo error related to core dumps
+RUN echo "Set disable_coredump false" > /etc/sudo.conf
+
 # Switches to the newly created user
 USER $USERNAME
-# Sets up the workspace for the user
-RUN sudo rm -rf $WORKSPACE_ROOT && sudo mkdir -p $WORKSPACE_ROOT/projects
-RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
-
-# Adds .local/bin to PATH
-ENV PATH="/home/$USERNAME/.local/bin:${PATH}"
-# Sets Python environment variables
-ENV PIP_DEFAULT_TIMEOUT 100
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-# Sets the time zone within the container
-ENV TZ="Asia/Seoul"
 
 # install dotfiles
 ARG ARG_USER_FULLNAME="Dev User"
@@ -90,11 +95,7 @@ RUN sudo rm -rf $WORKSPACE_ROOT && sudo mkdir -p $WORKSPACE_ROOT
 RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 RUN sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"
 
-# Sets the working directory to workspace root
-WORKDIR $WORKSPACE_ROOT
-# Copies scripts from host into the image
-COPY ./.docker/scripts/ ./scripts/
-RUN if [ -f ./scripts/requirements-base.txt ]; then pip3 install -r ./scripts/requirements-base.txt; fi
+RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.23.5 (2023-10-09)
+
+### Fix
+
+* **docker:** Remove symbolic links for Python and pip ([`3cbdc18`](https://github.com/entelecheia/hyperfast-docker-template/commit/3cbdc18e882303c1f50130398083455910ec280b))
+
 ## v0.23.4 (2023-10-09)
 
 ### Fix

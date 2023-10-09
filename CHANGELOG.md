@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.23.2 (2023-10-09)
+
+### Fix
+
+* **docker:** Update ENVs and ARGs in Dockerfile.base ([`59de4a8`](https://github.com/entelecheia/hyperfast-docker-template/commit/59de4a86a27b6581b55db6780d1be06150d444db))
+
 ## v0.23.1 (2023-10-09)
 
 ### Fix

@@ -14,8 +14,18 @@ updates:
     labels:
       - ":game_die: dependencies"
       - ":robot: bot"
+  - package-ecosystem: "docker"
+    directory: "/.docker"
+    schedule:
+      interval: "daily"
+      time: "03:00"
+      timezone: "Asia/Seoul"
+    labels:
+      - ":game_die: dependencies"
+      - ":robot: bot"
+{% if install_pip_requirements -%}
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "/.docker/scripts"
     schedule:
       interval: "daily"
       time: "03:00"
@@ -25,3 +35,4 @@ updates:
     labels:
       - ":game_die: dependencies"
       - ":robot: bot"
+{%- endif %}

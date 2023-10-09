@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.23.3 (2023-10-09)
+
+### Fix
+
+* **docker:** Use variable for python command ([`def6678`](https://github.com/entelecheia/hyperfast-docker-template/commit/def66786fd488d2a1f6df589e0602edff0f940ca))
+
 ## v0.23.2 (2023-10-09)
 
 ### Fix

@@ -141,7 +141,6 @@ ENV REMOTE_CONTAINERS=1
 # ENV DOTFILES_DEBUG=1
 
 USER $USERNAME
-RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 RUN sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"
 
 USER root

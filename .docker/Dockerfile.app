@@ -22,10 +22,10 @@ COPY ./.docker/scripts/ ./scripts/
 # Installs Python dependencies listed in requirements.txt
 RUN if [ -f ./scripts/requirements.txt ]; then pip3 install -r ./scripts/requirements.txt; fi
 
-# Setting ARGs and ENVs for Stable-Diffusion-WebUI GitHub repository
+# Setting ARGs and ENVs for the app
 ARG ARG_APP_SOURCE_REPO="entelecheia/entelecheia"
 ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
-ARG ARG_APP_DIRNAME="entelecheia/entelecheia"
+ARG ARG_APP_DIRNAME="entelecheia"
 ARG ARG_APP_SOURCE_BRANCH="main"
 ARG ARG_APP_SERVICE_NAME="app"
 ENV APP_SOURCE_REPO $ARG_APP_SOURCE_REPO
@@ -36,6 +36,7 @@ ENV APP_SERVICE_NAME $ARG_APP_SERVICE_NAME
 ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
 ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
 ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
 
 # Clones the app repository from GitHub
 RUN git clone --branch $APP_SOURCE_BRANCH https://github.com/${ARG_APP_SOURCE_REPO}.git ${APP_SRC_DIR} &&\

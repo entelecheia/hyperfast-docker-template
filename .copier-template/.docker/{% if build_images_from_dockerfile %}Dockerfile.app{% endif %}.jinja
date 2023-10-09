@@ -29,9 +29,6 @@ ENV APP_SERVICE_NAME $ARG_APP_SERVICE_NAME
 ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
 ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
 ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
-{% if use_builder_image_and_copy_venv -%}
-ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
-{%- endif %}
 
 {% if clone_source_code and app_source_repo -%}
 # Clones the app repository from GitHub

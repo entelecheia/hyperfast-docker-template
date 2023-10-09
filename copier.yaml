@@ -129,7 +129,7 @@ docker_app_image_variant_name:
   help: What is your Docker app image variant? (it will be built from the base image)
 
 docker_base_build_from:
-  default: python:3.9-slim-bookworm
+  default: library/ubuntu:22.04
   type: str
   help: What is your Docker image build from?
 

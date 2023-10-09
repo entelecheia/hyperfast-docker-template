@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="python:3.9-slim-bookworm"
+ARG ARG_BUILD_FROM="library/ubuntu:22.04"
 
 
 FROM $ARG_BUILD_FROM

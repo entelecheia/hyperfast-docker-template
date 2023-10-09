@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.23.0-11-gcace2b4
+_commit: v0.23.1-4-g43243b2
 _src_path: .
 app_dirname: entelecheia
 app_install_root: /opt

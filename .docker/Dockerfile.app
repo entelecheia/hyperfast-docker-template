@@ -17,7 +17,7 @@ RUN if [ ! -d $WORKSPACE_ROOT/projects ]; then mkdir -p $WORKSPACE_ROOT/projects
 
 # Setting ARGs and ENVs for the app
 ARG ARG_APP_SOURCE_REPO="entelecheia/entelecheia"
-ARG ARG_APP_INSTALL_ROOT="/workspace/projects"
+ARG ARG_APP_INSTALL_ROOT="/opt"
 ARG ARG_APP_DIRNAME="entelecheia"
 ARG ARG_APP_SOURCE_BRANCH="main"
 ARG ARG_APP_SERVICE_NAME="app"

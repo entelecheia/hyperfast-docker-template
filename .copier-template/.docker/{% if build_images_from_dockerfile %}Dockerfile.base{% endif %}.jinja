@@ -9,8 +9,8 @@ FROM $ARG_BUILD_FROM as builder
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y \
-    git `{{ python_command }}`-venv build-essential \
+    && apt-get install -y curl git \
+    `{{ python_command }}`-venv build-essential \
     # Cleans up unnecessary packages to reduce image size
     && apt-get autoremove -y \
     && apt-get clean -y
@@ -67,8 +67,8 @@ LABEL org.opencontainers.image.licenses="`{{ project_license }}`"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo gosu \
-    git `{{ python_command }}`-venv python3-pip build-essential \
+    && apt-get install -y curl wget jq sudo gosu git \
+    `{{ python_command }}`-venv python3-pip build-essential \
     locales locales-all `{{ docker_apt_packages }}` \
     tzdata {% if use_ssh_service %}openssh-server{% endif %} \
     # Cleans up unnecessary packages to reduce image size

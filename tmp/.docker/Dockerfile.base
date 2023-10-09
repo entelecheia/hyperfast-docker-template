@@ -15,8 +15,8 @@ LABEL org.opencontainers.image.licenses="MIT"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo gosu \
-    git python3-venv python3-pip build-essential \
+    && apt-get install -y curl wget jq sudo gosu git \
+    python3-venv python3-pip build-essential \
     locales locales-all fontconfig fonts-nanum \
     tzdata openssh-server \
     # Cleans up unnecessary packages to reduce image size

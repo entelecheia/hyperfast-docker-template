@@ -44,7 +44,7 @@ WORKDIR $APP_INSTALL_ROOT
 COPY ./.docker/scripts/ ./scripts/
 # Install pytorch before all other pip packages
 RUN --mount=type=cache,target=/root/.cache/pip \
-    {{ python_command }} -m venv ${APP_VIRTUAL_ENV} &&\
+    `{{ python_command }}` -m venv ${APP_VIRTUAL_ENV} &&\
     pip install -r ./scripts/requirements-base.txt
 {%- else %}
 FROM $ARG_BUILD_FROM

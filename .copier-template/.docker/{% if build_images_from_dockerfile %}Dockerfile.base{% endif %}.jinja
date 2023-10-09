@@ -1,25 +1,16 @@
 # Sets the base image for subsequent instructions
 ARG ARG_BUILD_FROM="`{{ docker_base_build_from }}`"
-FROM $ARG_BUILD_FROM
 
-# Sets labels for the image
-LABEL org.opencontainers.image.source="https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`"
-LABEL org.opencontainers.image.description="`{{ project_short_description }}`"
-LABEL org.opencontainers.image.licenses="`{{ project_license }}`"
+{% if use_builder_image_and_copy_venv -%}
+## Builder stage
+FROM $ARG_BUILD_FROM as builder
 
 # Setting this argument prevents interactive prompts during the build process
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo \
-    # !! Without python3-launchpadlib, software-properties-common fails to install
-    python3-launchpadlib software-properties-common \
-    locales locales-all `{{ docker_apt_packages }}` \
-    tzdata {% if use_ssh_service %}openssh-server{% endif %} \
-    # Adds PPA for the latest git version
-    && add-apt-repository ppa:git-core/ppa -y \
-    && apt-get update \
-    && apt-get -y install --no-install-recommends git \
+    && apt-get install -y \
+    git `{{ python_command }}`-venv build-essential \
     # Cleans up unnecessary packages to reduce image size
     && apt-get autoremove -y \
     && apt-get clean -y
@@ -30,11 +21,85 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && `{{ python_command }}` get-pip.py \
     && rm get-pip.py
 {%- endif %}
+
+# Create symbolic links for Python and pip
+RUN ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python \
+    && ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python3 \
+    && ln -sf /usr/bin/pip3 /usr/bin/pip
+
 # Sets Python environment variables
 ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Setting ARGs and ENVs for the app
+ENV APP_INSTALL_ROOT="/opt"
+ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/builder
+ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
+
+# Create the app directory
+RUN mkdir -p $APP_INSTALL_ROOT
+WORKDIR $APP_INSTALL_ROOT
+# Copies scripts from host into the image
+COPY ./.docker/scripts/ ./scripts/
+# Install pytorch before all other pip packages
+RUN --mount=type=cache,target=/root/.cache/pip \
+    python3 -m venv ${APP_VIRTUAL_ENV} &&\
+    pip install -r ./scripts/requirements-base.txt
+{%- else %}
+FROM $ARG_BUILD_FROM
+{%- endif %}
+
+{% if use_builder_image_and_copy_venv -%}
+#### Runtime stage ---------------------------------------
+
+# Runtime image (copy built virtual environment)
+FROM library/ubuntu:22.04 AS runtime
+{% endif %}
+
+# Sets labels for the image
+LABEL org.opencontainers.image.source="https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`"
+LABEL org.opencontainers.image.description="`{{ project_short_description }}`"
+LABEL org.opencontainers.image.licenses="`{{ project_license }}`"
+
+# Setting this argument prevents interactive prompts during the build process
+ARG DEBIAN_FRONTEND=noninteractive
+# Updates the image and installs necessary packages
+RUN apt-get update --fix-missing \
+    && apt-get install -y curl wget jq sudo gosu \
+    git `{{ python_command }}`-venv python3-pip build-essential \
+    locales locales-all `{{ docker_apt_packages }}` \
+    tzdata {% if use_ssh_service %}openssh-server{% endif %} \
+    # Cleans up unnecessary packages to reduce image size
+    && apt-get autoremove -y \
+    && apt-get clean -y
+
+# Create symbolic links for Python and pip
+RUN ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python \
+    && ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python3 \
+    && ln -sf /usr/bin/pip3 /usr/bin/pip
+
+# Sets Python environment variables
+ENV PIP_DEFAULT_TIMEOUT 100
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Setting ARGs and ENVs for the app
+ARG ARG_APP_INSTALL_ROOT="`{{ app_install_root }}`"
+ARG ARG_APP_DIRNAME="`{{ app_dirname }}`"
+ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
+ENV APP_DIRNAME $ARG_APP_DIRNAME
+ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
+ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
+ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
+
+{% if use_builder_image_and_copy_venv -%}
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
+
+# Copy the virtual environment from the builder stage
+COPY --link --from=builder /opt/.venvs/builder ${APP_VIRTUAL_ENV}
+{%- else }
 # Sets the working directory to workspace root
 ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
@@ -45,6 +110,7 @@ WORKDIR $WORKSPACE_ROOT
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
 RUN if [ -f ./scripts/requirements-base.txt ]; then `{{ pip_command }}` install -r ./scripts/requirements-base.txt; fi
+{%- endif %}
 {%- endif %}
 
 # Sets the time zone within the container
@@ -68,7 +134,6 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
-
 
 {% if install_dotfiles -%}
 # Fixes sudo error related to core dumps

@@ -100,8 +100,10 @@ RUN sudo rm -rf $WORKSPACE_ROOT && sudo mkdir -p $WORKSPACE_ROOT
 RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 RUN sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"
 
-RUN sudo chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
+USER root
 {%- endif %}
+
+RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

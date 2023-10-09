@@ -188,7 +188,7 @@ copy_scripts_dir:
   help: "Do you want to copy scripts directory under the workspace root? ? (COPY ./.docker/scripts/ ./scripts/)"
 
 python_command:
-  default: python3
+  default: python3.9
   type: str
   help: "What is your Python command to run? (default: python3)"
 

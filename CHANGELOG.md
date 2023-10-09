@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.23.0 (2023-10-09)
+
+### Feature
+
+* **docker:** Add builder stage to Dockerfile, add python-virtual-environment creation, add support for runtime image stage ([`2777efe`](https://github.com/entelecheia/hyperfast-docker-template/commit/2777efe13da89a1d48670896d6e9a16a50335cb3))
+* **copier.yaml:** Add variables for app installation root, directory name, clone source code, and source repository ([`f258bdc`](https://github.com/entelecheia/hyperfast-docker-template/commit/f258bdc3825f2750fef8a20d93b29ddfeeff7ab3))
+
 ## v0.22.1 (2023-10-08)
 
 ### Fix

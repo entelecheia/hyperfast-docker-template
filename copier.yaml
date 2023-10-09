@@ -159,7 +159,7 @@ container_workspace_root:
   help: What is the workspace root in the docker container?
 
 app_install_root:
-  default: "opt"
+  default: "/opt"
   type: str
   help: "What is your application install root? (default: opt)"
 

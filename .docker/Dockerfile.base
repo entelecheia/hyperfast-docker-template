@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="python:3.9-slim-bookworm"
+ARG ARG_BUILD_FROM="library/ubuntu:22.04"
 
 ## Builder stage
 FROM $ARG_BUILD_FROM as builder
@@ -9,14 +9,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
     && apt-get install -y curl git \
-    python3-venv build-essential \
+    python3.10-venv build-essential \
     # Cleans up unnecessary packages to reduce image size
     && apt-get autoremove -y \
     && apt-get clean -y
 
 # Installs the latest pip and setuptools from PyPI
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python3 get-pip.py \
+    && python3.10 get-pip.py \
     && rm get-pip.py
 
 # Sets Python environment variables
@@ -41,7 +41,7 @@ WORKDIR $APP_INSTALL_ROOT
 COPY ./.docker/scripts/ ./scripts/
 # Install pytorch before all other pip packages
 RUN --mount=type=cache,target=/root/.cache/pip \
-    python3 -m venv ${APP_VIRTUAL_ENV} &&\
+    python3.10 -m venv ${APP_VIRTUAL_ENV} &&\
     pip install -r ./scripts/requirements-base.txt
 
 #### Runtime stage ---------------------------------------
@@ -60,7 +60,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
     && apt-get install -y curl wget jq sudo gosu git \
-    python3-venv python3-pip build-essential \
+    python3.10-venv python3-pip build-essential \
     locales locales-all fontconfig fonts-nanum \
     tzdata openssh-server \
     # Cleans up unnecessary packages to reduce image size
@@ -68,7 +68,7 @@ RUN apt-get update --fix-missing \
     && apt-get clean -y
 
 # Create symbolic links for Python and pip
-RUN ln -sf /usr/bin/python3 /usr/bin/python \
+RUN ln -sf /usr/bin/python3.10 /usr/bin/python \    && ln -sf /usr/bin/python3.10 /usr/bin/python3 \
     && ln -sf /usr/bin/pip3 /usr/bin/pip
 
 # Sets Python environment variables

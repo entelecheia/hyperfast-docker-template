@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.23.1 (2023-10-09)
+
+### Fix
+
+* **docker:** Remove redundant chown command ([`ff0f2b4`](https://github.com/entelecheia/hyperfast-docker-template/commit/ff0f2b486168c581a15419b04998061e464a61a8))
+
 ## v0.23.0 (2023-10-09)
 
 ### Feature

@@ -22,11 +22,6 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && rm get-pip.py
 {%- endif %}
 
-# Create symbolic links for Python and pip
-RUN ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python \
-{%- if python_command != "python3" %}    && ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python3 \{%- endif %}
-    && ln -sf /usr/bin/pip3 /usr/bin/pip
-
 # Sets Python environment variables
 ENV PIP_DEFAULT_TIMEOUT 100
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -49,7 +44,7 @@ WORKDIR $APP_INSTALL_ROOT
 COPY ./.docker/scripts/ ./scripts/
 # Install pytorch before all other pip packages
 RUN --mount=type=cache,target=/root/.cache/pip \
-    python3 -m venv ${APP_VIRTUAL_ENV} &&\
+    {{ python_command }} -m venv ${APP_VIRTUAL_ENV} &&\
     pip install -r ./scripts/requirements-base.txt
 {%- else %}
 FROM $ARG_BUILD_FROM

@@ -33,9 +33,15 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Setting ARGs and ENVs for the app
-ENV APP_INSTALL_ROOT="/opt"
-ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/builder
+ARG ARG_APP_INSTALL_ROOT="`{{ app_install_root }}`"
+ARG ARG_APP_DIRNAME="`{{ app_dirname }}`"
+ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
+ENV APP_DIRNAME $ARG_APP_DIRNAME
+ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
+ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
 ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
+ARG ARG_WORKSPACE_ROOT="/workspace"
+ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
 
 # Create the app directory
@@ -102,7 +108,7 @@ RUN mkdir -p $WORKSPACE_ROOT/projects
 ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
 
 # Copy the virtual environment from the builder stage
-COPY --link --from=builder /opt/.venvs/builder ${APP_VIRTUAL_ENV}
+COPY --link --from=builder ${APP_VIRTUAL_ENV} ${APP_VIRTUAL_ENV}
 {%- else %}
 # Sets the working directory to workspace root
 WORKDIR $WORKSPACE_ROOT

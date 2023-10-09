@@ -14,7 +14,7 @@ copy_scripts_dir: true
 cuda_device_id: all
 docker_app_image_variant_name: app
 docker_apt_packages: fontconfig fonts-nanum
-docker_base_build_from: python:3.9-slim-bookworm
+docker_base_build_from: library/ubuntu:22.04
 docker_base_image_variant_name: base
 docker_container_uid: 9001
 docker_container_username: app
@@ -72,7 +72,7 @@ project_short_description: Hyperfast Docker Template is a powerful tool that lev
     copier to streamline the creation of new Docker projects. It simplifies and accelerates
     Docker configurations, fostering a highly efficient and user-friendly development
     experience.
-python_command: python3
+python_command: python3.10
 ssh_host_port: 2222
 ssh_port: 22
 use_builder_image_and_copy_venv: true

@@ -24,7 +24,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
 
 # Create symbolic links for Python and pip
 RUN ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python \
-    && ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python3 \
+{%- if python_command != "python3" %}    && ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python3 \{%- endif %}
     && ln -sf /usr/bin/pip3 /usr/bin/pip
 
 # Sets Python environment variables
@@ -77,7 +77,7 @@ RUN apt-get update --fix-missing \
 
 # Create symbolic links for Python and pip
 RUN ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python \
-    && ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python3 \
+{%- if python_command != "python3" %}    && ln -sf /usr/bin/`{{ python_command }}` /usr/bin/python3 \{%- endif %}
     && ln -sf /usr/bin/pip3 /usr/bin/pip
 
 # Sets Python environment variables

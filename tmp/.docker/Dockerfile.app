@@ -30,7 +30,6 @@ ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
 ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
 ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
 
-
 # Clones the app repository from GitHub
 RUN git clone --branch $APP_SOURCE_BRANCH https://github.com/${ARG_APP_SOURCE_REPO}.git ${APP_SRC_DIR} &&\
     cd ${APP_SRC_DIR} &&\

@@ -75,6 +75,7 @@ services:
     volumes:
       # Maps directories from the host to the container
       - "$PWD/.docker/scripts:$CONTAINER_WORKSPACE_ROOT/scripts"
+      - ${HF_HOME}:${APP_HF_HOME}
 {%- if install_dotfiles %}
       - "$WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
       - "$HOME/.cache:/home/$USERNAME/.cache"

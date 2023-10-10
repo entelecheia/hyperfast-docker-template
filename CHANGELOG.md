@@ -1,5 +1,18 @@
 <!--next-version-placeholder-->
 
+## v0.24.0 (2023-10-10)
+
+### Feature
+
+* **docker-compose:** Add HF_HOME mapping to volumes ([`bf597e1`](https://github.com/entelecheia/hyperfast-docker-template/commit/bf597e10cb185ba24d5c0c21900a2d6e2e459af1))
+* **system-settings:** Allow customization of SSH public key and HuggingFace home path ([`4c9ce3c`](https://github.com/entelecheia/hyperfast-docker-template/commit/4c9ce3c5a52838fa20a7bd79745ddf330c417d23))
+* **docker:** Add variables if dotfiles installed ([`6b5c87d`](https://github.com/entelecheia/hyperfast-docker-template/commit/6b5c87d05f6a2faef55403ad603344a767abedc0))
+* **docker-compose:** Add conditions for dotfiles installation ([`2eb04ef`](https://github.com/entelecheia/hyperfast-docker-template/commit/2eb04efdeadb7164c167f83ccb4d2c3dbefc1139))
+
+### Fix
+
+* **docker-scripts:** Replace clone with ssh setup and modify jupyter command ([`721b04e`](https://github.com/entelecheia/hyperfast-docker-template/commit/721b04e4f28529e89932e665899529ae17bc6b3c))
+
 ## v0.23.5 (2023-10-09)
 
 ### Fix

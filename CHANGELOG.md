@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.24.1 (2023-10-11)
+
+### Fix
+
+* **.github/workflows:** Update Dockerfile and docker-compose file paths in release.yaml ([`4f24f3c`](https://github.com/entelecheia/hyperfast-docker-template/commit/4f24f3c668b86a339bfe61a5be321b4e18af2204))
+
 ## v0.24.0 (2023-10-10)
 
 ### Feature

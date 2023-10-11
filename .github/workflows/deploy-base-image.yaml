@@ -5,17 +5,11 @@ name: deploy-base-image
 on:
   workflow_call:
   workflow_dispatch:
-  # workflow_run:
-  #   workflows: ["semantic-release"]
-  #   branches: [main]
-  #   types:
-  #     - completed
-  push:
-    branches:
-      - main
-    paths:
-      - ".docker/Dockerfile*"
-      - ".docker/docker-compose*.yaml"
+  workflow_run:
+    workflows: ["semantic-release"]
+    branches: [main]
+    types:
+      - completed
 
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
@@ -25,7 +19,7 @@ env:
 jobs:
   build-and-push-image:
     # check if the workflow result is success
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }} || ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} || ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
     permissions:

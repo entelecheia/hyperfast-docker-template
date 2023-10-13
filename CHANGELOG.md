@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.25.0 (2023-10-13)
+
+### Feature
+
+* **docker:** Upgrade pip, setuptools, wheel, ninja in Dockerfile.base ([`fd5b4ab`](https://github.com/entelecheia/hyperfast-docker-template/commit/fd5b4abd0afdedfee18ff39d9583e159b413783c))
+
 ## v0.24.1 (2023-10-11)
 
 ### Fix

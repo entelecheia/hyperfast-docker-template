@@ -6,3 +6,4 @@ LICENSE
 README.md
 .docker/docker.version
 .github/workflows/release.yaml
+.docker/scripts/requirements-base.txt

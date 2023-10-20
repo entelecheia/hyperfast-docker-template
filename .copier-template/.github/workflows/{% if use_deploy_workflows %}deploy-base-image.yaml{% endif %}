@@ -5,11 +5,14 @@ name: deploy-base-image
 on:
   workflow_call:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["semantic-release"]
-    branches: [main]
-    types:
-      - completed
+  push:
+    branches:
+      - docker
+    paths:
+      - .docker/**
+  pull_request:
+    branches:
+      - docker
 
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
@@ -18,8 +21,6 @@ env:
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
   build-and-push-image:
-    # check if the workflow result is success
-    if: ${{ github.event.workflow_run.conclusion == 'success' }} || ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
     permissions:
@@ -63,7 +64,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5.0.0
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=${{ env.IMAGE_VERSION }}-${{ env.BASE_VARIANT }}
             # set latest tag for main branch

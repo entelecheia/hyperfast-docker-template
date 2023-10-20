@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.25.1 (2023-10-20)
+
+### Fix
+
+* **docker:** Update build from image convention ([`2f7823f`](https://github.com/entelecheia/hyperfast-docker-template/commit/2f7823f7ff9fdc71549099d1c12ca5f4f47958a0))
+
 ## v0.25.0 (2023-10-13)
 
 ### Feature

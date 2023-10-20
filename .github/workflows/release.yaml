@@ -6,10 +6,13 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - release
     paths:
       - ".docker/**"
       - ".copier-template/**"
+  pull_request:
+    branches:
+      - release
 
 permissions:
   contents: write

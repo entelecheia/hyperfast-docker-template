@@ -6,10 +6,13 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - release
     paths:
       - ".docker/Dockerfile*"
       - ".docker/docker-compose*.yaml"
+  pull_request:
+    branches:
+      - release
 
 permissions:
   contents: write

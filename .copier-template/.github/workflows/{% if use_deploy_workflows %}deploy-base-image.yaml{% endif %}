@@ -63,7 +63,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5.0.0
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=${{ env.IMAGE_VERSION }}-${{ env.BASE_VARIANT }}
             # set latest tag for main branch

@@ -62,13 +62,13 @@ services:
       - "$HOST_WEB_SVC_PORT:$CONTAINER_WEB_SVC_PORT"
     volumes:
       # Maps directories from the host to the container
-      - "$PWD/.docker/scripts:$CONTAINER_WORKSPACE_ROOT/scripts"
-      - ${HF_HOME}:${APP_HF_HOME}
-      - "$WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
-      - "$HOME/.cache:/home/$USERNAME/.cache"
-      - "$HOME/.ssh:/home/$USERNAME/.ssh"
-      - "$HOME/.config/gh:/home/$USERNAME/.config/gh"
-      - "$HOME/.passage:/home/$USERNAME/.passage"
+      - "$HOST_SCRIPTS_DIR:$CONTAINER_WORKSPACE_ROOT/scripts"
+      - "$HOST_HF_HOME:$CONTAINER_HF_HOME"
+      - "$HOST_WORKSPACE_ROOT:$CONTAINER_WORKSPACE_ROOT"
+      - "$HOST_CACHE_DIR:$CONTAINER_CACHE_DIR"
+      - "$HOST_SSH_DIR:$CONTAINER_SSH_DIR"
+      - "$HOST_GH_CONFIG_DIR:$CONTAINER_GH_CONFIG_DIR"
+      - "$HOST_PASSAGE_DIR:$CONTAINER_PASSAGE_DIR"
     deploy:
       resources:
         reservations:

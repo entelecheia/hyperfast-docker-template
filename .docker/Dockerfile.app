@@ -90,5 +90,12 @@ RUN if [ -d "/home/$USERNAME/.dotfiles" ]; then \
     sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"; \
     fi
 
+USER root
+RUN usermod -u "${USER_UID}" "${USERNAME}"
+RUN groupmod -g "${USER_GID}" "${USERNAME}"
+RUN chown --recursive "${USER_UID}:${USER_GID}" "${WORKSPACE_ROOT}"
+RUN chown --recursive "${USER_UID}:${USER_GID}" "${APP_INSTALL_ROOT}"
+USER $USERNAME
+
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

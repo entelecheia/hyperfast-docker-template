@@ -43,9 +43,6 @@ COPY ./.docker/scripts/ ./scripts/
 # Installs Python dependencies listed in requirements.txt
 RUN if [ -f ./scripts/requirements.txt ]; then pip3 install -r ./scripts/requirements.txt; fi
 
-RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
-RUN chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT
-
 # Creates a non-root user with sudo privileges
 # check if user exists and if not, create user
 RUN if id -u $USERNAME >/dev/null 2>&1; then \
@@ -59,6 +56,9 @@ RUN if id -u $USERNAME >/dev/null 2>&1; then \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME; \
     fi
+
+RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
+RUN chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT
 
 # Switches to the newly created user
 USER $USERNAME

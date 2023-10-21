@@ -2,6 +2,7 @@
 # add your custom commands here that should be executed every time the docker container starts
 echo "Starting docker container..."
 
+{% if not install_dotfiles -%}
 ### Set the USER_UID envvar to match your user.
 # Ensures files created in the container are owned by you:
 #   docker run --rm -it -v /some/path:/invokeai -e USER_UID=$(id -u) <this image>
@@ -14,6 +15,7 @@ USER=${USERNAME:-app}
 usermod -u "${USER_UID}" "${USER}"
 groupmod -g "${USER_GID}" "${USER}"
 chown --recursive "${USER_UID}:${USER_GID}" "${WORKSPACE_ROOT}"
+{%- endif %}
 
 {% if use_ssh_service -%}
 ### Set the $PUBLIC_KEY env var to enable SSH access.
@@ -23,9 +25,9 @@ if [[ -n "$SSH_PUB_KEY" ]] && [[ ! -d "${HOME}/.ssh" ]]; then
     mkdir -p "${HOME}/.ssh"
     echo "${SSH_PUB_KEY}" > "${HOME}/.ssh/authorized_keys"
     chmod -R 700 "${HOME}/.ssh"
-    service ssh start
 fi
-{% endif -%}
+{% if install_dotfiles %}sudo {% endif %}service ssh start
+{%- endif %}
 
 {% if use_jupyter -%}
 # start jupyter notebook in background and redirect output to logfile
@@ -36,7 +38,7 @@ if [[ -z "$(command -v jupyter)" ]]; then
     echo "Jupyter not installed. Exiting..."
     exit 1
 fi
-exec gosu "${USER}" jupyter lab \
+{% if not install_dotfiles %}exec gosu "${USER}" {% endif %}jupyter lab \
     --no-browser \
     --notebook-dir="$WORKSPACE_ROOT" \
     --ServerApp.token="$JUPYTER_TOKEN" \

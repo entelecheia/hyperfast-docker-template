@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.25.0-12-g032aa09
+_commit: v0.25.0-31-g6b292ac
 _src_path: .
 app_dirname: entelecheia
 app_install_root: /opt
@@ -32,7 +32,7 @@ github_repo_name: hyperfast-docker-template
 github_username: entelecheia
 install_dotfiles: true
 install_pip_requirements: true
-jupyter_host_port: 18888
+jupyter_host_port: 18998
 jupyter_port: 8585
 jupyter_token: __juypter_token_(change_me)__
 launch_scripts: launch.sh
@@ -73,13 +73,13 @@ project_short_description: Hyperfast Docker Template is a powerful tool that lev
     Docker configurations, fostering a highly efficient and user-friendly development
     experience.
 python_command: python3.10
-ssh_host_port: 2222
+ssh_host_port: 2929
 ssh_port: 22
 use_builder_image_and_copy_venv: true
 use_deploy_workflows: false
 use_jupyter: true
 use_ssh_service: true
 use_web_service: true
-web_service_host_port: 18080
+web_service_host_port: 19090
 web_service_port: 8080
 

@@ -1,5 +1,15 @@
 <!--next-version-placeholder-->
 
+## v0.26.0 (2023-10-21)
+
+### Feature
+
+* **dockerfile:** Add user permissions update ([`c47ccd8`](https://github.com/entelecheia/hyperfast-docker-template/commit/c47ccd87bdbc07ba6db5f453da1d412a7e10f029))
+* **docker:** Add default.env.jinja configuration file ([`550de10`](https://github.com/entelecheia/hyperfast-docker-template/commit/550de101cea599e0f0ae6649e00679a962c06f62))
+* **docker-compose.sh.jinja:** Add project ID option, add project ID specific environment variable loading, add local workspace preparation ([`b327653`](https://github.com/entelecheia/hyperfast-docker-template/commit/b32765387c457b1e1751c99e169b5b9d29806d5a))
+* **docker:** Add configurable directories and project ID support ([`f267e80`](https://github.com/entelecheia/hyperfast-docker-template/commit/f267e804036d73a0616177d87644fdab35c47607))
+* **github-actions:** Adjust workflows for docker branch ([`bd9b659`](https://github.com/entelecheia/hyperfast-docker-template/commit/bd9b6595a1f568c59c705c131d5c3876b3eac625))
+
 ## v0.25.1 (2023-10-20)
 
 ### Fix

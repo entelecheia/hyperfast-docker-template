@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.26.0-3-gf592873
+_commit: v0.26.0-12-gf78de66
 _src_path: .
 app_dirname: entelecheia
 app_install_root: /opt
@@ -18,6 +18,7 @@ docker_base_build_from: library/ubuntu:22.04
 docker_base_image_variant_name: base
 docker_container_uid: 9001
 docker_container_username: app
+docker_image_version_variable_name: APP_VERSION
 docker_name_prefix: HYPERFAST_DOCKER
 docker_project_name: hyperfast-docker
 docker_registry: ghcr.io
@@ -78,6 +79,7 @@ ssh_port: 22
 use_builder_image_and_copy_venv: true
 use_deploy_workflows: false
 use_jupyter: true
+use_semantic_versioning_for_image: true
 use_ssh_service: true
 use_web_service: true
 web_service_host_port: 19090

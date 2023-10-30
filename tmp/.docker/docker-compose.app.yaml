@@ -52,8 +52,8 @@ services:
       - "$HOST_WEB_SVC_PORT:$CONTAINER_WEB_SVC_PORT"
     volumes:
       # Maps directories from the host to the container
-      - "$PWD/.docker/scripts:$CONTAINER_WORKSPACE_ROOT/scripts"
-      - ${HF_HOME}:${APP_HF_HOME}
+      - "$HOST_SCRIPTS_DIR:$CONTAINER_WORKSPACE_ROOT/scripts"
+      - "$HOST_HF_HOME:$CONTAINER_HF_HOME"
     deploy:
       resources:
         reservations:

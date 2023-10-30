@@ -113,6 +113,16 @@ use_deploy_workflows:
   type: bool
   help: Do you want to use GitHub Actions deploy workflows? (certain images are not supported by GitHub Actions.)
 
+docker_image_version_variable_name:
+  default: APP_VERSION
+  type: str
+  help: What is your docker image version variable name? (it will be used in Dockerfiles and workflows)
+
+use_semantic_versioning_for_image:
+  default: true
+  type: bool
+  help: Do you want to use semantic release versioning for your docker image tags?
+
 docker_service_name:
   default: workspace
   type: str

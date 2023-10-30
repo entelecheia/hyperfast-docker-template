@@ -22,8 +22,9 @@ if [[ -n "$SSH_PUB_KEY" ]] && [[ ! -d "${HOME}/.ssh" ]]; then
     mkdir -p "${HOME}/.ssh"
     echo "${SSH_PUB_KEY}" > "${HOME}/.ssh/authorized_keys"
     chmod -R 700 "${HOME}/.ssh"
-    service ssh start
 fi
+service ssh start
+
 # start jupyter notebook in background and redirect output to logfile
 # change working directory to workspace root
 # set token to value of JUPYTER_TOKEN

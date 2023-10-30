@@ -1,5 +1,14 @@
 <!--next-version-placeholder-->
 
+## v0.27.0 (2023-10-30)
+
+### Feature
+
+* **docker-config:** Add docker image version variable ([`41e3962`](https://github.com/entelecheia/hyperfast-docker-template/commit/41e39620602e38a76de074fc9b1c9877eb0f9dce))
+* **docker:** Update image version variable name in docker.common.env.jinja ([`f78de66`](https://github.com/entelecheia/hyperfast-docker-template/commit/f78de668ab02c0ced958be953d2c0c2e991f3b81))
+* **copier.yaml:** Add image versioning variables ([`62d9195`](https://github.com/entelecheia/hyperfast-docker-template/commit/62d91956c1d7fbec46abbe7c64f9099a08b64026))
+* **.docker:** Add docker.version.jinja file ([`5aa2af7`](https://github.com/entelecheia/hyperfast-docker-template/commit/5aa2af75340bbe3855e73bec7df29cbfa49f8871))
+
 ## v0.26.0 (2023-10-21)
 
 ### Feature

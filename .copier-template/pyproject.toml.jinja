@@ -28,7 +28,9 @@ tag_format = "v$version"
 [tool.semantic_release]
 branch = "main"
 version_toml = "pyproject.toml:tool.poetry.version"
-version_pattern = '.docker/docker.version:APP_VERSION="{version}"'
+{% if use_semantic_versioning_for_image -%}
+version_pattern = '.docker/docker.version:`{{ docker_image_version_variable_name }}`="{version}"'
+{%- endif %}
 version_source = "tag"
 commit_version_number = true # required for version_source = "tag"
 commit_subject = "chore(release): :rocket: {version} [skip ci]"

@@ -43,9 +43,6 @@ COPY ./.docker/scripts/ ./scripts/
 # Installs Python dependencies listed in requirements.txt
 RUN if [ -f ./scripts/requirements.txt ]; then pip3 install -r ./scripts/requirements.txt; fi
 
-RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
-RUN chown -R $USERNAME:$USERNAME $APP_INSTALL_ROOT
-
 
 
 # Specifies the command that will be executed when the container is run

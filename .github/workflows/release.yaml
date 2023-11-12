@@ -4,11 +4,12 @@ name: semantic-release
 on:
   workflow_call:
   workflow_dispatch:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - release*
+    paths:
+      - ".docker/**"
+      - ".copier-template/**"
 
 permissions:
   contents: write
@@ -19,8 +20,6 @@ jobs:
   build:
     # Name the Job
     name: semantic-release
-    # this job will only run if the PR has been merged or it is manually triggered
-    if: ${{ github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch' }}
     # Set the agent to run on
     runs-on: ${{ matrix.os }}
     strategy:

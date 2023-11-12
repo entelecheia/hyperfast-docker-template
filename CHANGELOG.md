@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.28.0 (2023-11-12)
+
+### Feature
+
+* **docker:** Add docker app image variant environment variables ([`8abf461`](https://github.com/entelecheia/hyperfast-docker-template/commit/8abf46115dce7645d38cd190f07ce7b95857c055))
+* **docker:** Add specific pid naming to docker variant commands ([`7d97c54`](https://github.com/entelecheia/hyperfast-docker-template/commit/7d97c54a04a2557018d5bb611c05c65aeeba557e))
+
 ## v0.27.0 (2023-10-30)
 
 ### Feature

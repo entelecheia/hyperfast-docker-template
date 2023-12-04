@@ -32,18 +32,18 @@ jobs:
         run: bash .github/scripts/free-disk-space.sh
 
       - name: Version from version file
-        uses: c-py/action-dotenv-to-setenv@v4
+        uses: c-py/action-dotenv-to-setenv@v5
         with:
           env-file: ./.docker/docker.version
 
       - name: Common environment Variables from Dotenv
-        uses: c-py/action-dotenv-to-setenv@v4
+        uses: c-py/action-dotenv-to-setenv@v5
         with:
           # use branch name as suffix for dotfile
           env-file: ./.docker/docker.common.env
 
       - name: Environment Variables from Dotenv
-        uses: c-py/action-dotenv-to-setenv@v4
+        uses: c-py/action-dotenv-to-setenv@v5
         with:
           # use branch name as suffix for dotfile
           env-file: ./.docker/docker.base.env
@@ -59,7 +59,7 @@ jobs:
       # This step uses [docker/metadata-action](https://github.com/docker/metadata-action#about) to extract tags and labels that will be applied to the specified image. The `id` "meta" allows the output of this step to be referenced in a subsequent step. The `images` value provides the base name for the tags and labels.
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5.0.0
+        uses: docker/metadata-action@v5.3.0
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |

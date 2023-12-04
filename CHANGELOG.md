@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.28.1 (2023-12-04)
+
+### Fix
+
+* **github-workflows:** Upgrade docker/metadata-action to v5.3.0 ([`ebd18da`](https://github.com/entelecheia/hyperfast-docker-template/commit/ebd18da579797520367486e250a26c4b02e9848b))
+
 ## v0.28.0 (2023-11-12)
 
 ### Feature

@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.28.4 (2024-01-31)
+
+### Fix
+
+* **dependencies:** Upgrade docker/metadata-action from v5.5.0 to v5.5.1 ([`5892091`](https://github.com/entelecheia/hyperfast-docker-template/commit/5892091d179c3a4575aad399028efd2df3862389))
+
 ## v0.28.3 (2024-01-13)
 
 ### Fix

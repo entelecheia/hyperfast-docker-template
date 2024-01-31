@@ -117,7 +117,7 @@ docker-config-base: ## show the docker base config
 	@bash .docker/.docker-scripts/docker-compose.sh config --variant base
 
 docker-config-app: ## show the docker app config
-	@bash .docker/.docker-scripts/docker-compose.sh config --variant app
+	@bash .docker/.docker-scripts/docker-compose.sh config --variant app --pid app
 
 docker-push-base: ## push the docker base image
 	@bash .docker/.docker-scripts/docker-compose.sh push --variant base
@@ -132,7 +132,7 @@ docker-run-app: ## run the docker app image
 	@bash .docker/.docker-scripts/docker-compose.sh run --variant app
 
 docker-up-app: ## launch the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app
+	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid app
 
 docker-up-app-detach: ## launch the docker app image in detached mode
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --detach
+	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid app --detach

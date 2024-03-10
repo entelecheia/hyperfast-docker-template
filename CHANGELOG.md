@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.28.5 (2024-03-10)
+
+### Fix
+
+* **workflow:** Upgrade docker/build-push-action to v5.2.0 ([`b69d701`](https://github.com/entelecheia/hyperfast-docker-template/commit/b69d7016357db1929098d0edfd71e4af439c2d94))
+
 ## v0.28.4 (2024-01-31)
 
 ### Fix

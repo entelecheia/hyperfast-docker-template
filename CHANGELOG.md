@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.28.6 (2024-03-13)
+
+### Fix
+
+* **workflows:** Update docker login-action to v3.1.0 ([`64769a2`](https://github.com/entelecheia/hyperfast-docker-template/commit/64769a2fd71f581f406391821137fd471f07b8ff))
+
 ## v0.28.5 (2024-03-10)
 
 ### Fix

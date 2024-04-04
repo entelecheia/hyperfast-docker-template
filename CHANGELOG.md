@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.29.3 (2024-04-04)
+
+### Fix
+
+* **docker:** Fix condition for copying apt packages ([`3aa39bf`](https://github.com/entelecheia/hyperfast-docker-template/commit/3aa39bfda99a7054ddf50f65664da3c7225bb081))
+* **doc:** Update README.md.jinja for Docker image naming ([`9cdf3b1`](https://github.com/entelecheia/hyperfast-docker-template/commit/9cdf3b13a10bce4d1d16f28eedb9ad59918242ee))
+
 ## v0.29.2 (2024-04-04)
 
 ### Fix

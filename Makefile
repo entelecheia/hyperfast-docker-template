@@ -107,32 +107,32 @@ symlink-global-docker-env: ## symlink global docker env file for local developme
 docker-login: ## login to docker
 	@bash .docker/.docker-scripts/docker-compose.sh login
 
-docker-build-base: ## build the docker base image
-	@bash .docker/.docker-scripts/docker-compose.sh build --variant base
+docker-build: ## build the docker app image
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"base"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh build
 
-docker-build-app: ## build the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh build --variant app
+docker-config: ## show the docker app config
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"base"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh config
 
-docker-config-base: ## show the docker base config
-	@bash .docker/.docker-scripts/docker-compose.sh config --variant base
+docker-push: ## push the docker app image
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"base"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh push
 
-docker-config-app: ## show the docker app config
-	@bash .docker/.docker-scripts/docker-compose.sh config --variant app --pid app
+docker-run: ## run the docker base image
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"base"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh run
 
-docker-push-base: ## push the docker base image
-	@bash .docker/.docker-scripts/docker-compose.sh push --variant base
+docker-up: ## launch the docker app image
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"base"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh up
 
-docker-push-app: ## push the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh push --variant app
-
-docker-run-base: ## run the docker base image
-	@bash .docker/.docker-scripts/docker-compose.sh run --variant base
-
-docker-run-app: ## run the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh run --variant app
-
-docker-up-app: ## launch the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid app
-
-docker-up-app-detach: ## launch the docker app image in detached mode
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid app --detach
+docker-up-detach: ## launch the docker app image in detached mode
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"base"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh up --detach

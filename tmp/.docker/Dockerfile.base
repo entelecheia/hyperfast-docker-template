@@ -1,10 +1,6 @@
 # Sets the base image for subsequent instructions
 ARG ARG_BUILD_FROM="library/ubuntu:22.04"
-
-
-FROM $ARG_BUILD_FROM
-
-
+FROM $ARG_BUILD_FROM AS builder
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/hyperfast-docker-template"
@@ -15,8 +11,7 @@ LABEL org.opencontainers.image.licenses="MIT"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo gosu git \
-    python3-venv python3-pip build-essential \
+    && apt-get install -y curl wget jq sudo gosu git build-essential \
     locales locales-all fontconfig fonts-nanum \
     tzdata openssh-server \
     # Cleans up unnecessary packages to reduce image size
@@ -35,18 +30,18 @@ ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
 ENV APP_DIRNAME $ARG_APP_DIRNAME
 ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
 ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
 ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
 ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 # Sets up the workspace for the user
 RUN mkdir -p $WORKSPACE_ROOT/projects
 
-
 # Sets the working directory to workspace root
 WORKDIR $WORKSPACE_ROOT
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
-RUN if [ -f ./scripts/requirements-base.txt ]; then pip3 install -r ./scripts/requirements-base.txt; fi
+# RUN pip install -r ./scripts/requirements-base.txt
 
 # Sets the time zone within the container
 ENV TZ="Asia/Seoul"
@@ -72,7 +67,10 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 
 
-RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
+USER root
+RUN chown --recursive "${USER_UID}:${USER_GID}" "${WORKSPACE_ROOT}"
+RUN chown --recursive "${USER_UID}:${USER_GID}" "${APP_INSTALL_ROOT}"
+USER $USERNAME
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

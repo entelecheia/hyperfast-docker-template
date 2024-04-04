@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.29.2 (2024-04-04)
+
+### Fix
+
+* **actions/checkout:** Update actions/checkout version to v4 ([`b557030`](https://github.com/entelecheia/hyperfast-docker-template/commit/b557030b0512cb885711f6251cef21c8a41a3fda))
+* **docker:** Update installation of docker apt packages ([`26bae9f`](https://github.com/entelecheia/hyperfast-docker-template/commit/26bae9fc47980f84a98429492110809298d4d2f0))
+
 ## v0.29.1 (2024-04-04)
 
 ### Fix

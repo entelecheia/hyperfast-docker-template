@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.29.1 (2024-04-04)
+
+### Fix
+
+* **workflows:** Update Dockerfile build path ([`11b438a`](https://github.com/entelecheia/hyperfast-docker-template/commit/11b438a93b607a334bec125ce27a738bad2c0be2))
+
 ## v0.29.0 (2024-04-04)
 
 ### Feature

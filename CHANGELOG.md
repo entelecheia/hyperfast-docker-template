@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.29.5 (2024-04-04)
+
+### Fix
+
+* **dockerfile:** Improve user id handling and chown commands ([`d2dc310`](https://github.com/entelecheia/hyperfast-docker-template/commit/d2dc3102790a1037ce1e895c301151f521b9d0ea))
+* **deploy:** Added latest tag for docker image ([`7c35c83`](https://github.com/entelecheia/hyperfast-docker-template/commit/7c35c83898fcd67efd8317c333c92a98eee211f3))
+
 ## v0.29.4 (2024-04-04)
 
 ### Fix

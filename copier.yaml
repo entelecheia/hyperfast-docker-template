@@ -197,7 +197,7 @@ docker_run_command:
   type: str
   help: "What is your command to run when the docker image is run? (default: bash)"
 
-app_service_name:
+container_service_name:
   default: app
   type: str
   help: What is your app server name?

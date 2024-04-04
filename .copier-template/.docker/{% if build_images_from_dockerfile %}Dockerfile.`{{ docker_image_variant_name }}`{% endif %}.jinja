@@ -1,48 +1,6 @@
 # Sets the base image for subsequent instructions
 ARG ARG_BUILD_FROM="`{{ docker_build_from }}`"
-
-{% if use_builder_image_and_copy_venv -%}
-## Builder stage
-FROM $ARG_BUILD_FROM as builder
-
-# Setting this argument prevents interactive prompts during the build process
-ARG DEBIAN_FRONTEND=noninteractive
-# Updates the image and installs necessary packages
-RUN apt-get update --fix-missing \
-    && apt-get install -y curl git build-essential \
-    # Cleans up unnecessary packages to reduce image size
-    && apt-get autoremove -y \
-    && apt-get clean -y
-
-# Sets Python environment variables
-ENV PIP_DEFAULT_TIMEOUT 100
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Setting ARGs and ENVs for the app
-ARG ARG_APP_INSTALL_ROOT="`{{ app_install_root }}`"
-ARG ARG_APP_DIRNAME="`{{ app_dirname }}`"
-ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
-ENV APP_DIRNAME $ARG_APP_DIRNAME
-ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
-ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
-ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
-ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
-
-# Create the app directory
-RUN mkdir -p $APP_INSTALL_ROOT
-WORKDIR $APP_INSTALL_ROOT
-# Copies scripts from host into the image
-COPY ./.docker/scripts/ ./scripts/
-FROM $ARG_BUILD_FROM
-{%- endif %}
-
-{% if use_builder_image_and_copy_venv -%}
-#### Runtime stage ---------------------------------------
-
-# Runtime image (copy built virtual environment)
-FROM $ARG_BUILD_FROM AS runtime
-{% endif %}
+FROM $ARG_BUILD_FROM AS builder
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`"

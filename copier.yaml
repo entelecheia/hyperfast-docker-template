@@ -114,7 +114,7 @@ use_deploy_workflows:
   help: Do you want to use GitHub Actions deploy workflows? (certain images are not supported by GitHub Actions.)
 
 docker_image_version_variable_name:
-  default: APP_VERSION
+  default: IMAGE_VERSION
   type: str
   help: What is your docker image version variable name? (it will be used in Dockerfiles and workflows)
 
@@ -128,17 +128,12 @@ docker_service_name:
   type: str
   help: What is your container service name? (e.g. workspace)
 
-docker_base_image_variant_name:
+docker_image_variant_name:
   default: base
   type: str
-  help: What is your Docker base image variant?
+  help: What is the name of your Docker image variant?
 
-docker_app_image_variant_name:
-  default: app
-  type: str
-  help: What is your Docker app image variant? (it will be built from the base image)
-
-docker_base_build_from:
+docker_build_from:
   default: library/ubuntu:22.04
   type: str
   help: What is your Docker image build from?
@@ -178,48 +173,10 @@ app_dirname:
   type: str
   help: "What is your application directory name to clone? (default: `{{ app_source_repo | regex_replace('.*/', '') }}`)"
 
-clone_source_code:
-  default: true
-  type: bool
-  help: Do you want to clone source code?
-
-app_source_repo:
-  type: str
-  help: What is your source repository URL to clone? (e.g. github_username/repo_name)
-
-app_source_branch:
-  default: main
-  type: str
-  help: "What is your source repository branch to clone? (default: main)"
-
 copy_scripts_dir:
   default: true
   type: bool
   help: "Do you want to copy scripts directory under the workspace root? ? (COPY ./.docker/scripts/ ./scripts/)"
-
-python_command:
-  default: python3.9
-  type: str
-  help: "What is your Python command to run? (default: python3)"
-
-pip_command:
-  default: pip3
-  type: str
-  help: "What is your pip command to install packages? (default: pip3)"
-
-install_pip_requirements:
-  default: true
-  type: bool
-  help: "Do you want to install pip requirements? (add dependencies to requirements.txt under the scripts directory)"
-
-use_builder_image_and_copy_venv:
-  default: true
-  type: bool
-  help: Do you want to use a builder Docker image and copy the virtualenv instead of installing packages inside the app image? This can reduce the size of the app image.
-  validator: >-
-    {% if not install_pip_requirements %}
-    install_pip_requirements should be true to use this option
-    {% endif %}
 
 install_dotfiles:
   default: false
@@ -231,7 +188,7 @@ docker_run_command:
   type: str
   help: "What is your command to run when the docker image is run? (default: bash)"
 
-app_service_name:
+container_service_name:
   default: app
   type: str
   help: What is your app server name?

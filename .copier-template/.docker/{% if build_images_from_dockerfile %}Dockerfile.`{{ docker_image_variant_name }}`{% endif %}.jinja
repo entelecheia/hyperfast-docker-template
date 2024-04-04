@@ -1,62 +1,6 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="`{{ docker_base_build_from }}`"
-
-{% if use_builder_image_and_copy_venv -%}
-## Builder stage
-FROM $ARG_BUILD_FROM as builder
-
-# Setting this argument prevents interactive prompts during the build process
-ARG DEBIAN_FRONTEND=noninteractive
-# Updates the image and installs necessary packages
-RUN apt-get update --fix-missing \
-    && apt-get install -y curl git \
-    `{{ python_command }}`-venv build-essential \
-    # Cleans up unnecessary packages to reduce image size
-    && apt-get autoremove -y \
-    && apt-get clean -y
-
-{% if install_pip_requirements -%}
-# Installs the latest pip and setuptools from PyPI
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && `{{ python_command }}` get-pip.py \
-    && rm get-pip.py
-{%- endif %}
-
-# Sets Python environment variables
-ENV PIP_DEFAULT_TIMEOUT 100
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Setting ARGs and ENVs for the app
-ARG ARG_APP_INSTALL_ROOT="`{{ app_install_root }}`"
-ARG ARG_APP_DIRNAME="`{{ app_dirname }}`"
-ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
-ENV APP_DIRNAME $ARG_APP_DIRNAME
-ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
-ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
-ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
-ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
-
-# Create the app directory
-RUN mkdir -p $APP_INSTALL_ROOT
-WORKDIR $APP_INSTALL_ROOT
-# Copies scripts from host into the image
-COPY ./.docker/scripts/ ./scripts/
-# Install pytorch before all other pip packages
-RUN --mount=type=cache,target=/root/.cache/pip \
-    `{{ python_command }}` -m venv ${APP_VIRTUAL_ENV} &&\
-    pip install --upgrade pip setuptools wheel ninja && \
-    pip install -r ./scripts/requirements-base.txt
-{%- else %}
-FROM $ARG_BUILD_FROM
-{%- endif %}
-
-{% if use_builder_image_and_copy_venv -%}
-#### Runtime stage ---------------------------------------
-
-# Runtime image (copy built virtual environment)
-FROM library/ubuntu:22.04 AS runtime
-{% endif %}
+ARG ARG_BUILD_FROM="`{{ docker_build_from }}`"
+FROM $ARG_BUILD_FROM AS builder
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`"
@@ -67,8 +11,7 @@ LABEL org.opencontainers.image.licenses="`{{ project_license }}`"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo gosu git \
-    `{{ python_command }}`-venv python3-pip build-essential \
+    && apt-get install -y curl wget jq sudo gosu git build-essential \
     locales locales-all `{{ docker_apt_packages }}` \
     tzdata {% if use_ssh_service %}openssh-server{% endif %} \
     # Cleans up unnecessary packages to reduce image size
@@ -87,25 +30,19 @@ ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
 ENV APP_DIRNAME $ARG_APP_DIRNAME
 ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
 ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
 ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
 ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 # Sets up the workspace for the user
 RUN mkdir -p $WORKSPACE_ROOT/projects
 
-{% if use_builder_image_and_copy_venv -%}
-ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
-
-# Copy the virtual environment from the builder stage
-COPY --link --from=builder ${APP_VIRTUAL_ENV} ${APP_VIRTUAL_ENV}
-{%- else %}
 # Sets the working directory to workspace root
 WORKDIR $WORKSPACE_ROOT
 {% if copy_scripts_dir -%}
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
-RUN if [ -f ./scripts/requirements-base.txt ]; then `{{ pip_command }}` install -r ./scripts/requirements-base.txt; fi
-{%- endif %}
+# RUN pip install -r ./scripts/requirements-`{{ docker_image_variant_name }}`.txt
 {%- endif %}
 
 # Sets the time zone within the container
@@ -158,10 +95,12 @@ ENV REMOTE_CONTAINERS=1
 USER $USERNAME
 RUN sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"
 
-USER root
 {%- endif %}
 
-RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
+USER root
+RUN chown --recursive "${USER_UID}:${USER_GID}" "${WORKSPACE_ROOT}"
+RUN chown --recursive "${USER_UID}:${USER_GID}" "${APP_INSTALL_ROOT}"
+USER $USERNAME
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

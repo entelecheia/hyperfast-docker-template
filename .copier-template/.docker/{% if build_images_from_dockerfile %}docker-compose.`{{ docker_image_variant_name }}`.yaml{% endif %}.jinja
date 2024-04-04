@@ -7,7 +7,7 @@ services:
       # Sets the build context to the current directory
       context: .
       # Specifies the Dockerfile to use for the build
-      dockerfile: .docker/Dockerfile.app
+      dockerfile: .docker/Dockerfile.`{{ docker_image_variant_name }}`
       # Specifies build-time variables (ARGs)
       args:
         ARG_BUILD_FROM: $BUILD_FROM
@@ -21,14 +21,11 @@ services:
         ARG_GITHUB_USERNAME: $GITHUB_USERNAME
         ARG_SYSTEM_HOSTNAME: $CONTAINER_HOSTNAME
         ARG_WORKSPACE_LOCATION: $CONTAINER_WORKSPACE_LOCATION
+        ARG_DOTFILES_VERSION: $DOTFILES_VERSION
 {%- endif %}
-        ARG_APP_GITHUB_USERNAME: $APP_GITHUB_USERNAME
-        ARG_APP_SOURCE_REPO: $APP_SOURCE_REPO
         ARG_APP_INSTALL_ROOT: $APP_INSTALL_ROOT
         ARG_APP_DIRNAME: $APP_DIRNAME
-        ARG_APP_SOURCE_BRANCH: $APP_SOURCE_BRANCH
-        ARG_APP_SERVICE_NAME: $APP_SERVICE_NAME
-        ARG_DOTFILES_VERSION: $DOTFILES_VERSION
+        ARG_CONTAINER_SERVICE_NAME: $CONTAINER_SERVICE_NAME
     # Sets the image name for the built image
     image: $IMAGE_NAME:$IMAGE_TAG
     # Sets the hostname of the container
@@ -42,13 +39,13 @@ services:
       USER_UID: $CONTAINER_USER_UID
       USER_GID: $CONTAINER_USER_GID
 {%- if install_dotfiles %}
-      USER_FULLNAME: $APP_USER_FULLNAME
-      USER_EMAIL: $APP_USER_EMAIL
+      USER_FULLNAME: $CONTAINER_USER_FULLNAME
+      USER_EMAIL: $CONTAINER_USER_EMAIL
+      GITHUB_USERNAME: $CONTAINER_GITHUB_USERNAME
       WORKSPACE_LOCATION: $CONTAINER_WORKSPACE_LOCATION
       SYSTEM_HOSTNAME: $CONTAINER_HOSTNAME
       GIT_COMMIT_GPGSIGN: $GIT_COMMIT_GPGSIGN
 {%- endif %}
-      GITHUB_USERNAME: $APP_GITHUB_USERNAME
       WORKSPACE_ROOT: $CONTAINER_WORKSPACE_ROOT
       IMAGE_VARIANT: $IMAGE_VARIANT
 {%- if use_jupyter %}

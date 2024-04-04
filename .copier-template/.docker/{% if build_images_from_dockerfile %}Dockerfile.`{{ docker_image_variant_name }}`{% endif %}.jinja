@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="`{{ docker_base_build_from }}`"
+ARG ARG_BUILD_FROM="`{{ docker_build_from }}`"
 
 {% if use_builder_image_and_copy_venv -%}
 ## Builder stage
@@ -9,18 +9,10 @@ FROM $ARG_BUILD_FROM as builder
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl git \
-    `{{ python_command }}`-venv build-essential \
+    && apt-get install -y curl git build-essential \
     # Cleans up unnecessary packages to reduce image size
     && apt-get autoremove -y \
     && apt-get clean -y
-
-{% if install_pip_requirements -%}
-# Installs the latest pip and setuptools from PyPI
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && `{{ python_command }}` get-pip.py \
-    && rm get-pip.py
-{%- endif %}
 
 # Sets Python environment variables
 ENV PIP_DEFAULT_TIMEOUT 100
@@ -55,7 +47,7 @@ FROM $ARG_BUILD_FROM
 #### Runtime stage ---------------------------------------
 
 # Runtime image (copy built virtual environment)
-FROM library/ubuntu:22.04 AS runtime
+FROM $ARG_BUILD_FROM AS runtime
 {% endif %}
 
 # Sets labels for the image
@@ -158,10 +150,12 @@ ENV REMOTE_CONTAINERS=1
 USER $USERNAME
 RUN sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"
 
-USER root
 {%- endif %}
 
-RUN chown -R $USERNAME:$USERNAME $WORKSPACE_ROOT
+USER root
+RUN chown --recursive "${USER_UID}:${USER_GID}" "${WORKSPACE_ROOT}"
+RUN chown --recursive "${USER_UID}:${USER_GID}" "${APP_INSTALL_ROOT}"
+USER $USERNAME
 
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

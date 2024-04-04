@@ -20,9 +20,9 @@ $0 build -v base
 "
 
 # declare arguments
-PROJECT_ID="default"
+PROJECT_ID=${DOCKER_PROJECT_ID:-"default"}
 COMMAND="build"
-VARIANT="base"
+VARIANT=${IMAGE_VARIANT:-"`{{ docker_image_variant_name }}`"}
 RUN_COMMAND="bash"
 ADDITIONAL_ARGS=""
 

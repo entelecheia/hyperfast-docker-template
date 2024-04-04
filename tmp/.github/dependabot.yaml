@@ -23,14 +23,3 @@ updates:
     labels:
       - ":game_die: dependencies"
       - ":robot: bot"
-  - package-ecosystem: "pip"
-    directory: "/.docker/scripts"
-    schedule:
-      interval: "daily"
-      time: "03:00"
-      timezone: "Asia/Seoul"
-    allow:
-      - dependency-type: "production"
-    labels:
-      - ":game_die: dependencies"
-      - ":robot: bot"

@@ -12,7 +12,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
     && apt-get install -y curl wget jq sudo gosu git build-essential \
-    locales locales-all `{{ docker_apt_packages }}` \
+    locales locales-all {% if copy_scripts_dir -%}`{{ docker_apt_packages }}` {%- endif %}\
     tzdata {% if use_ssh_service %}openssh-server{% endif %} \
     # Cleans up unnecessary packages to reduce image size
     && apt-get autoremove -y \

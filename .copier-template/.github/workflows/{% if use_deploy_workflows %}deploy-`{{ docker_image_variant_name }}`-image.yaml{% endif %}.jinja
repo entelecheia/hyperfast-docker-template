@@ -74,7 +74,7 @@ jobs:
         uses: docker/build-push-action@v5.3.0
         with:
           context: .
-          file: ./.docker/Dockerfile.base
+          file: ./.docker/Dockerfile.`{{ docker_image_variant_name }}`
           build-args: |
             ARG_BUILD_FROM=${{ env.BUILD_FROM }}
             ARG_USERNAME=${{ env.CONTAINER_USERNAME }}

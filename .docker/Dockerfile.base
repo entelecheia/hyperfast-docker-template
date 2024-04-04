@@ -1,49 +1,6 @@
 # Sets the base image for subsequent instructions
 ARG ARG_BUILD_FROM="library/ubuntu:22.04"
-
-## Builder stage
-FROM $ARG_BUILD_FROM as builder
-
-# Setting this argument prevents interactive prompts during the build process
-ARG DEBIAN_FRONTEND=noninteractive
-# Updates the image and installs necessary packages
-RUN apt-get update --fix-missing \
-    && apt-get install -y curl git build-essential \
-    # Cleans up unnecessary packages to reduce image size
-    && apt-get autoremove -y \
-    && apt-get clean -y
-
-# Sets Python environment variables
-ENV PIP_DEFAULT_TIMEOUT 100
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Setting ARGs and ENVs for the app
-ARG ARG_APP_INSTALL_ROOT="/opt"
-ARG ARG_APP_DIRNAME="entelecheia"
-ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
-ENV APP_DIRNAME $ARG_APP_DIRNAME
-ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
-ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
-ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
-ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
-
-# Create the app directory
-RUN mkdir -p $APP_INSTALL_ROOT
-WORKDIR $APP_INSTALL_ROOT
-# Copies scripts from host into the image
-COPY ./.docker/scripts/ ./scripts/
-# Install pytorch before all other pip packages
-RUN --mount=type=cache,target=/root/.cache/pip \
-     -m venv ${APP_VIRTUAL_ENV} &&\
-    pip install --upgrade pip setuptools wheel ninja && \
-    pip install -r ./scripts/requirements-base.txt
-
-#### Runtime stage ---------------------------------------
-
-# Runtime image (copy built virtual environment)
-FROM $ARG_BUILD_FROM AS runtime
-
+FROM $ARG_BUILD_FROM AS builder
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/hyperfast-docker-template"
@@ -54,8 +11,7 @@ LABEL org.opencontainers.image.licenses="MIT"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo gosu git \
-    -venv python3-pip build-essential \
+    && apt-get install -y curl wget jq sudo gosu git build-essential \
     locales locales-all fontconfig fonts-nanum \
     tzdata openssh-server \
     # Cleans up unnecessary packages to reduce image size
@@ -74,16 +30,18 @@ ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
 ENV APP_DIRNAME $ARG_APP_DIRNAME
 ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
 ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
 ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
 ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 # Sets up the workspace for the user
 RUN mkdir -p $WORKSPACE_ROOT/projects
 
-ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
-
-# Copy the virtual environment from the builder stage
-COPY --link --from=builder ${APP_VIRTUAL_ENV} ${APP_VIRTUAL_ENV}
+# Sets the working directory to workspace root
+WORKDIR $WORKSPACE_ROOT
+# Copies scripts from host into the image
+COPY ./.docker/scripts/ ./scripts/
+# RUN pip install -r ./scripts/requirements-base.txt
 
 # Sets the time zone within the container
 ENV TZ="Asia/Seoul"

@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.29.0 (2024-04-04)
+
+### Feature
+
+* **docker:** Add docker-compose base configuration files and scripts ([`488668e`](https://github.com/entelecheia/hyperfast-docker-template/commit/488668e62c95078f1c31649743d3cfea0fb9599e))
+* **docker:** Update docker-compose script to include the name variable ([`e1c438b`](https://github.com/entelecheia/hyperfast-docker-template/commit/e1c438bb938be1e791c13b9baa8f7c17492e1c6f))
+
 ## v0.28.7 (2024-03-16)
 
 ### Fix

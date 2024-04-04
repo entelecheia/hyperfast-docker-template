@@ -59,7 +59,10 @@ ENV USER_GID $ARG_USER_GID
 # Creates a non-root user with sudo privileges
 # check if user exists and if not, create user
 RUN if id -u $USERNAME >/dev/null 2>&1; then \
-        echo "User exists"; \
+        # if the current user's user id is different from the specified user id, change the user id of the current user to the specified user id
+        if [ "$USER_UID" -ne "$(id -u $USERNAME)" ]; then \
+            usermod --uid $USER_UID --gid $USER_GID $USERNAME; \
+        fi; \
     else \
         groupadd --gid $USER_GID $USERNAME && \
         adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME && \
@@ -98,8 +101,11 @@ USER $USERNAME
 RUN sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"
 
 USER root
-RUN chown --recursive "${USER_UID}:${USER_GID}" "${WORKSPACE_ROOT}"
-RUN chown --recursive "${USER_UID}:${USER_GID}" "${APP_INSTALL_ROOT}"
+# if the user id is different from the specified user id, change the owner of the workspace to the specified user id
+RUN if [ "$USER_UID" -ne "$(id -u $USERNAME)" ]; then \
+        chown --recursive $USER_UID:$USER_UID $WORKSPACE_ROOT; \
+        chown --recursive $USER_UID:$USER_UID $APP_INSTALL_ROOT; \
+    fi
 USER $USERNAME
 
 # Specifies the command that will be executed when the container is run

@@ -30,25 +30,19 @@ ENV APP_INSTALL_ROOT $ARG_APP_INSTALL_ROOT
 ENV APP_DIRNAME $ARG_APP_DIRNAME
 ENV APP_SRC_DIR=${APP_INSTALL_ROOT}/${APP_DIRNAME}
 ENV APP_VIRTUAL_ENV=${APP_INSTALL_ROOT}/.venvs/${APP_DIRNAME}
+ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
 ENV APP_WORKSPACE_ROOT=${APP_INSTALL_ROOT}/workspace
 ARG ARG_WORKSPACE_ROOT="/workspace"
 ENV WORKSPACE_ROOT $ARG_WORKSPACE_ROOT
 # Sets up the workspace for the user
 RUN mkdir -p $WORKSPACE_ROOT/projects
 
-{% if use_builder_image_and_copy_venv -%}
-ENV PATH="$APP_VIRTUAL_ENV/bin:$PATH"
-
-# Copy the virtual environment from the builder stage
-COPY --link --from=builder ${APP_VIRTUAL_ENV} ${APP_VIRTUAL_ENV}
-{%- else %}
 # Sets the working directory to workspace root
 WORKDIR $WORKSPACE_ROOT
 {% if copy_scripts_dir -%}
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
-RUN if [ -f ./scripts/requirements-base.txt ]; then `{{ pip_command }}` install -r ./scripts/requirements-base.txt; fi
-{%- endif %}
+# RUN pip install -r ./scripts/requirements-`{{ docker_image_variant_name }}`.txt
 {%- endif %}
 
 # Sets the time zone within the container

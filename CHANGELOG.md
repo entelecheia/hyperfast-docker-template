@@ -1,5 +1,32 @@
 <!--next-version-placeholder-->
 
+## v0.29.4 (2024-04-04)
+
+### Fix
+
+* **docker.common.env:** Update CONTAINER_USERNAME variable assignment ([`72d854a`](https://github.com/entelecheia/hyperfast-docker-template/commit/72d854a2c4c9a2edbb6aa86cf4589628fd7b1436))
+* **env:** Update container username assignment; as the container username was being assigned incorrectly, this commit fixes it by correctly assigning the container username variable. ([`2a1d81d`](https://github.com/entelecheia/hyperfast-docker-template/commit/2a1d81d35f6e48ead59220195625c19ea4d9610d))
+
+## v0.29.3 (2024-04-04)
+
+### Fix
+
+* **docker:** Fix condition for copying apt packages ([`3aa39bf`](https://github.com/entelecheia/hyperfast-docker-template/commit/3aa39bfda99a7054ddf50f65664da3c7225bb081))
+* **doc:** Update README.md.jinja for Docker image naming ([`9cdf3b1`](https://github.com/entelecheia/hyperfast-docker-template/commit/9cdf3b13a10bce4d1d16f28eedb9ad59918242ee))
+
+## v0.29.2 (2024-04-04)
+
+### Fix
+
+* **actions/checkout:** Update actions/checkout version to v4 ([`b557030`](https://github.com/entelecheia/hyperfast-docker-template/commit/b557030b0512cb885711f6251cef21c8a41a3fda))
+* **docker:** Update installation of docker apt packages ([`26bae9f`](https://github.com/entelecheia/hyperfast-docker-template/commit/26bae9fc47980f84a98429492110809298d4d2f0))
+
+## v0.29.1 (2024-04-04)
+
+### Fix
+
+* **workflows:** Update Dockerfile build path ([`11b438a`](https://github.com/entelecheia/hyperfast-docker-template/commit/11b438a93b607a334bec125ce27a738bad2c0be2))
+
 ## v0.29.0 (2024-04-04)
 
 ### Feature

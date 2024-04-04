@@ -114,19 +114,29 @@ docker-login: ## login to docker
 docker-build: ## build the docker app image
 	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"`{{ docker_image_variant_name }}`"} \
 	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
-	bash .docker/.docker-scripts/docker-compose.sh build --variant app
+	bash .docker/.docker-scripts/docker-compose.sh build
 
 docker-config: ## show the docker app config
-	@bash .docker/.docker-scripts/docker-compose.sh config --variant app --pid `{{ docker_image_variant_name }}`
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"`{{ docker_image_variant_name }}`"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh config
 
 docker-push: ## push the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh push --variant app
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"`{{ docker_image_variant_name }}`"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh push
 
 docker-run: ## run the docker base image
-	@bash .docker/.docker-scripts/docker-compose.sh run --variant base
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"`{{ docker_image_variant_name }}`"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh run
 
 docker-up: ## launch the docker app image
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid `{{ docker_image_variant_name }}`
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"`{{ docker_image_variant_name }}`"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh up
 
 docker-up-detach: ## launch the docker app image in detached mode
-	@bash .docker/.docker-scripts/docker-compose.sh up --variant app --pid `{{ docker_image_variant_name }}` --detach
+	@IMAGE_VARIANT=$${IMAGE_VARIANT:-"`{{ docker_image_variant_name }}`"} \
+	DOCKER_PROJECT_ID=$${DOCKER_PROJECT_ID:-"default"} \
+	bash .docker/.docker-scripts/docker-compose.sh up --detach

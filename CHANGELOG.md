@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.29.4 (2024-04-04)
+
+### Fix
+
+* **docker.common.env:** Update CONTAINER_USERNAME variable assignment ([`72d854a`](https://github.com/entelecheia/hyperfast-docker-template/commit/72d854a2c4c9a2edbb6aa86cf4589628fd7b1436))
+* **env:** Update container username assignment; as the container username was being assigned incorrectly, this commit fixes it by correctly assigning the container username variable. ([`2a1d81d`](https://github.com/entelecheia/hyperfast-docker-template/commit/2a1d81d35f6e48ead59220195625c19ea4d9610d))
+
 ## v0.29.3 (2024-04-04)
 
 ### Fix

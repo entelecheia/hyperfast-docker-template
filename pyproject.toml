@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hyperfast-docker-template"
-version = "0.28.7"
+version = "0.29.0"
 description = "Hyperfast Docker Template is a powerful tool that leverages copier to streamline the creation of new Docker projects. It simplifies and accelerates Docker configurations, fostering a highly efficient and user-friendly development experience."
 authors = ["Young Joon Lee <entelecheia@hotmail.com>"]
 license = "MIT"
@@ -27,7 +27,7 @@ tag_format = "v$version"
 [tool.semantic_release]
 branch = "main"
 version_toml = "pyproject.toml:tool.poetry.version"
-version_pattern = '.docker/docker.version:APP_VERSION="{version}"'
+version_pattern = '.docker/docker.version:IMAGE_VERSION="{version}"'
 version_source = "tag"
 commit_version_number = true                                                             # required for version_source = "tag"
 commit_subject = "chore(release): :rocket: {version}"

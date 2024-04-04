@@ -20,9 +20,9 @@ $0 build -v base
 "
 
 # declare arguments
-PROJECT_ID="default"
+PROJECT_ID=${DOCKER_PROJECT_ID:-"default"}
 COMMAND="build"
-VARIANT="base"
+VARIANT=${IMAGE_VARIANT:-"base"}
 RUN_COMMAND="bash"
 ADDITIONAL_ARGS=""
 
@@ -174,7 +174,7 @@ elif [ "${COMMAND}" == "login" ]; then
 elif [ "${COMMAND}" == "run" ]; then
     CMD="docker compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml run workspace ${RUN_COMMAND} ${ADDITIONAL_ARGS}"
 else
-    CMD="docker-compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml -p ${CONTAINER_HOSTNAME} ${COMMAND} ${ADDITIONAL_ARGS}"
+    CMD="docker-compose --project-directory . -f .docker/docker-compose.${VARIANT}.yaml -p ${CONTAINER_PROJECT_NAME} ${COMMAND} ${ADDITIONAL_ARGS}"
 fi
 echo "Running command: ${CMD}"
 eval "${CMD}"

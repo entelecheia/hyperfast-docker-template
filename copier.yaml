@@ -178,15 +178,6 @@ copy_scripts_dir:
   type: bool
   help: "Do you want to copy scripts directory under the workspace root? ? (COPY ./.docker/scripts/ ./scripts/)"
 
-use_builder_image_and_copy_venv:
-  default: true
-  type: bool
-  help: Do you want to use a builder Docker image and copy the virtualenv instead of installing packages inside the app image? This can reduce the size of the app image.
-  validator: >-
-    {% if not install_pip_requirements %}
-    install_pip_requirements should be true to use this option
-    {% endif %}
-
 install_dotfiles:
   default: false
   type: bool

@@ -34,12 +34,6 @@ RUN mkdir -p $APP_INSTALL_ROOT
 WORKDIR $APP_INSTALL_ROOT
 # Copies scripts from host into the image
 COPY ./.docker/scripts/ ./scripts/
-# Install pytorch before all other pip packages
-RUN --mount=type=cache,target=/root/.cache/pip \
-    `{{ python_command }}` -m venv ${APP_VIRTUAL_ENV} &&\
-    pip install --upgrade pip setuptools wheel ninja && \
-    pip install -r ./scripts/requirements-base.txt
-{%- else %}
 FROM $ARG_BUILD_FROM
 {%- endif %}
 
@@ -59,8 +53,7 @@ LABEL org.opencontainers.image.licenses="`{{ project_license }}`"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo gosu git \
-    `{{ python_command }}`-venv python3-pip build-essential \
+    && apt-get install -y curl wget jq sudo gosu git build-essential \
     locales locales-all `{{ docker_apt_packages }}` \
     tzdata {% if use_ssh_service %}openssh-server{% endif %} \
     # Cleans up unnecessary packages to reduce image size

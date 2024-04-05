@@ -63,7 +63,7 @@ ENV USER_GID $ARG_USER_GID
 RUN if id -u $USERNAME >/dev/null 2>&1; then \
         # if the current user's user id is different from the specified user id, change the user id of the current user to the specified user id
         if [ "$USER_UID" -ne "$(id -u $USERNAME)" ]; then \
-            usermod --uid $USER_UID --gid $USER_GID $USERNAME; \
+            usermod --uid $USER_UID $USERNAME; \
         fi; \
     else \
         groupadd --gid $USER_GID $USERNAME && \

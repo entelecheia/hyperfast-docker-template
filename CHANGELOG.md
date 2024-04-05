@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.29.10 (2024-04-05)
+
+### Fix
+
+* **usermod:** Remove usermod group id modification and update user id ([`c20407f`](https://github.com/entelecheia/hyperfast-docker-template/commit/c20407fca210e8447c0b5ed763b543255729f7f6))
+* **docker:** Update usermod command to only update UID; fix missing group option ([`18f042d`](https://github.com/entelecheia/hyperfast-docker-template/commit/18f042d82a940f28c2c4c6ce53f5e5f43c4e19dd))
+
 ## v0.29.9 (2024-04-05)
 
 ### Fix

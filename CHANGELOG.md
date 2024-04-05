@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.29.8 (2024-04-05)
+
+### Fix
+
+* **workflow:** Update path pattern in deploy yaml template ([`46edaa6`](https://github.com/entelecheia/hyperfast-docker-template/commit/46edaa6d4107521721c6608389c11c4f382eb678))
+
 ## v0.29.7 (2024-04-05)
 
 ### Fix

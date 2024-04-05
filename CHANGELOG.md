@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.29.6 (2024-04-05)
+
+### Fix
+
+* **deployment:** Update paths for Docker image variants ([`02edfff`](https://github.com/entelecheia/hyperfast-docker-template/commit/02edfff031fc9c56cab38dd48a79d826a557a9ff))
+
 ## v0.29.5 (2024-04-04)
 
 ### Fix

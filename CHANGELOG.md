@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.29.9 (2024-04-05)
+
+### Fix
+
+* **workflows:** Update deploy-{{ docker_image_name }}-image.yaml; .docker/docker.version file and updated paths for docker image variant files ([`7a3aafd`](https://github.com/entelecheia/hyperfast-docker-template/commit/7a3aafd1847c905944820c81b54d790f9755c408))
+
 ## v0.29.8 (2024-04-05)
 
 ### Fix

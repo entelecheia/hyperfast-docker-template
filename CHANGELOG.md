@@ -1,5 +1,12 @@
 <!--next-version-placeholder-->
 
+## v0.29.7 (2024-04-05)
+
+### Fix
+
+* **base:** Add software-properties-common to Dockerfile base image installation ([`c66ac2a`](https://github.com/entelecheia/hyperfast-docker-template/commit/c66ac2a8a745f77e3f231a98aacb503170525c14))
+* **docker:** Add software-properties-common to installed packages in Dockerfile.jinja ([`c49c1cf`](https://github.com/entelecheia/hyperfast-docker-template/commit/c49c1cf9f77544682b049e25d2f7b48c5b381eee))
+
 ## v0.29.6 (2024-04-05)
 
 ### Fix

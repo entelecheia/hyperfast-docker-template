@@ -1,5 +1,15 @@
 <!--next-version-placeholder-->
 
+## v0.30.0 (2024-04-10)
+
+### Feature
+
+* **docker:** Add entrypoint.sh.jinja script with UID GID updates ([`9eda9ef`](https://github.com/entelecheia/hyperfast-docker-template/commit/9eda9efb7d7dbb6f499c2ab6f8028fa3701604a2))
+
+### Fix
+
+* **docker:** Add support for custom container network name ([`b90f93f`](https://github.com/entelecheia/hyperfast-docker-template/commit/b90f93fbc1d815cefad2e7aa33ea620265012eb4))
+
 ## v0.29.10 (2024-04-05)
 
 ### Fix

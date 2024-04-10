@@ -1,6 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="library/ubuntu:22.04"
-FROM $ARG_BUILD_FROM AS builder
+FROM library/ubuntu:22.04 AS builder
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/hyperfast-docker-template"
@@ -106,7 +105,13 @@ RUN if [ "$USER_UID" -ne "$(id -u $USERNAME)" ]; then \
         chown --recursive $USER_UID:$USER_UID $WORKSPACE_ROOT; \
         chown --recursive $USER_UID:$USER_UID $APP_INSTALL_ROOT; \
     fi
-USER $USERNAME
 
+# Copies entrypoint script from host into the image
+COPY ./.docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+# Changes the entrypoint script permissions to make it executable
+RUN chmod +x /usr/local/bin/entrypoint.sh
+# Sets the entrypoint script as the default command that will be executed when the container is run
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+    
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

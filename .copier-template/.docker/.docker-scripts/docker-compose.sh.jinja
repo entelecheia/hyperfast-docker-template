@@ -150,6 +150,7 @@ fi
 set +a
 
 # prepare docker network
+CONTAINER_NETWORK_NAME=${CONTAINER_NETWORK_NAME:-""}
 if [[ -n "${CONTAINER_NETWORK_NAME}" ]] && ! docker network ls | grep -q "${CONTAINER_NETWORK_NAME}"; then
     echo "Creating network ${CONTAINER_NETWORK_NAME}"
     docker network create "${CONTAINER_NETWORK_NAME}"

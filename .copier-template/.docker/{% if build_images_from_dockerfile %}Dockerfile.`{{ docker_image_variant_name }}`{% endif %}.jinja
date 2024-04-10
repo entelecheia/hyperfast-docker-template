@@ -80,7 +80,7 @@ RUN if id -u $USERNAME >/dev/null 2>&1; then \
 # Fixes sudo error related to core dumps
 RUN echo "Set disable_coredump false" > /etc/sudo.conf
 
-# install dotfiles
+# Install dotfiles
 USER $USERNAME
 
 ARG ARG_USER_FULLNAME="Dev User"

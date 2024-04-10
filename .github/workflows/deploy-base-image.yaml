@@ -78,7 +78,6 @@ jobs:
           context: .
           file: ./.docker/Dockerfile.base
           build-args: |
-            ARG_BUILD_FROM=${{ env.BUILD_FROM }}
             ARG_USERNAME=${{ env.CONTAINER_USERNAME }}
             ARG_USER_UID=${{ env.CONTAINER_USER_UID }}
             ARG_USER_GID=${{ env.CONTAINER_USER_GID }}

@@ -16,7 +16,7 @@ fi
 #   docker run --rm -it -v /some/path:/invokeai -e USER_UID=$(id -u) <this image>
 # Default UID: 1000 chosen due to popularity on Linux systems. Possibly 501 on MacOS.
 USER_UID=${USER_UID:-"1000"}
-USERNAME=${USERNAME:-"app"}
+USERNAME=${USERNAME:-"`{{ docker_container_username }}`"}
 LOCAL_UID=$(id -u "$USERNAME")
 WORKSPACE_ROOT=${WORKSPACE_ROOT:-""}
 APP_INSTALL_ROOT=${APP_INSTALL_ROOT:-""}

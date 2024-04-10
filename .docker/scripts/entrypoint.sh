@@ -3,9 +3,12 @@ VERBOSE=${DOCKER_VERBOSE:-"false"}
 # add your custom commands here that should be executed every time the docker container starts
 if [ "$VERBOSE" = "true" ]; then
     echo "Starting docker container..."
+    echo "---"
     # Print out the environment variables
     env
+    echo "---"
     echo "Fixing permissions..."
+    echo "---"
 fi
 
 ### Set the USER_UID envvar to match your user.

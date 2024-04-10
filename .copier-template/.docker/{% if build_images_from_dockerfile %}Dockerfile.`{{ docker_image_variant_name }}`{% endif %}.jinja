@@ -63,6 +63,8 @@ RUN if id -u $USERNAME >/dev/null 2>&1; then \
         # if the current user's user id is different from the specified user id, change the user id of the current user to the specified user id
         if [ "$USER_UID" -ne "$(id -u $USERNAME)" ]; then \
             usermod --uid $USER_UID $USERNAME; \
+            chown --recursive $USER_UID:$USER_UID $WORKSPACE_ROOT; \
+            chown --recursive $USER_UID:$USER_UID $APP_INSTALL_ROOT; \
         fi; \
     else \
         groupadd --gid $USER_GID $USERNAME && \
@@ -78,10 +80,9 @@ RUN if id -u $USERNAME >/dev/null 2>&1; then \
 # Fixes sudo error related to core dumps
 RUN echo "Set disable_coredump false" > /etc/sudo.conf
 
-# Switches to the newly created user
+# install dotfiles
 USER $USERNAME
 
-# install dotfiles
 ARG ARG_USER_FULLNAME="Dev User"
 ARG ARG_USER_EMAIL="dev@domain.com"
 ARG ARG_GITHUB_USERNAME=""
@@ -99,18 +100,16 @@ ENV DOTFILES_USE_PYTHON_TOOLS=1
 ENV REMOTE_CONTAINERS=1
 # ENV DOTFILES_DEBUG=1
 
-USER $USERNAME
 RUN sh -c "$(wget -qO- https://dotfiles.entelecheia.ai/install)"
-
 {%- endif %}
-
 USER root
-# if the user id is different from the specified user id, change the owner of the workspace to the specified user id
-RUN if [ "$USER_UID" -ne "$(id -u $USERNAME)" ]; then \
-        chown --recursive $USER_UID:$USER_UID $WORKSPACE_ROOT; \
-        chown --recursive $USER_UID:$USER_UID $APP_INSTALL_ROOT; \
-    fi
-USER $USERNAME
 
+# Copies entrypoint script from host into the image
+COPY ./.docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+# Changes the entrypoint script permissions to make it executable
+RUN chmod +x /usr/local/bin/entrypoint.sh
+# Sets the entrypoint script as the default command that will be executed when the container is run
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+    
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

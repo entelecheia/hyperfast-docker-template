@@ -63,7 +63,7 @@ RUN if id -u $USERNAME >/dev/null 2>&1; then \
             usermod --uid $USER_UID $USERNAME; \
             chown --recursive $USER_UID:$USER_UID $WORKSPACE_ROOT; \
             chown --recursive $USER_UID:$USER_UID $APP_INSTALL_ROOT; \
-            fi; \
+        fi; \
     else \
         groupadd --gid $USER_GID $USERNAME && \
         adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME && \

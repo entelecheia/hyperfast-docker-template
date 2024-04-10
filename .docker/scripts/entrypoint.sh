@@ -2,7 +2,6 @@
 VERBOSE=${DOCKER_VERBOSE:-"false"}
 # add your custom commands here that should be executed every time the docker container starts
 if [ "$VERBOSE" = "true" ]; then
-    set -x
     echo "Starting docker container..."
 
     # Print out the environment variables

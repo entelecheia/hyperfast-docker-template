@@ -3,7 +3,6 @@ VERBOSE=${DOCKER_VERBOSE:-"false"}
 # add your custom commands here that should be executed every time the docker container starts
 if [ "$VERBOSE" = "true" ]; then
     echo "Starting docker container..."
-
     # Print out the environment variables
     env
     echo "Fixing permissions..."
@@ -24,6 +23,8 @@ if [ "$USER_UID" != "$LOCAL_UID" ]; then
     groupmod -g "$USER_UID" "$USERNAME"
     echo "Changing ownership of home directory to $USER_UID:$USER_UID"
     chown -R "$USER_UID:$USER_UID" "/home/$USERNAME"
+    echo "Changing ownership of opt directory to $USER_UID:$USER_UID"
+    chown -R "$USER_UID:$USER_UID" "/opt"
     if [ -n "$WORKSPACE_ROOT" ]; then
         echo "Changing ownership of workspace directory [$WORKSPACE_ROOT] to $USER_UID:$USER_UID"
         chown -R "$USER_UID:$USER_UID" "$WORKSPACE_ROOT"

@@ -1,5 +1,5 @@
 # Sets the base image for subsequent instructions
-FROM library/ubuntu:22.04 AS builder
+FROM library/ubuntu:24.04 AS builder
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/hyperfast-docker-template"

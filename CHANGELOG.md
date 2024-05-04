@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.30.1 (2024-05-04)
+
+### Fix
+
+* **base:** Update base image to library/ubuntu:24.04 ([`4c93005`](https://github.com/entelecheia/hyperfast-docker-template/commit/4c930051797b5148b188af7f328fac9416b67b15))
+
 ## v0.30.0 (2024-04-10)
 
 ### Feature

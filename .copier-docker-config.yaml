@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.29.9-18-g69c14d1
+_commit: v0.30.0-6-gbd443ac
 _src_path: .
 app_dirname: entelecheia
 app_install_root: /opt
@@ -10,7 +10,7 @@ container_workspace_root: /workspace
 copy_scripts_dir: true
 cuda_device_id: all
 docker_apt_packages: fontconfig fonts-nanum
-docker_build_from: library/ubuntu:22.04
+docker_build_from: library/ubuntu:24.04
 docker_container_uid: 9001
 docker_container_username: app
 docker_image_variant_name: base

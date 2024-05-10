@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   # Defines a service name
   workspace:

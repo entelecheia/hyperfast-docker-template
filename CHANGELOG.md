@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.30.3 (2024-05-28)
+
+### Fix
+
+* Update docker/login-action to version 3.2.0 ([`e4fc125`](https://github.com/entelecheia/hyperfast-docker-template/commit/e4fc1259e21601b7a757ad92c33db3239f6f89c0))
+
 ## v0.30.2 (2024-05-10)
 
 ### Fix

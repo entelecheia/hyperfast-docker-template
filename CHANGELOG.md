@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.30.2 (2024-05-10)
+
+### Fix
+
+* **docker:** Update docker-compose files ([`4de6aaf`](https://github.com/entelecheia/hyperfast-docker-template/commit/4de6aaf574b9054c39980ce7a3a2ec5004476eca))
+
 ## v0.30.1 (2024-05-04)
 
 ### Fix

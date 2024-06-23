@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.30.6 (2024-06-23)
+
+### Fix
+
+* Update docker/build-push-action to version 6.1.0 ([`aaa1b41`](https://github.com/entelecheia/hyperfast-docker-template/commit/aaa1b41ea9adeca0188948f9c91bd0baf83c635b))
+
 ## v0.30.5 (2024-06-23)
 
 ### Fix

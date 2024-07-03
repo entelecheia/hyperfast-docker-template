@@ -29,7 +29,7 @@ services:
     # Sets the hostname of the container
     hostname: $CONTAINER_HOSTNAME
     # Sets tty to true if the container needs a pseudo-TTY
-    tty: `{{ use tty }}`
+    tty: `{{ use_tty }}`
     command:
       # Specifies the command to be executed when the container is run
       - bash

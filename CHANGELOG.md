@@ -1,5 +1,17 @@
 <!--next-version-placeholder-->
 
+## v0.31.0 (2024-07-04)
+
+### Feature
+
+* **docker:** Add support for tty configuration in Docker containers ([`f23dad5`](https://github.com/entelecheia/hyperfast-docker-template/commit/f23dad5df1b3d75038d9571e5cc248a832a71642))
+
+### Fix
+
+* **docker:** Add message before starting Jupyter Lab ([`528bcb8`](https://github.com/entelecheia/hyperfast-docker-template/commit/528bcb83ba500c19e8b47ba1253180008aacee54))
+* **workflows:** Upgrade docker/build-push-action to 63.0 ([`81e6bf5`](https://github.com/entelecheia/hyperfast-docker-template/commit/81e6bf5b860c1312f5df506594a9f5f7c3a25c8e))
+* **docker:** Correct typo in `tty` Jinja2 template variable ([`b908113`](https://github.com/entelecheia/hyperfast-docker-template/commit/b908113477405671b0f624f6b31d1958348cdf39))
+
 ## v0.30.6 (2024-06-23)
 
 ### Fix

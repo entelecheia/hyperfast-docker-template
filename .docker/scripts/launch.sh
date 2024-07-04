@@ -20,7 +20,9 @@ sudo service ssh start
 # set port to value of JUPYTER_DOCKER_PORT
 if [[ -z "$(command -v jupyter)" ]]; then
     echo "Jupyter not installed."
-jupyter lab \
+else
+    echo "Starting Jupyter Lab..."
+    jupyter lab \
         --no-browser \
         --notebook-dir="$WORKSPACE_ROOT" \
         --ServerApp.token="$JUPYTER_TOKEN" \

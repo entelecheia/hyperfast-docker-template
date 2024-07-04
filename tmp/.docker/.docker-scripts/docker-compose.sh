@@ -150,6 +150,7 @@ fi
 set +a
 
 # prepare docker network
+CONTAINER_NETWORK_NAME=${CONTAINER_NETWORK_NAME:-""}
 if [[ -n "${CONTAINER_NETWORK_NAME}" ]] && ! docker network ls | grep -q "${CONTAINER_NETWORK_NAME}"; then
     echo "Creating network ${CONTAINER_NETWORK_NAME}"
     docker network create "${CONTAINER_NETWORK_NAME}"
@@ -159,11 +160,16 @@ fi
 
 # prepare local workspace to be mounted
 echo "Preparing local workspace directories"
-[ ! -d "${HOST_WORKSPACE_ROOT}" ] && mkdir -p "${HOST_WORKSPACE_ROOT}"
-[ ! -d "${HOST_SCRIPTS_DIR}" ] && cp -r "$PWD/.docker/scripts" "${HOST_SCRIPTS_DIR}"
-[ ! -d "${HOST_SSH_DIR}" ] && mkdir -p "${HOST_SSH_DIR}"
-[ ! -d "${HOST_CACHE_DIR}" ] && mkdir -p "${HOST_CACHE_DIR}"
-[ ! -d "${HOST_HF_HOME}" ] && mkdir -p "${HOST_HF_HOME}"
+HOST_WORKSPACE_ROOT="${HOST_WORKSPACE_ROOT:-}"
+[ -n "${HOST_WORKSPACE_ROOT}" ] && [ ! -d "${HOST_WORKSPACE_ROOT}" ] && mkdir -p "${HOST_WORKSPACE_ROOT}"
+HOST_SCRIPTS_DIR="${HOST_SCRIPTS_DIR:-}"
+[ -n "${HOST_SCRIPTS_DIR}" ] && [ ! -d "${HOST_SCRIPTS_DIR}" ] && cp -r "$PWD/.docker/scripts" "${HOST_SCRIPTS_DIR}"
+HOST_SSH_DIR="${HOST_SSH_DIR:-}"
+[ -n "${HOST_SSH_DIR}" ] && [ ! -d "${HOST_SSH_DIR}" ] && mkdir -p "${HOST_SSH_DIR}"
+HOST_CACHE_DIR="${HOST_CACHE_DIR:-}"
+[ -n "${HOST_CACHE_DIR}" ] && [ ! -d "${HOST_CACHE_DIR}" ] && mkdir -p "${HOST_CACHE_DIR}"
+HOST_HF_HOME="${HOST_HF_HOME:-}"
+[ -n "${HOST_HF_HOME}" ] && [ ! -d "${HOST_HF_HOME}" ] && mkdir -p "${HOST_HF_HOME}"
 
 # run docker-compose
 if [ "${COMMAND}" == "push" ]; then

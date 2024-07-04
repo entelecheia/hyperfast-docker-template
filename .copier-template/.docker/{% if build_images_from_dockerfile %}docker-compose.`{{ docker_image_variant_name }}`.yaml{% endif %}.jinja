@@ -30,10 +30,10 @@ services:
     hostname: $CONTAINER_HOSTNAME
     # Sets tty to true if the container needs a pseudo-TTY
     tty: `{{ use_tty | lower }}`
-    command:
-      # Specifies the command to be executed when the container is run
-      - bash
-      - $CONTAINER_LAUNCH_SCRIPT
+    {% if use_tty %}# {% endif %}command:
+    {% if use_tty %}# {% endif %}  # Specifies the command to be executed when the container is run
+    {% if use_tty %}# {% endif %}  - bash
+    {% if use_tty %}# {% endif %}  - $CONTAINER_LAUNCH_SCRIPT
     # set the environment variables
     environment:
       USER_UID: $CONTAINER_USER_UID

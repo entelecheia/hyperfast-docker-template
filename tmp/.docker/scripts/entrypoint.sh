@@ -16,7 +16,7 @@ fi
 #   docker run --rm -it -v /some/path:/invokeai -e USER_UID=$(id -u) <this image>
 # Default UID: 1000 chosen due to popularity on Linux systems. Possibly 501 on MacOS.
 USER_UID=${USER_UID:-"1000"}
-USERNAME=${USERNAME:-"`{{ docker_container_username }}`"}
+USERNAME=${USERNAME:-"app"}
 LOCAL_UID=$(id -u "$USERNAME")
 WORKSPACE_ROOT=${WORKSPACE_ROOT:-""}
 APP_INSTALL_ROOT=${APP_INSTALL_ROOT:-""}
@@ -31,7 +31,7 @@ if [ "$USER_UID" != "$LOCAL_UID" ]; then
         echo "Changing ownership of $APP_INSTALL_ROOT directory to $USER_UID:$USER_UID"
         chown -R "$USER_UID:$USER_UID" "$APP_INSTALL_ROOT"
     fi
-    if [ -n "$WORKSPACE_ROOT" ] && [ -d "$WORKSPACE_ROOT" ] && [ "$WORKSPACE_ROOT" != "$APP_INSTALL_ROOT" ]; then
+    if [ -n "$WORKSPACE_ROOT" ] && [ -d "$WORKSPACE_ROOT" ]; then
         echo "Changing ownership of workspace directory [$WORKSPACE_ROOT] to $USER_UID:$USER_UID"
         chown -R "$USER_UID:$USER_UID" "$WORKSPACE_ROOT"
     fi

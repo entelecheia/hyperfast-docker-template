@@ -1,6 +1,5 @@
 # Sets the base image for subsequent instructions
-ARG ARG_BUILD_FROM="library/ubuntu:22.04"
-FROM $ARG_BUILD_FROM AS builder
+FROM library/ubuntu:22.04 AS builder
 
 # Sets labels for the image
 LABEL org.opencontainers.image.source="https://github.com/entelecheia/hyperfast-docker-template"
@@ -11,7 +10,7 @@ LABEL org.opencontainers.image.licenses="MIT"
 ARG DEBIAN_FRONTEND=noninteractive
 # Updates the image and installs necessary packages
 RUN apt-get update --fix-missing \
-    && apt-get install -y curl wget jq sudo gosu git build-essential \
+    && apt-get install -y curl wget jq sudo gosu git build-essential software-properties-common \
     locales locales-all fontconfig fonts-nanum \
     tzdata openssh-server \
     # Cleans up unnecessary packages to reduce image size
@@ -57,20 +56,33 @@ ENV USER_UID $ARG_USER_UID
 ENV USER_GID $ARG_USER_GID
 
 # Creates a non-root user with sudo privileges
-RUN groupadd --gid $USER_GID $USERNAME \
-    && adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME  \
-    && echo "$USERNAME:$USERNAME" | chpasswd \
-    && adduser $USERNAME sudo \
-    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
-
+# check if user exists and if not, create user
+RUN if id -u $USERNAME >/dev/null 2>&1; then \
+        # if the current user's user id is different from the specified user id, change the user id of the current user to the specified user id
+        if [ "$USER_UID" -ne "$(id -u $USERNAME)" ]; then \
+            usermod --uid $USER_UID $USERNAME; \
+            chown --recursive $USER_UID:$USER_UID $WORKSPACE_ROOT; \
+            chown --recursive $USER_UID:$USER_UID $APP_INSTALL_ROOT; \
+        fi; \
+    else \
+        groupadd --gid $USER_GID $USERNAME && \
+        adduser --uid $USER_UID --gid $USER_GID --force-badname --disabled-password --gecos "" $USERNAME && \
+        echo "$USERNAME:$USERNAME" | chpasswd && \
+        adduser $USERNAME sudo && \
+        echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+        echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
+        chmod 0440 /etc/sudoers.d/$USERNAME; \
+    fi
 
 
 USER root
-RUN chown --recursive "${USER_UID}:${USER_GID}" "${WORKSPACE_ROOT}"
-RUN chown --recursive "${USER_UID}:${USER_GID}" "${APP_INSTALL_ROOT}"
-USER $USERNAME
 
+# Copies entrypoint script from host into the image
+COPY ./.docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+# Changes the entrypoint script permissions to make it executable
+RUN chmod +x /usr/local/bin/entrypoint.sh
+# Sets the entrypoint script as the default command that will be executed when the container is run
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+    
 # Specifies the command that will be executed when the container is run
 CMD ["bash"]

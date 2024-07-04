@@ -208,6 +208,11 @@ cuda_device_id:
   type: str
   help: "What is your CUDA device to use? (default: all)"
 
+use_tty:
+  default: false
+  type: bool
+  help: Do you want to enable tty (pseudo-terminal) when running the Docker container?
+
 use_ssh_service:
   default: true
   type: bool

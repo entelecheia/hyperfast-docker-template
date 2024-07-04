@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.29.2-4-g59101f8
+_commit: v0.30.6-4-gd74e456
 _src_path: .
 app_dirname: entelecheia
 app_install_root: /workspace/projects
@@ -73,6 +73,7 @@ use_deploy_workflows: true
 use_jupyter: true
 use_semantic_versioning_for_image: true
 use_ssh_service: true
+use_tty: false
 use_web_service: true
 web_service_host_port: 18080
 web_service_port: 8080

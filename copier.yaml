@@ -213,6 +213,11 @@ use_tty:
   type: bool
   help: Do you want to enable tty (pseudo-terminal) when running the Docker container?
 
+restart_always:
+  default: false
+  type: bool
+  help: Do you want to set restart policy to 'always' for the Docker container?
+
 use_ssh_service:
   default: true
   type: bool

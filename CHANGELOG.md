@@ -1,5 +1,11 @@
 <!--next-version-placeholder-->
 
+## v0.32.0 (2024-10-15)
+
+### Feature
+
+* **docker:** Add support for restart policy and TTY options ([`3d41a1f`](https://github.com/entelecheia/hyperfast-docker-template/commit/3d41a1f4d28706c6290e36ca467756942ca3dee5))
+
 ## v0.31.5 (2024-09-30)
 
 ### Fix

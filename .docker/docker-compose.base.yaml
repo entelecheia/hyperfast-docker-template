@@ -26,8 +26,10 @@ services:
     image: $IMAGE_NAME:$IMAGE_TAG
     # Sets the hostname of the container
     hostname: $CONTAINER_HOSTNAME
+    restart: always
     # Sets tty to true if the container needs a pseudo-TTY
     tty: false
+    
     command:
       # Specifies the command to be executed when the container is run
       - bash

@@ -179,12 +179,12 @@ source_github_repo:
   type: str
   help: "GitHub repository to add as a submodule (format: username/reponame)"
   validator: >-
-    {% if not (source_github_repos | regex_search('^[a-z0-9\-]+/[a-z0-9\-]+$')) %}
-    source_github_repos must be in format "username/reponame"
+    {% if not (source_github_repo | regex_search('^[a-z0-9\-]+/[a-z0-9\-]+$')) %}
+    source_github_repo must be in format "username/reponame"
     {% endif %}
 
 source_dir_path:
-  default: "{% if source_github_repos %}src{% else %}.{% endif %}"
+  default: "{% if source_github_repo %}src{% else %}.{% endif %}"
   type: str
   help: "What is your source directory path (reletative to the repository root) to copy to app directory? (if empty, it will not copy)"
 

@@ -50,7 +50,7 @@ services:
     volumes:
       # Maps directories from the host to the container
       - "$HOST_SCRIPTS_DIR:$CONTAINER_WORKSPACE_ROOT/scripts"
-      - "$HOST_HF_HOME:$CONTAINER_HF_HOME"
+      - "$HOST_SOURCE_DIR:$APP_SRC_DIR"
     deploy:
       resources:
         reservations:

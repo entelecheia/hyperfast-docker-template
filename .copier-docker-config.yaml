@@ -68,8 +68,8 @@ project_short_description: Hyperfast Docker Template is a powerful tool that lev
     Docker configurations, fostering a highly efficient and user-friendly development
     experience.
 restart_always: true
-source_dir_path: .
-source_github_repo: ''
+source_dir_path: src
+source_github_repo: copier-org/copier
 ssh_host_port: 2929
 ssh_port: 22
 use_deploy_workflows: true

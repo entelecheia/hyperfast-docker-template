@@ -1,7 +1,7 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
 _commit: v0.33.0-12-gb33cf17
 _src_path: .
-app_dirname: entelecheia
+app_dirname: hyperfast-docker-template
 app_install_root: /opt
 author: Young Joon Lee
 build_images_from_dockerfile: true

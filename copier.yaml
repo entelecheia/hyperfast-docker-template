@@ -173,6 +173,20 @@ app_dirname:
   type: str
   help: "What is your application directory name to clone? (default: `{{ app_source_repo | regex_replace('.*/', '') }}`)"
 
+source_github_repos:
+  default: ""
+  type: str
+  help: "List of GitHub repositories to add as submodules (format: username/reponame or multiple repos comma-separated)"
+  validator: >-
+    {% if not (source_github_repos | regex_search('^[a-z0-9\-]+/[a-z0-9\-]+(,[a-z0-9\-]+/[a-z0-9\-]+)*$')) %}
+    source_github_repos must be in format "username/reponame" or multiple "username/reponame,username2/reponame2"
+    {% endif %}
+
+source_dir_path:
+  default: "{% if source_github_repos %}src{% else %}.{% endif %}"
+  type: str
+  help: "What is your source directory path (reletative to the repository root) to copy to app directory? (if empty, it will not copy)"
+
 copy_scripts_dir:
   default: true
   type: bool

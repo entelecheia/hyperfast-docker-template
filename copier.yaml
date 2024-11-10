@@ -17,15 +17,7 @@ _tasks:
   # Strings get executed under system's default shell
   - "[ -d .git ] || git init"
   - "{% if github_repo_name %}git add remote origin https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`.git 2>/dev/null || echo 'origin already exists'{% else %}echo 'No GitHub repository name provided. Skipping git remote add.'{% endif %}"
-  - |
-    {% if source_github_repos %}
-    mkdir -p src
-    {% for repo in source_github_repos.split(',') %}
-    git submodule add https://github.com/{{ repo }}.git src/{{ repo.split('/')[1] }} 2>/dev/null || echo 'submodule {{ repo }} already exists'
-    {% endfor %}
-    {% else %}
-    echo 'No GitHub repositories provided. Skipping git submodule add.'
-    {% endif %}
+  - "{% if source_github_repo %}mkdir -p src && git submodule add https://github.com/{{ source_github_repo }}.git src/{{ source_github_repo.split('/')[1] }} 2>/dev/null || echo 'submodule {{ source_github_repo }} already exists'{% else %}echo 'No source GitHub repository provided. Skipping git submodule add.'{% endif %}"
 
 # questions
 docker_project_name:
@@ -182,13 +174,13 @@ app_dirname:
   type: str
   help: "What is your application directory name to clone? (default: `{{ app_source_repo | regex_replace('.*/', '') }}`)"
 
-source_github_repos:
+source_github_repo:
   default: ""
   type: str
-  help: "List of GitHub repositories to add as submodules (format: username/reponame or multiple repos comma-separated)"
+  help: "GitHub repository to add as a submodule (format: username/reponame)"
   validator: >-
-    {% if not (source_github_repos | regex_search('^[a-z0-9\-]+/[a-z0-9\-]+(,[a-z0-9\-]+/[a-z0-9\-]+)*$')) %}
-    source_github_repos must be in format "username/reponame" or multiple "username/reponame,username2/reponame2"
+    {% if not (source_github_repos | regex_search('^[a-z0-9\-]+/[a-z0-9\-]+$')) %}
+    source_github_repos must be in format "username/reponame"
     {% endif %}
 
 source_dir_path:

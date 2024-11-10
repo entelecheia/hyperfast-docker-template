@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; do NOT edit manually
-_commit: v0.33.0-8-g90d1c71
+_commit: v0.33.0-11-g8624663
 _src_path: .
 app_dirname: entelecheia
 app_install_root: /workspace/projects
@@ -69,7 +69,7 @@ project_short_description: Hyperfast Docker Template is a powerful tool that lev
     experience.
 restart_always: false
 source_dir_path: src
-source_github_repo: copier/copier
+source_github_repo: copier-org/copier
 ssh_host_port: 2222
 ssh_port: 22
 use_deploy_workflows: true

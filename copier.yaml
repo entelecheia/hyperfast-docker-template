@@ -17,7 +17,7 @@ _tasks:
   # Strings get executed under system's default shell
   - "[ -d .git ] || git init"
   - "{% if github_repo_name %}git add remote origin https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`.git 2>/dev/null || echo 'origin already exists'{% else %}echo 'No GitHub repository name provided. Skipping git remote add.'{% endif %}"
-  - "{% if source_github_repo %}mkdir -p src && git submodule add https://github.com/{{ source_github_repo }}.git src/{{ source_github_repo.split('/')[1] }} 2>/dev/null || echo 'submodule {{ source_github_repo }} already exists'{% else %}echo 'No source GitHub repository provided. Skipping git submodule add.'{% endif %}"
+  - "{% if source_github_repo %}mkdir -p src && echo 'git submodule add https://github.com/`{{ source_github_repo }}`.git src/`{{ source_github_repo.split('/')[1] }}` 2>/dev/null' || echo 'submodule `{{ source_github_repo }}` already exists'{% else %}echo 'No source GitHub repository provided. Skipping git submodule add.'{% endif %}"
 
 # questions
 docker_project_name:

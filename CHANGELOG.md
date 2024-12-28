@@ -1,5 +1,229 @@
 <!--next-version-placeholder-->
 
+## v0.34.0 (2024-12-28)
+
+### Bug Fixes
+
+- Correct command in copier.yaml to properly add Git submodule
+  ([`b33cf17`](https://github.com/entelecheia/hyperfast-docker-template/commit/b33cf17ec1c20d8be8dbed113e438e0b652b8991))
+
+- Correct conditional syntax for HOST_SOURCE_DIR variable in docker.common.env.jinja
+  ([`8c6633e`](https://github.com/entelecheia/hyperfast-docker-template/commit/8c6633e68cba0910d1d4495223839811bd120b4e))
+
+- Correct variable references in copier.yaml for single GitHub repository support
+  ([`36f5a2a`](https://github.com/entelecheia/hyperfast-docker-template/commit/36f5a2a7e8e09d26720b0aa504e1ba5ddcfd4169))
+
+- Update app_dirname to hyperfast-docker-template and adjust environment variable defaults in
+  configuration files
+  ([`cff5739`](https://github.com/entelecheia/hyperfast-docker-template/commit/cff5739a224b9f4b5942f76c48a2720db186c05c))
+
+- Update APP_REPO_NAME and HOST_SOURCE_DIR variable definitions for improved conditional handling
+  ([`483ac30`](https://github.com/entelecheia/hyperfast-docker-template/commit/483ac30994e836ace5894bfb34843816e9e2cb80))
+
+- Update git submodule command in copier.yaml to improve error handling and output
+  ([`af245c2`](https://github.com/entelecheia/hyperfast-docker-template/commit/af245c2bdf4547584b23905c4c2d2c29a17c5944))
+
+- Update source directory and GitHub repository configurations in Copier templates for consistency
+  ([`6910b4e`](https://github.com/entelecheia/hyperfast-docker-template/commit/6910b4ede0f4b57b725ad9edf26bb65d89204204))
+
+- Update volume mappings in docker-compose template for improved directory configuration
+  ([`329d45f`](https://github.com/entelecheia/hyperfast-docker-template/commit/329d45f519736043c273d027b83f31b3f570941a))
+
+- **deps**: Update python-semantic-release and docker actions to latest versions
+  ([`05eecb6`](https://github.com/entelecheia/hyperfast-docker-template/commit/05eecb65f658d3718e0ef236736fcc3ca0d49204))
+
+- **deps**: Update python-semantic-release to version 9.15.2
+  ([`274d78a`](https://github.com/entelecheia/hyperfast-docker-template/commit/274d78a802229670f1e01d548bd09b1e688035c7))
+
+- **docker**: Update application directory name and configuration paths
+  ([`258d062`](https://github.com/entelecheia/hyperfast-docker-template/commit/258d062770f4b64afcfbdeecea6dadec82c2627d))
+
+- **docker**: Update application directory name and dependencies in configuration files
+  ([`702d917`](https://github.com/entelecheia/hyperfast-docker-template/commit/702d91758374621be8fa5a716b0ecb390b10822b))
+
+### Chores
+
+- Update Copier version and add source directory configuration in .copier-docker-config.yaml
+  ([`3ba3562`](https://github.com/entelecheia/hyperfast-docker-template/commit/3ba3562b0812bef02d664ec5c5265d3ad9ee2864))
+
+- **deps**: Bump docker/build-push-action from 6.9.0 to 6.10.0
+  ([#261](https://github.com/entelecheia/hyperfast-docker-template/pull/261),
+  [`842a722`](https://github.com/entelecheia/hyperfast-docker-template/commit/842a7229629b67ff3ffbf41dfde4637707370c0d))
+
+Bumps [docker/build-push-action](https://github.com/docker/build-push-action) from 6.9.0 to 6.10.0.
+  - [Release notes](https://github.com/docker/build-push-action/releases) -
+  [Commits](https://github.com/docker/build-push-action/compare/v6.9.0...v6.10.0)
+
+--- updated-dependencies: - dependency-name: docker/build-push-action dependency-type:
+  direct:production
+
+update-type: version-update:semver-minor
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+- **deps**: Bump docker/metadata-action from 5.5.1 to 5.6.1
+  ([#260](https://github.com/entelecheia/hyperfast-docker-template/pull/260),
+  [`dba1031`](https://github.com/entelecheia/hyperfast-docker-template/commit/dba10315e6bea59cd6b44a52c9d5d16850149e03))
+
+Bumps [docker/metadata-action](https://github.com/docker/metadata-action) from 5.5.1 to 5.6.1. -
+  [Release notes](https://github.com/docker/metadata-action/releases) -
+  [Commits](https://github.com/docker/metadata-action/compare/v5.5.1...v5.6.1)
+
+--- updated-dependencies: - dependency-name: docker/metadata-action dependency-type:
+  direct:production
+
+update-type: version-update:semver-minor
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+- **deps**: Bump python-semantic-release/python-semantic-release
+  ([`210d7f8`](https://github.com/entelecheia/hyperfast-docker-template/commit/210d7f841337adabb2fae473cda74969c7eb44af))
+
+Bumps
+  [python-semantic-release/python-semantic-release](https://github.com/python-semantic-release/python-semantic-release)
+  from 9.12.1 to 9.12.2. - [Release
+  notes](https://github.com/python-semantic-release/python-semantic-release/releases) -
+  [Changelog](https://github.com/python-semantic-release/python-semantic-release/blob/master/CHANGELOG.md)
+  -
+  [Commits](https://github.com/python-semantic-release/python-semantic-release/compare/v9.12.1...v9.12.2)
+
+--- updated-dependencies: - dependency-name: python-semantic-release/python-semantic-release
+  dependency-type: direct:production
+
+update-type: version-update:semver-patch
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+- **deps**: Bump python-semantic-release/python-semantic-release
+  ([`b6e4f1c`](https://github.com/entelecheia/hyperfast-docker-template/commit/b6e4f1c5632ec29ce709bdda1670a988973ca040))
+
+Bumps
+  [python-semantic-release/python-semantic-release](https://github.com/python-semantic-release/python-semantic-release)
+  from 9.12.0 to 9.12.1. - [Release
+  notes](https://github.com/python-semantic-release/python-semantic-release/releases) -
+  [Changelog](https://github.com/python-semantic-release/python-semantic-release/blob/master/CHANGELOG.md)
+  -
+  [Commits](https://github.com/python-semantic-release/python-semantic-release/compare/v9.12.0...v9.12.1)
+
+--- updated-dependencies: - dependency-name: python-semantic-release/python-semantic-release
+  dependency-type: direct:production
+
+update-type: version-update:semver-patch
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+- **deps**: Bump python-semantic-release/python-semantic-release
+  ([#258](https://github.com/entelecheia/hyperfast-docker-template/pull/258),
+  [`d54f2af`](https://github.com/entelecheia/hyperfast-docker-template/commit/d54f2af69890eaf66d6a00af236ffeb200923569))
+
+Bumps
+  [python-semantic-release/python-semantic-release](https://github.com/python-semantic-release/python-semantic-release)
+  from 9.12.2 to 9.13.0. - [Release
+  notes](https://github.com/python-semantic-release/python-semantic-release/releases) -
+  [Changelog](https://github.com/python-semantic-release/python-semantic-release/blob/master/CHANGELOG.md)
+  -
+  [Commits](https://github.com/python-semantic-release/python-semantic-release/compare/v9.12.2...v9.13.0)
+
+--- updated-dependencies: - dependency-name: python-semantic-release/python-semantic-release
+  dependency-type: direct:production
+
+update-type: version-update:semver-minor
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+- **deps**: Bump python-semantic-release/python-semantic-release
+  ([#259](https://github.com/entelecheia/hyperfast-docker-template/pull/259),
+  [`937bcd2`](https://github.com/entelecheia/hyperfast-docker-template/commit/937bcd217ef5e4586ebba9674c8e733796eead41))
+
+- **deps**: Bump python-semantic-release/python-semantic-release
+  ([#262](https://github.com/entelecheia/hyperfast-docker-template/pull/262),
+  [`b2b9a4a`](https://github.com/entelecheia/hyperfast-docker-template/commit/b2b9a4a0e31f0b3f921e178d674a567824804de1))
+
+- **deps**: Bump python-semantic-release/python-semantic-release
+  ([#263](https://github.com/entelecheia/hyperfast-docker-template/pull/263),
+  [`56a28ff`](https://github.com/entelecheia/hyperfast-docker-template/commit/56a28ff5aed4f0ac5e2491ebcb46bb19ff8f2c87))
+
+Bumps
+  [python-semantic-release/python-semantic-release](https://github.com/python-semantic-release/python-semantic-release)
+  from 9.15.0 to 9.15.1. - [Release
+  notes](https://github.com/python-semantic-release/python-semantic-release/releases) -
+  [Changelog](https://github.com/python-semantic-release/python-semantic-release/blob/master/CHANGELOG.md)
+  -
+  [Commits](https://github.com/python-semantic-release/python-semantic-release/compare/v9.15.0...v9.15.1)
+
+--- updated-dependencies: - dependency-name: python-semantic-release/python-semantic-release
+  dependency-type: direct:production
+
+update-type: version-update:semver-patch
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+- **deps**: Bump python-semantic-release/python-semantic-release
+  ([#264](https://github.com/entelecheia/hyperfast-docker-template/pull/264),
+  [`c7941eb`](https://github.com/entelecheia/hyperfast-docker-template/commit/c7941eb2e45438e88f9ec6269b9795df032ef19e))
+
+Bumps
+  [python-semantic-release/python-semantic-release](https://github.com/python-semantic-release/python-semantic-release)
+  from 9.15.1 to 9.15.2. - [Release
+  notes](https://github.com/python-semantic-release/python-semantic-release/releases) -
+  [Changelog](https://github.com/python-semantic-release/python-semantic-release/blob/master/CHANGELOG.md)
+  -
+  [Commits](https://github.com/python-semantic-release/python-semantic-release/compare/v9.15.1...v9.15.2)
+
+--- updated-dependencies: - dependency-name: python-semantic-release/python-semantic-release
+  dependency-type: direct:production
+
+update-type: version-update:semver-patch
+
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+### Features
+
+- Add APP_REPO_NAME and HOST_SOURCE_DIR variables to docker.common.env.jinja for improved
+  configuration
+  ([`a25e3a0`](https://github.com/entelecheia/hyperfast-docker-template/commit/a25e3a06bc909f800b2b679b56bd360bfae6aa6d))
+
+- Add copier submodule for project management
+  ([`b9049be`](https://github.com/entelecheia/hyperfast-docker-template/commit/b9049be385ba29f7d9a2c7ebe5da5ac093824954))
+
+- Add support for adding multiple GitHub submodules in copier.yaml
+  ([`90d1c71`](https://github.com/entelecheia/hyperfast-docker-template/commit/90d1c7106364a1dbbe83599a96c017baf9f1a662))
+
+- Add support for multiple GitHub repositories and configurable source directory path in copier.yaml
+  ([`5173533`](https://github.com/entelecheia/hyperfast-docker-template/commit/5173533c72d5085e01989a508ae66ba7cb9edaf6))
+
+- Enhance issue template to support multiple GitHub repositories and modernize copier.yaml for
+  compatibility
+  ([`ea1a6df`](https://github.com/entelecheia/hyperfast-docker-template/commit/ea1a6df597e1bede397c2087541836d2517f5eef))
+
+- Update copier.yaml to support a single GitHub repository as a submodule
+  ([`5c174dd`](https://github.com/entelecheia/hyperfast-docker-template/commit/5c174dd92089a42813291d3d5ea188886c874d10))
+
+
 ## v0.33.0 (2024-10-28)
 
 ### Chores

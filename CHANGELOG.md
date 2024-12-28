@@ -1,5 +1,28 @@
 <!--next-version-placeholder-->
 
+## v0.33.0 (2024-10-28)
+
+### Chores
+
+* chore: Remove unused .github/workflows/release.yaml file ([`b1f2555`](https://github.com/entelecheia/hyperfast-docker-template/commit/b1f2555af0777faff6fa712f1a683833eb20cf19))
+
+* chore: Remove unused .github/workflows/prerelease.yaml file ([`e8f4bed`](https://github.com/entelecheia/hyperfast-docker-template/commit/e8f4bed1963fc743b641524363d29aab23ecf4e0))
+
+### Features
+
+* feat: Update python-semantic-release version to 9.12.0 and remove unused .github/workflows/prerelease.yaml file ([`f26e8e9`](https://github.com/entelecheia/hyperfast-docker-template/commit/f26e8e975306b8253de9ccceadc77f8e01c86028))
+
+* feat: Update python-semantic-release version to 9.12.0 ([`4669038`](https://github.com/entelecheia/hyperfast-docker-template/commit/466903829ce5be9bb7074d563445392f21aee4c5))
+
+### Unknown
+
+* Merge pull request #252 from entelecheia/entelecheia/issue251 ([`279ed07`](https://github.com/entelecheia/hyperfast-docker-template/commit/279ed070aaccb0995f9a8f9d0fa45a94c9938aec))
+
+* Merge pull request #248 from entelecheia/release
+
+Release ([`8e724c4`](https://github.com/entelecheia/hyperfast-docker-template/commit/8e724c4b07246e73cec22b8fd92682994de3a683))
+
+
 ## v0.32.0 (2024-10-15)
 
 ### Feature

@@ -1,5 +1,7 @@
 .DEFAULT_GOAL := help
 INSTANCE ?= example
+# The instance name always comes from the command line, so copied env files cannot collide.
+export INSTANCE
 ENV_FILE ?= instances/$(INSTANCE).env
 {%- if kind == 'workspace' or build %}
 VARIANT ?= $(shell sed -n 's/^VARIANT=//p' $(ENV_FILE))

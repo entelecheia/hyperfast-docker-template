@@ -22,13 +22,12 @@ RUN apt-get update \
 {%- endif %}
  && rm -rf /var/lib/apt/lists/*
 
-# Base images may already own the uid/gid (ubuntu:24.04 ships user "ubuntu" as 1000).
+# Base images may already own the uid (ubuntu:24.04 ships user "ubuntu" as 1000): remove that
+# user; an existing group with the gid is reused rather than deleted.
 RUN old_user="$(getent passwd "${USER_UID}" | cut -d: -f1)"; \
     if [ -n "${old_user}" ]; then userdel -r "${old_user}" 2>/dev/null || userdel "${old_user}"; fi; \
-    old_group="$(getent group "${USER_GID}" | cut -d: -f1)"; \
-    if [ -n "${old_group}" ]; then groupdel "${old_group}"; fi; \
-    groupadd -g "${USER_GID}" "${USER_NAME}" \
- && useradd -m -s /bin/bash -u "${USER_UID}" -g "${USER_GID}" "${USER_NAME}"
+    getent group "${USER_GID}" >/dev/null || groupadd -g "${USER_GID}" "${USER_NAME}"; \
+    useradd -m -s /bin/bash -u "${USER_UID}" -g "${USER_GID}" "${USER_NAME}"
 {%- if kind == 'workspace' %}{% if workspace_sudo %}
 
 # Passwordless sudo inside the container only; the account itself has no password.

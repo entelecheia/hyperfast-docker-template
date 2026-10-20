@@ -15,7 +15,7 @@ mkdir -p "${work}/data"
 ssh-keygen -q -t ed25519 -N '' -f "${work}/key"
 cat > "${work}/smoke.env" <<EOF
 NAME_PREFIX=smoke
-INSTANCE=ci
+INSTANCE=ci-$$
 VARIANT=${variant}
 IMAGE_TAG=smoke-${variant}
 USER_UID=$(id -u)
@@ -54,11 +54,10 @@ got="$(ssh "${ssh_opts[@]}" -i "${work}/key" -o IdentitiesOnly=yes "${user}@127.
 [ "${got}" = "$(id -u)" ] || fail "key login returned uid '${got}'"
 echo "ok   key login as ${user} (uid ${got})"
 
-if ssh "${ssh_opts[@]}" -o PubkeyAuthentication=no -o PreferredAuthentications=password,keyboard-interactive \
-    "${user}@127.0.0.1" true 2>/dev/null; then
-  fail "password login was accepted"
-fi
-echo "ok   password login refused"
+methods="$(ssh -v "${ssh_opts[@]}" -o PubkeyAuthentication=no "${user}@127.0.0.1" true 2>&1 \
+  | sed -n 's/.*Authentications that can continue: //p' | head -1)" || true
+[ "${methods}" = publickey ] || fail "server offers auth methods '${methods}', want only publickey"
+echo "ok   server offers only publickey auth"
 
 fingerprint() { ssh-keyscan -p "${port}" -t ed25519 127.0.0.1 2>/dev/null | ssh-keygen -lf - | awk '{print $2}'; }
 before="$(fingerprint)"

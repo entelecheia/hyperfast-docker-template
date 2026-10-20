@@ -9,7 +9,12 @@ mkdir -p "${state}" "${HOME}/.ssh"
 chmod 700 "${state}" "${HOME}/.ssh"
 
 key="${state}/ssh_host_ed25519_key"
-[ -f "${key}" ] || ssh-keygen -q -t ed25519 -N '' -f "${key}"
+if [ ! -s "${key}.pub" ]; then
+  # Generate aside and move into place, so an interrupted start never leaves a half-written key.
+  rm -f "${key}.new" "${key}.new.pub"
+  ssh-keygen -q -t ed25519 -N '' -f "${key}.new"
+  mv "${key}.new" "${key}" && mv "${key}.new.pub" "${key}.pub"
+fi
 
 # SSH sessions do not inherit the container env; hand over the runtime part, never secrets.
 env | grep -E '^(PATH|LD_LIBRARY_PATH|LIBRARY_PATH|CUDA_VERSION|NV_CUDA_[A-Z_]*|NVIDIA_[A-Z_]*|HF_HOME|HF_HUB_OFFLINE|LANG|TZ)=' \

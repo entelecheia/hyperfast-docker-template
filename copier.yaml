@@ -88,7 +88,7 @@ variants:
 
 gpu:
   type: bool
-  default: true
+  default: "{{ variants != ['cpu-ubuntu24.04'] }}"
   help: Attach NVIDIA GPUs (pinned by UUID at deploy time)
 
 service_port:

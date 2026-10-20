@@ -55,7 +55,7 @@ got="$(ssh "${ssh_opts[@]}" -i "${work}/key" -o IdentitiesOnly=yes "${user}@127.
 echo "ok   key login as ${user} (uid ${got})"
 
 methods="$(ssh -v "${ssh_opts[@]}" -o PubkeyAuthentication=no "${user}@127.0.0.1" true 2>&1 \
-  | sed -n 's/.*Authentications that can continue: //p' | head -1)" || true
+  | sed -n 's/.*Authentications that can continue: //p' | head -1 | tr -d '\r')" || true
 [ "${methods}" = publickey ] || fail "server offers auth methods '${methods}', want only publickey"
 echo "ok   server offers only publickey auth"
 

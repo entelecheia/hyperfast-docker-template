@@ -1,3 +1,0 @@
-[submodule "src/copier"]
-	path = src/copier
-	url = https://github.com/copier-org/copier.git

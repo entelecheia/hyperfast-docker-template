@@ -1,0 +1,11 @@
+# Unprivileged sshd: it can only log in the user it runs as.
+Port 2222
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+PermitRootLogin no
+UsePAM no
+PermitUserEnvironment yes
+AuthorizedKeysFile .ssh/authorized_keys /etc/workspace/authorized_keys
+PrintMotd no
+Subsystem sftp internal-sftp

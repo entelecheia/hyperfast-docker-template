@@ -1,0 +1,6 @@
+project_name: demo-cpu
+owner: demo
+kind: workspace
+variants: [cpu-ubuntu24.04]
+gpu: false
+workspace_sudo: false

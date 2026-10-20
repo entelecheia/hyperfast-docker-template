@@ -1,0 +1,8 @@
+project_name: demo-service
+owner: demo
+kind: service
+build: true
+variants: [cuda12.8-ubuntu24.04]
+gpu: true
+service_port: 8000
+license: Apache-2.0

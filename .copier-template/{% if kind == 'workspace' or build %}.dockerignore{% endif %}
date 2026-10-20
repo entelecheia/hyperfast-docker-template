@@ -1,0 +1,3 @@
+# Only the image inputs go to the build context.
+*
+!.docker/

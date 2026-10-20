@@ -1,107 +1,66 @@
 # Hyperfast Docker Template
 
-[![version-image]][release-url]
-[![release-date-image]][release-url]
-[![license-image]][license-url]
+A [Copier](https://copier.readthedocs.io) template for container images and the compose run spec that goes with them. Its defaults are meant for shared multi-tenant GPU hosts: non-root users, loopback-only ports, CPU/memory/pids caps, GPUs pinned by UUID through the `nvidia` runtime, data on a large disk instead of the container layer, and versioned image tags.
 
-Hyperfast Docker Template is a powerful tool that leverages copier to streamline the creation of new Docker projects. It simplifies and accelerates Docker configurations, fostering a highly efficient and user-friendly development experience.
+It builds images and runs one instance per user. It does not manage host accounts, passwords, quotas or GPU allocation; that belongs to host tooling.
 
-- Documentation: [https://hyperfast-docker.entelecheia.ai][docs-url]
-- GitHub: [https://github.com/entelecheia/hyperfast-docker-template][repo-url]
+## Use
 
-Hyperfast Docker Template is an innovative project creation tool that merges the flexibility of Docker with the simplicity of Copier to optimize the project creation process. This tool allows developers to quickly and efficiently set up Docker projects, thereby significantly reducing the time and effort traditionally associated with this process.
+```sh
+copier copy gh:entelecheia/hyperfast-docker-template my-project
+cd my-project
+cp instances/example.env instances/mine.env   # fill in the deploy-time values
+make check INSTANCE=mine && make build INSTANCE=mine && make up INSTANCE=mine
+```
 
-By harnessing the power of Copier, Hyperfast Docker Template provides a user-friendly interface that developers can utilize to duplicate Docker projects with minimal hassle. It eradicates the need for extensive coding knowledge, making Docker more accessible to a wider range of users.
+No `--trust` is needed: the template runs no tasks. Copier 9.3 or newer is required.
 
-Furthermore, this tool employs a hyperfast approach to Docker project templating, ensuring that new projects are up and running in the quickest time possible. This speed does not compromise the quality or functionality of the Docker projects created, but instead enhances their performance, reliability, and scalability.
+Two kinds of project:
 
-Hyperfast Docker Template also ensures consistency across Docker projects, as the use of a template guarantees that all projects conform to a standardized layout and configuration. This, in turn, enhances the overall workflow, as developers can familiarize themselves with a consistent project structure and configuration, leading to increased productivity and efficiency.
+- `workspace`: an SSH dev container. Key-only login on container port 2222 through an unprivileged sshd, so the whole container runs as the image user. Optional passwordless sudo inside the container (on by default). The SSH host key is created on first start and kept in the home volume, never baked into the image. Home is a named volume (`/tmp` stays in the container and goes with it); data is a bind mount at `/data`.
+- `service`: one long-running process with an HTTP healthcheck. Either built from `.docker/Dockerfile` (non-root user) or a pinned upstream image (for example a model server) with no Dockerfile at all. An upstream image runs as the user it defines, often root; set `user:` in a local override when the image supports a non-root user.
 
-Whether you're an experienced developer or a novice just starting out, Hyperfast Docker Template is the ideal tool to fast-track your Docker project creation process, ensuring a seamless, efficient, and highly productive development experience.
+Image variants (one base image each):
 
-## Prerequisites
+| Variant | Base | Driver floor |
+|---|---|---|
+| `cpu-ubuntu24.04` | `ubuntu:24.04` | none |
+| `cuda12.8-ubuntu24.04` (default) | `nvidia/cuda:12.8.2-{devel,runtime}-ubuntu24.04` | 570 (535 only via CUDA minor-version compatibility) |
+| `cuda13.0-ubuntu24.04` | `nvidia/cuda:13.0.3-{devel,runtime}-ubuntu24.04` | 580 |
 
-- Docker
-- Docker Compose
-- NVIDIA Docker (for GPU support, Optional)
+`workspace` uses the `devel` images, `service` the `runtime` images.
 
-## Setup
+What a generated project contains:
 
-1. Use Copier to copy the template to your project directory:
+- `compose.yaml`: the run spec. Deploy-time values (name prefix, ports, GPU UUIDs, data path, caps) come from `instances/<name>.env`; secrets from `secrets/app.env`. Both are gitignored, except `instances/example.env`.
+- `scripts/check-compose.sh`: rejects non-loopback ports (other than the workspace SSH port), host networking, `ipc: host` without `ALLOW_IPC_HOST=1`, missing or unlimited caps, GPUs without `runtime: nvidia` or not pinned by UUID, `latest` or untagged images, and missing healthchecks. `make check` runs it with `docker build --check` and shellcheck.
+- `.github/workflows/ci.yaml`: `make check` and a build of every variant without pushing, on pull requests.
+- `.github/workflows/release.yaml`: python-semantic-release tags `main` from conventional commits, then pushes `<registry>/<owner>/<project>:<version>-<variant>`. There is no `latest` tag. GHCR uses `GITHUB_TOKEN`; any other registry needs the `REGISTRY_USERNAME` and `REGISTRY_TOKEN` repository secrets.
+- `AGENTS.md`: commands, verify step and rules for coding agents.
 
-   ```bash
-   copier copy --trust gh:entelecheia/hyperfast-docker-template path/to/destination
-   ```
+## Migrating a project generated before v1.0.0
 
-2. Build the Docker image
+v1.0.0 is a redesign: the questions, file layout and env files all changed, and there are no Copier migrations. `copier update` from 0.x will not produce a usable result. To move a project:
 
-   Go to the project directory and run the following command:
+1. On a new branch, render fresh: `copier copy --overwrite gh:entelecheia/hyperfast-docker-template .` and answer for the new questions.
+2. Port your Dockerfile additions into `.docker/Dockerfile` and your run values into `instances/<name>.env`.
+3. Delete the old files: `.docker/.docker-scripts/`, `.docker/.ids/`, `.docker/docker.*.env`, `.docker/docker-compose.*.yaml`, `.docker/Dockerfile.*`, `.env.secret`, `.tasks*.toml`.
+4. Run `make check`, then open a pull request.
 
-   ```bash
-   make docker-build
-   ```
+Repos generated from 0.x are not migrated by this release:
 
-   The `docker.base.env` file includes various configuration options and environment variables. The `docker-compose.base.yaml` file uses these variables to customize the behavior of the services. This is a common practice when you want to set different configurations for development, testing, and production environments. The `Dockerfile.base` file uses these variables to customize the Docker build. These files are automatically generated by Copier when you run the `copier copy` command.
+| Repos | Disposition |
+|---|---|
+| dev-containers | Independent (not Copier-managed); its variants pattern was folded into this template |
+| deepnlp-2024, deepnlp-2025 and the archived course templates | Left as is; they build on dev-containers images |
+| agentgpt, devenv, fastchat, invokeai, llama-factory, ollama, openllm, ros2, sdwebui, TensorRT-LLM, traefik, txtgen-webui (`*-container`) | Left as is; a revived repo moves with the steps above |
 
-3. Start the Docker container:
+## Developing the template
 
-   ```bash
-   make docker-up
-   ```
-
-   This will start a Docker container with the image built in the previous step. The container will run a bash lauch script that starts the application.
-
-## Usage
-
-After starting the container, you can access the application at `localhost:<CONTAINER_HOST_WEB_SVC_PORT>`. By default, the port is set to `18888`.
-
-You can also SSH into the container using the SSH port specified in `CONTAINER_HOST_SSH_PORT`. By default, the port is set to `2222`.
-
-## Volumes
-
-The `docker-compose.base.yaml` file specifies several volumes that bind mount directories on the host to directories in the container. These include the cache, the workspace directory, and the scripts directory. Changes made in these directories will persist across container restarts.
-
-## Troubleshooting
-
-If you encounter any issues with this setup, please check the following:
-
-- Make sure Docker and Docker Compose are installed correctly.
-- Make sure NVIDIA Docker is installed if you're planning to use GPU acceleration.
-- Ensure the environment variables in the `docker.base.env` file are correctly set.
-- Check the Docker and Docker Compose logs for any error messages.
-
-## Environment Variables
-
-In Docker, environment variables can be used in the `docker-compose.base.yaml` file to customize the behavior of the services.
-
-The `docker-compose` command has an `--env-file` argument, but it's used to set the environment variables for the services defined in the `docker-compose.yaml` file, not for the `docker-compose` command itself. The variables defined in the `--env-file` will not be substituted into the `docker-compose.yaml` file.
-
-However, the environment variables we set in the `.docker/docker.base.env` file are used in the `docker-compose.base.yaml` file. For example, the `$BUILD_FROM` variable is used to set the base image for the Docker build. Therefore, we need to export these variables to the shell environment before running the `docker-compose` command.
-
-This method also allows us to use shell commands in the variable definitions, like `"$(whoami)"` for the `USERNAME` variable, which wouldn't be possible if we used the `--env-file` argument. Shell commands in the `.env` file are not evaluated.
-
-## Changelog
-
-See the [CHANGELOG] for more information.
-
-## Contributing
-
-Contributions are welcome! Please see the [contributing guidelines] for more information.
+- `make check`: renders every `tests/answers/*.yaml`, runs each render's `make check`, and runs `tests/check-compose-fixtures.sh` and `tests/check-workflows.sh` (actionlint plus timeout, concurrency, cache and no-latest rules). Needs uv, docker with compose, jq and shellcheck.
+- `make smoke`: builds the CPU workspace render and runs `tests/smoke-workspace.sh`.
+- Releases are tagged from `main` with conventional commits; see GitHub Releases. `CHANGELOG.md` covers 0.x only.
 
 ## License
 
-This project is released under the [MIT License][license-url].
-
-<!-- Links: -->
-
-[license-image]: https://img.shields.io/github/license/entelecheia/hyperfast-docker-template
-[license-url]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/LICENSE
-[version-image]: https://img.shields.io/github/v/release/entelecheia/hyperfast-docker-template?sort=semver
-[release-date-image]: https://img.shields.io/github/release-date/entelecheia/hyperfast-docker-template
-[release-url]: https://github.com/entelecheia/hyperfast-docker-template/releases
-[repo-url]: https://github.com/entelecheia/hyperfast-docker-template
-[docs-url]: https://hyperfast-docker.entelecheia.ai
-[changelog]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/CHANGELOG.md
-[contributing guidelines]: https://github.com/entelecheia/hyperfast-docker-template/blob/main/CONTRIBUTING.md
-
-<!-- Links: -->
+MIT

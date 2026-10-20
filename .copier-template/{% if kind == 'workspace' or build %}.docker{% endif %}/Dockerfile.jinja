@@ -1,0 +1,56 @@
+# syntax=docker/dockerfile:1
+# BASE_IMAGE comes from .docker/variants/<variant>.env (make build, CI and release pass it).
+ARG BASE_IMAGE=ubuntu:24.04
+FROM ${BASE_IMAGE}
+
+LABEL org.opencontainers.image.source="https://github.com/{{ owner }}/{{ project_name }}"
+LABEL org.opencontainers.image.description="{{ project_description }}"
+LABEL org.opencontainers.image.licenses="{{ license }}"
+
+ARG DEBIAN_FRONTEND=noninteractive
+# Build with the uid/gid of the host account that owns the bind-mounted data,
+# so nothing has to be chowned at start.
+ARG USER_NAME={{ container_user }}
+ARG USER_UID=1000
+ARG USER_GID=1000
+ENV LANG=C.UTF-8 TZ=Etc/UTC
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates curl \
+{%- if kind == 'workspace' %}
+      git less openssh-client openssh-server build-essential{% if workspace_sudo %} sudo{% endif %} \
+{%- endif %}
+ && rm -rf /var/lib/apt/lists/*
+
+# Base images may already own the uid (ubuntu:24.04 ships user "ubuntu" as 1000): remove that
+# user; an existing group with the gid is reused rather than deleted.
+RUN old_user="$(getent passwd "${USER_UID}" | cut -d: -f1)"; \
+    if [ -n "${old_user}" ]; then userdel -r "${old_user}" 2>/dev/null || userdel "${old_user}"; fi; \
+    getent group "${USER_GID}" >/dev/null || groupadd -g "${USER_GID}" "${USER_NAME}"; \
+    useradd -m -s /bin/bash -u "${USER_UID}" -g "${USER_GID}" "${USER_NAME}"
+{%- if kind == 'workspace' %}{% if workspace_sudo %}
+
+# Passwordless sudo inside the container only; the account itself has no password.
+RUN echo "${USER_NAME} ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/${USER_NAME}" \
+ && chmod 0440 "/etc/sudoers.d/${USER_NAME}"
+{%- endif %}
+
+# Never ship SSH host keys in an image: the entrypoint creates them per container
+# in the persistent home volume.
+RUN rm -f /etc/ssh/ssh_host_*
+COPY .docker/sshd_config /etc/workspace/sshd_config
+COPY --chmod=0755 .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+USER ${USER_NAME}
+WORKDIR /home/${USER_NAME}
+EXPOSE 2222
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["sleep", "infinity"]
+{%- else %}
+
+USER ${USER_NAME}
+WORKDIR /home/${USER_NAME}
+EXPOSE {{ service_port }}
+# Replace with your server; it must listen on {{ service_port }} and answer {{ healthcheck_path }}.
+CMD ["sleep", "infinity"]
+{%- endif %}

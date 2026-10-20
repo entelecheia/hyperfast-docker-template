@@ -1,0 +1,3 @@
+# Driver floor: 570 (native). 535 hosts only via CUDA minor-version compatibility (no PTX JIT).
+# Minimum CUDA for Blackwell GPUs.
+BASE_IMAGE=nvidia/cuda:12.8.2-{{ 'devel' if kind == 'workspace' else 'runtime' }}-ubuntu24.04

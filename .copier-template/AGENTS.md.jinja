@@ -1,0 +1,42 @@
+# {{ project_name }}
+
+{% if kind == 'workspace' %}SSH workspace container image{% elif build %}Service image{% else %}Run spec for the pinned upstream image `{{ upstream_image }}`{% endif %} plus a compose file for running one instance per user on a shared GPU host. Generated from hyperfast-docker-template; it does not manage host accounts, quotas or GPU allocation.
+
+## Commands
+
+- Check: `make check` (compose rules, {% if kind == 'workspace' or build %}`docker build --check` per variant, {% endif %}shellcheck)
+{%- if kind == 'workspace' or build %}
+- Build: `make build INSTANCE=<name>` (variant from the instance file)
+{%- endif %}
+- Run: `make up INSTANCE=<name>`, `make down INSTANCE=<name>`, `make logs INSTANCE=<name>`
+
+## Verifying your work
+
+Run before reporting a task complete and paste the output. Fix the code, never the check.
+
+- `make check` (healthy output ends with `compose check passed` and no shellcheck findings)
+- With a real instance file: `make check INSTANCE=<name>`
+
+## Conventions
+
+- Deploy-time values (ports, GPU UUIDs, data path, caps) live in `instances/<name>.env`, gitignored except `example.env`. Secrets live in `secrets/app.env` (gitignored, loaded via `env_file`).
+- Ports bind to `127.0.0.1`; reach them with `ssh -L`.{% if kind == 'workspace' %} Only the SSH port (container 2222) may use another `BIND_ADDR`.{% endif %}
+- GPUs: `runtime: nvidia` and `GPU_UUIDS` from `nvidia-smi -L`; never `all` or a GPU index.
+- Images are tagged `<version>-<variant>`; never `latest`. Releases come from conventional commits on `main`.
+- Persistent data goes to `/data` (`DATA_ROOT` on the large disk){% if kind == 'workspace' %} or the `home` volume{% endif %}, never into the container writable layer.
+
+## Architecture
+
+{%- if kind == 'workspace' or build %}
+- `.docker/Dockerfile`: one Dockerfile; `BASE_IMAGE` comes from `.docker/variants/<variant>.env`.
+{%- endif %}
+{%- if kind == 'workspace' %}
+- `.docker/entrypoint.sh`, `.docker/sshd_config`: unprivileged key-only sshd; host key in `~/.workspace`.
+{%- endif %}
+- `compose.yaml`: the run spec. `scripts/check-compose.sh`: the rules `make check` enforces.
+- `.github/workflows/`: `ci.yaml` (PR checks{% if kind == 'workspace' or build %} and builds without push{% endif %}), `release.yaml` (tag{% if kind == 'workspace' or build %}, then push images{% endif %}).
+
+## Things the agent gets wrong
+
+- 2026-10-20, template rule: do not add `ipc: host`, `0.0.0.0` ports, `docker system prune` or `down -v` to fix a problem; they affect other users of the host. Revisit when: the image runs on a single-user host.
+- 2026-10-20, template rule: do not chown bind mounts at start; rebuild with `USER_UID`/`USER_GID` instead. Revisit when: data moves off bind mounts.

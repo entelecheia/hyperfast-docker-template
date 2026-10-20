@@ -3,7 +3,7 @@
 {{ project_description }}
 
 {% if kind == 'workspace' -%}
-An SSH workspace container: key-only login as a non-root user{% if workspace_sudo %} with sudo inside the container{% endif %}, data on `/data`, home and `/tmp` on named volumes.
+An SSH workspace container: key-only login as a non-root user{% if workspace_sudo %} with sudo inside the container{% endif %}, data on `/data`, home on a named volume.
 {%- elif build -%}
 A service image built from `.docker/Dockerfile`, listening on port {{ service_port }} with a healthcheck on `{{ healthcheck_path }}`.
 {%- else -%}

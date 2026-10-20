@@ -55,7 +55,6 @@ services:
         bind:
           create_host_path: false
       - home:/home/{{ container_user }}
-      - tmp:/tmp
 {%- endif %}
     healthcheck:
 {%- if kind == 'workspace' %}
@@ -86,5 +85,4 @@ services:
 
 volumes:
   home:
-  tmp:
 {%- endif %}

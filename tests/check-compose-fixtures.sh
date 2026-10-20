@@ -44,6 +44,8 @@ for dir in "${out}"/*/; do
     run_case "${dir}" pass "SSH port on 0.0.0.0 is allowed" "" BIND_ADDR=0.0.0.0
     run_case "${dir}" "not loopback" "extra port on all interfaces" \
       $'services:\n  app:\n    ports: ["8888:8888"]'
+    run_case "${dir}" "not loopback" "SSH label moved to a public port" \
+      $'services:\n  app:\n    labels:\n      hyperfast.ssh-port: "8888"\n    ports: ["8888:8888"]'
   else
     run_case "${dir}" "not loopback" "service port on 0.0.0.0" "" BIND_ADDR=0.0.0.0
   fi

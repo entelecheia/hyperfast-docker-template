@@ -17,7 +17,7 @@ No `--trust` is needed: the template runs no tasks. Copier 9.3 or newer is requi
 
 Two kinds of project:
 
-- `workspace`: an SSH dev container. Key-only login on container port 2222 through an unprivileged sshd, so the whole container runs as the image user. Optional passwordless sudo inside the container (on by default). The SSH host key is created on first start and kept in the home volume, never baked into the image. Home and `/tmp` are named volumes; data is a bind mount at `/data`.
+- `workspace`: an SSH dev container. Key-only login on container port 2222 through an unprivileged sshd, so the whole container runs as the image user. Optional passwordless sudo inside the container (on by default). The SSH host key is created on first start and kept in the home volume, never baked into the image. Home is a named volume (`/tmp` stays in the container and goes with it); data is a bind mount at `/data`.
 - `service`: one long-running process with an HTTP healthcheck. Either built from `.docker/Dockerfile` (non-root user) or a pinned upstream image (for example a model server) with no Dockerfile at all. An upstream image runs as the user it defines, often root; set `user:` in a local override when the image supports a non-root user.
 
 Image variants (one base image each):

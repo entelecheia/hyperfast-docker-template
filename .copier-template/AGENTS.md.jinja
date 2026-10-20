@@ -23,7 +23,7 @@ Run before reporting a task complete and paste the output. Fix the code, never t
 - Ports bind to `127.0.0.1`; reach them with `ssh -L`.{% if kind == 'workspace' %} Only the SSH port (container 2222) may use another `BIND_ADDR`.{% endif %}
 - GPUs: `runtime: nvidia` and `GPU_UUIDS` from `nvidia-smi -L`; never `all` or a GPU index.
 - Images are tagged `<version>-<variant>`; never `latest`. Releases come from conventional commits on `main`.
-- Persistent data goes to `/data` (`DATA_ROOT` on the large disk){% if kind == 'workspace' %} or the `home`/`tmp` volumes{% endif %}, never into the container writable layer.
+- Persistent data goes to `/data` (`DATA_ROOT` on the large disk){% if kind == 'workspace' %} or the `home` volume{% endif %}, never into the container writable layer.
 
 ## Architecture
 

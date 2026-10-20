@@ -21,7 +21,8 @@ violations="$(jq -r --arg allow_ipc "${ALLOW_IPC_HOST:-0}" '
   .services | to_entries[] | .key as $s | .value as $v |
   ( ($v.ports // [])[]
     | select(((.host_ip // "") | IN("127.0.0.1", "::1")) | not)
-    | select((.target | tostring) != ($v.labels["hyperfast.ssh-port"] // "none"))
+    # Only the workspace sshd port is exempt; the label marks the workspace, the port is fixed.
+    | select(((.target | tostring) == "2222" and $v.labels["hyperfast.ssh-port"] == "2222") | not)
     | "\($s): port \(.target) is published on \(.host_ip // "all interfaces"), not loopback" ),
   ( select($v.network_mode == "host") | "\($s): network_mode: host bypasses the loopback port rule" ),
   ( select($v.ipc == "host" and $allow_ipc != "1") | "\($s): ipc: host (set ALLOW_IPC_HOST=1 to accept)" ),

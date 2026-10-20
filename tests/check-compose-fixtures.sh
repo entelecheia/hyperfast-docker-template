@@ -53,12 +53,18 @@ for dir in "${out}"/*/; do
   run_case "${dir}" "missing mem_limit" "no memory cap" $'services:\n  app:\n    mem_limit: !reset null'
   run_case "${dir}" "missing pids_limit" "no pids cap" $'services:\n  app:\n    pids_limit: !reset null'
   run_case "${dir}" "missing healthcheck" "no healthcheck" $'services:\n  app:\n    healthcheck: !reset null'
+  run_case "${dir}" "missing cpus" "CPUS=0 (unlimited)" "" CPUS=0
+  run_case "${dir}" "missing mem_limit" "MEMORY=0 (unlimited)" "" MEMORY=0
+  run_case "${dir}" "missing pids_limit" "PIDS_LIMIT=-1 (unlimited)" "" PIDS_LIMIT=-1
+  run_case "${dir}" "network_mode: host" "host networking" $'services:\n  app:\n    network_mode: host\n    ports: !reset []'
   if ${built}; then
     run_case "${dir}" "not pinned" "latest image tag" "" IMAGE_TAG=latest
   else
     run_case "${dir}" "not pinned" "latest upstream image" $'services:\n  app:\n    image: vllm/vllm-openai:latest'
+    run_case "${dir}" "not pinned" "registry port but no tag" $'services:\n  app:\n    image: registry.example:5000/team/service'
   fi
   if ${gpu}; then
+    run_case "${dir}" "pinned by UUID" "GPU index instead of UUID" "" GPU_UUIDS=0
     run_case "${dir}" "without runtime: nvidia" "GPU without nvidia runtime" $'services:\n  app:\n    runtime: !reset null'
     run_case "${dir}" "pinned by UUID" "GPU count: all" \
       $'services:\n  app:\n    deploy:\n      resources:\n        reservations:\n          devices: !override\n            - driver: nvidia\n              count: all\n              capabilities: [gpu]'

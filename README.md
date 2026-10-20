@@ -18,7 +18,7 @@ No `--trust` is needed: the template runs no tasks. Copier 9.3 or newer is requi
 Two kinds of project:
 
 - `workspace`: an SSH dev container. Key-only login on container port 2222 through an unprivileged sshd, so the whole container runs as the image user. Optional passwordless sudo inside the container (on by default). The SSH host key is created on first start and kept in the home volume, never baked into the image. Home and `/tmp` are named volumes; data is a bind mount at `/data`.
-- `service`: one long-running process with an HTTP healthcheck. Either built from `.docker/Dockerfile` or a pinned upstream image (for example a model server) with no Dockerfile at all.
+- `service`: one long-running process with an HTTP healthcheck. Either built from `.docker/Dockerfile` (non-root user) or a pinned upstream image (for example a model server) with no Dockerfile at all. An upstream image runs as the user it defines, often root; set `user:` in a local override when the image supports a non-root user.
 
 Image variants (one base image each):
 
@@ -33,9 +33,9 @@ Image variants (one base image each):
 What a generated project contains:
 
 - `compose.yaml`: the run spec. Deploy-time values (name prefix, ports, GPU UUIDs, data path, caps) come from `instances/<name>.env`; secrets from `secrets/app.env`. Both are gitignored, except `instances/example.env`.
-- `scripts/check-compose.sh`: rejects non-loopback ports (other than the workspace SSH port), `ipc: host` without `ALLOW_IPC_HOST=1`, missing caps, GPUs without `runtime: nvidia` or without UUIDs, `latest` or untagged images, and missing healthchecks. `make check` runs it with `docker build --check` and shellcheck.
+- `scripts/check-compose.sh`: rejects non-loopback ports (other than the workspace SSH port), host networking, `ipc: host` without `ALLOW_IPC_HOST=1`, missing or unlimited caps, GPUs without `runtime: nvidia` or not pinned by UUID, `latest` or untagged images, and missing healthchecks. `make check` runs it with `docker build --check` and shellcheck.
 - `.github/workflows/ci.yaml`: `make check` and a build of every variant without pushing, on pull requests.
-- `.github/workflows/release.yaml`: python-semantic-release tags `main` from conventional commits, then pushes `<registry>/<owner>/<project>:<version>-<variant>`. There is no `latest` tag.
+- `.github/workflows/release.yaml`: python-semantic-release tags `main` from conventional commits, then pushes `<registry>/<owner>/<project>:<version>-<variant>`. There is no `latest` tag. GHCR uses `GITHUB_TOKEN`; any other registry needs the `REGISTRY_USERNAME` and `REGISTRY_TOKEN` repository secrets.
 - `AGENTS.md`: commands, verify step and rules for coding agents.
 
 ## Migrating a project generated before v1.0.0

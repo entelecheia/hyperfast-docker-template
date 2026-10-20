@@ -68,8 +68,9 @@ upstream_image:
   when: "{{ kind == 'service' and not build }}"
   help: Upstream image with a pinned tag or digest (e.g. vllm/vllm-openai:v0.11.0)
   validator: >-
-    {% if kind == 'service' and not build and (not (upstream_image | regex_search('[:@]'))
-    or upstream_image | regex_search(':latest$')) %}
+    {% set name = upstream_image.split('/')[-1] %}
+    {%- if kind == 'service' and not build and not ('@sha256:' in upstream_image
+    or (':' in name and not name.endswith(':latest'))) %}
     pin a version tag or digest; latest is not allowed
     {% endif %}
 
@@ -101,6 +102,10 @@ healthcheck_path:
   default: /health
   when: "{{ kind == 'service' }}"
   help: HTTP path the healthcheck requests
+  validator: >-
+    {% if not (healthcheck_path | regex_search('^/[A-Za-z0-9._~/-]*$')) %}
+    an absolute URL path (letters, digits, . _ ~ / -)
+    {% endif %}
 
 container_user:
   type: str

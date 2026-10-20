@@ -57,8 +57,14 @@ jobs:
       - uses: docker/login-action@v4
         with:
           registry: {{ registry }}
+{%- if registry == 'ghcr.io' %}
           username: {% raw %}${{ github.actor }}{% endraw %}
           password: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
+{%- else %}
+          # Repository secrets for {{ registry }}.
+          username: {% raw %}${{ secrets.REGISTRY_USERNAME }}{% endraw %}
+          password: {% raw %}${{ secrets.REGISTRY_TOKEN }}{% endraw %}
+{%- endif %}
       - uses: docker/build-push-action@v7
         with:
           context: .

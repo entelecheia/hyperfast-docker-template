@@ -5,14 +5,14 @@ Copier template for container images plus a compose run spec with shared-GPU-hos
 ## Commands
 
 - Render all fixtures: `make render` (into `.render/`, gitignored)
-- Check: `make check` (render, each render's `make check`, compose rule fixtures)
+- Check: `make check` (render, each render's `make check`, compose rule fixtures, workflow lint and CI rules)
 - Smoke: `make smoke` (build the CPU workspace image, test user, password, host key, SSH)
 
 ## Verifying your work
 
 Run before reporting a task complete and paste the output. Fix the template, never the fixtures or checks to make them pass.
 
-- `make check` (healthy output ends with `all compose fixtures behaved as expected`)
+- `make check` (healthy output ends with `all workflow checks passed`)
 - `make smoke` when touching the Dockerfile, entrypoint, sshd config or compose volumes (ends with `workspace smoke test passed`)
 - No local docker? Run them in CI (`ci.yaml`); report anything not run as unverified.
 

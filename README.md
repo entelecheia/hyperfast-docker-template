@@ -57,7 +57,7 @@ Repos generated from 0.x are not migrated by this release:
 
 ## Developing the template
 
-- `make check`: renders every `tests/answers/*.yaml`, runs each render's `make check`, and runs `tests/check-compose-fixtures.sh`. Needs uv, docker with compose, jq and shellcheck.
+- `make check`: renders every `tests/answers/*.yaml`, runs each render's `make check`, and runs `tests/check-compose-fixtures.sh` and `tests/check-workflows.sh` (actionlint plus timeout, concurrency, cache and no-latest rules). Needs uv, docker with compose, jq and shellcheck.
 - `make smoke`: builds the CPU workspace render and runs `tests/smoke-workspace.sh`.
 - Releases are tagged from `main` with conventional commits; see GitHub Releases. `CHANGELOG.md` covers 0.x only.
 

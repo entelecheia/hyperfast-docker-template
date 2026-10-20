@@ -21,6 +21,7 @@ lint: render ## shellcheck the template and test scripts
 check: lint ## render, then run each render's make check and the compose rule fixtures
 	@for d in $(OUT)/*/; do echo "make check in $$d"; $(MAKE) -C $$d check || exit 1; done
 	tests/check-compose-fixtures.sh $(OUT)
+	tests/check-workflows.sh $(OUT)
 
 smoke: render ## build the CPU workspace image and test SSH, user and host keys
 	tests/smoke-workspace.sh $(OUT)/workspace-cpu

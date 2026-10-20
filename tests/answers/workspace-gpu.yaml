@@ -1,0 +1,5 @@
+project_name: demo-workspace
+owner: demo
+kind: workspace
+variants: [cpu-ubuntu24.04, cuda12.8-ubuntu24.04, cuda13.0-ubuntu24.04]
+gpu: true

@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  pull_request:
+    paths-ignore: ["*.md"]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    # Render every tests/answers file, then run each render's make check and the rule fixtures.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.12.21"
+      - run: make check
+
+  smoke:
+    # Build the CPU workspace image and test the user, password, host key and SSH contract.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.12.21"
+      - run: make smoke

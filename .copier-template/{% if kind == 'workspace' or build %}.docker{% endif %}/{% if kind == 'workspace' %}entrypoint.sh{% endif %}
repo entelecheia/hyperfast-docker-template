@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Workspace start: per-container SSH host key in the persistent home volume, an
+# unprivileged key-only sshd on port 2222, then the command. Runs as the image user.
+# A host tool may replace this entrypoint; keep it free of other side effects.
+set -euo pipefail
+
+state="${HOME}/.workspace"
+mkdir -p "${state}" "${HOME}/.ssh"
+chmod 700 "${state}" "${HOME}/.ssh"
+
+key="${state}/ssh_host_ed25519_key"
+[ -f "${key}" ] || ssh-keygen -q -t ed25519 -N '' -f "${key}"
+
+# SSH sessions do not inherit the container env; hand the useful part over.
+env | grep -E '^(PATH|LD_LIBRARY_PATH|LIBRARY_PATH|CUDA_[A-Z_]*|NV_[A-Z_]*|NVIDIA_[A-Z_]*|HF_[A-Z_]*|LANG|TZ)=' \
+  > "${HOME}/.ssh/environment" || true
+
+/usr/sbin/sshd -f /etc/workspace/sshd_config -h "${key}" -o "PidFile=${state}/sshd.pid"
+
+exec "$@"

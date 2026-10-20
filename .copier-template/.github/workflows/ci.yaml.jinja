@@ -1,0 +1,49 @@
+name: ci
+
+on:
+  pull_request:
+    paths-ignore: ["**.md"]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-{% raw %}${{ github.ref }}{% endraw %}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - run: make check
+{%- if kind == 'workspace' or build %}
+
+  build:
+    # Build every variant without pushing; the release reuses this cache.
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: {{ variants | tojson }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Free runner disk for CUDA base images
+        if: {% raw %}${{ startsWith(matrix.variant, 'cuda') }}{% endraw %}
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+      - id: base
+        run: echo "image=$(sed -n 's/^BASE_IMAGE=//p' .docker/variants/{% raw %}${{ matrix.variant }}{% endraw %}.env)" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: .docker/Dockerfile
+          build-args: BASE_IMAGE={% raw %}${{ steps.base.outputs.image }}{% endraw %}
+          push: false
+          cache-from: type=gha,scope={% raw %}${{ matrix.variant }}{% endraw %}
+          cache-to: type=gha,mode=max,scope={% raw %}${{ matrix.variant }}{% endraw %}
+{%- endif %}

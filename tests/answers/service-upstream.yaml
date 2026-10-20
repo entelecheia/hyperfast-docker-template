@@ -1,0 +1,8 @@
+project_name: demo-serving
+owner: demo
+kind: service
+build: false
+upstream_image: vllm/vllm-openai:v0.11.0
+gpu: true
+service_port: 8000
+license: None

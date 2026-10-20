@@ -1,46 +1,32 @@
----
-name: semantic-release
+name: release
 
 on:
-  workflow_call:
-  workflow_dispatch:
   push:
-    branches:
-      - release*
+    branches: [main]
     paths:
-      - ".docker/**"
+      - "copier.yaml"
       - ".copier-template/**"
+  workflow_dispatch:
+
+# Releases are never cancelled; a later push waits.
+concurrency:
+  group: release
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    concurrency: release
+    timeout-minutes: 10
     environment: release
-
     permissions:
-      id-token: write
       contents: write
-
     steps:
-      # Note: we need to checkout the repository at the workflow sha in case during the workflow
-      # the branch was updated. To keep PSR working with the configured release branches,
-      # we force a checkout of the desired release branch but at the workflow sha HEAD.
-      - name: Setup | Checkout Repository at workflow sha
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          ref: ${{ github.sha }}
-
-      - name: Setup | Force correct release branch on workflow sha
-        run: |
-          git checkout -B ${{ github.ref_name }} ${{ github.sha }}
-
-      - name: Action | Semantic Version Release
-        id: release
-        # Adjust tag with desired version if applicable.
-        uses: python-semantic-release/python-semantic-release@v10.4.1
+      # Tag and GitHub release only (no commit), so a protected main branch does not block it.
+      - uses: python-semantic-release/python-semantic-release@v10.7.0
         with:
-          build: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          git_committer_name: "github-actions"
-          git_committer_email: "actions@users.noreply.github.com"
+          commit: false
+          changelog: false
+          build: false

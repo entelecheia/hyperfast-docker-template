@@ -1,284 +1,119 @@
 _subdirectory: .copier-template
-
-# Configure jinja2 defaults to make syntax highlighters lives easier
 _templates_suffix: .jinja
-_envops:
-  block_end_string: "%}"
-  block_start_string: "{%"
-  comment_end_string: "#}"
-  comment_start_string: "{#"
-  keep_trailing_newline: true
-  variable_end_string: "}}`"
-  variable_start_string: "`{{"
-
 _answers_file: .copier-docker-config.yaml
+# multiselect questions need 9.3
+_min_copier_version: "9.3.0"
 
-_tasks:
-  # Strings get executed under system's default shell
-  - "[ -d .git ] || git init"
-  - "{% if github_repo_name %}git add remote origin https://github.com/`{{ github_username }}`/`{{ github_repo_name }}`.git 2>/dev/null || echo 'origin already exists'{% else %}echo 'No GitHub repository name provided. Skipping git remote add.'{% endif %}"
-  - "{% if source_github_repo %}mkdir -p src && git submodule add https://github.com/`{{ source_github_repo }}`.git src/`{{ source_github_repo.split('/')[1] }}` 2>/dev/null || echo 'submodule `{{ source_github_repo }}` already exists'{% else %}echo 'No source GitHub repository provided. Skipping git submodule add.'{% endif %}"
-
-# questions
-docker_project_name:
+project_name:
   type: str
-  help: What is your docker project name? (it will be used as docker image name)
+  help: Project name (used for the image name and the compose project name)
   validator: >-
-    {% if not (docker_project_name | regex_search('^[a-z][a-z0-9\-]+$')) %}
-    docker_project_name must start with a letter, followed one or more letters, digits or dashes in lowercase only
+    {% if not (project_name | regex_search('^[a-z][a-z0-9-]*[a-z0-9]$')) %}
+    lowercase letters, digits and dashes; start with a letter
     {% endif %}
-
-docker_name_prefix:
-  default: "`{{ docker_project_name | replace('-', '_') | upper }}`"
-  type: str
-  help: What is your docker name prefix? (it will be used as prefix for environment variables)
-  validator: >-
-    {% if not (docker_name_prefix | regex_search('^[A-Z][A-Z0-9_]+$')) %}
-    docker_name_prefix must start with a letter, followed one or more letters, digits or underscores in uppercase only
-    {% endif %}
-
-friendly_name:
-  default: "`{{ docker_project_name }}`"
-  type: str
-  help: What is your project friendly name? (it will be used for the title of the documentation)
-
-project_short_description:
-  type: str
-  help: What is your project short description?
 
 project_description:
   type: str
-  help: What is your project description?
+  default: ""
+  help: One-line description (image label and README)
 
-project_license:
+owner:
   type: str
-  choices:
-    - MIT
-    - CC-BY-4.0
-    - Apache-2.0
-    - GPLv3
-    - None
+  help: GitHub user or organization that owns the repo and the image namespace
+  validator: >-
+    {% if not (owner | regex_search('^[a-z0-9][a-z0-9-]*$')) %}
+    lowercase letters, digits and dashes
+    {% endif %}
 
 author:
   type: str
-  help: What is your name?
-  validator: >-
-    {% if not (author | regex_search('^[a-zA-Z][a-zA-Z ]+$')) %}
-    author must start with a letter, followed one or more letters or spaces
-    {% endif %}
+  default: "{{ owner }}"
+  help: Copyright holder for the license
 
-github_username:
+copyright_year:
   type: str
-  help: What is your GitHub username?
-  validator: >-
-    {% if not (github_username | regex_search('^[a-z0-9][a-z0-9\-]+$')) %}
-    github_username must start with a letter or digit, followed one or more letters, digits or dashes in lowercase only
-    {% endif %}
+  default: "2026"
+  help: Copyright year for the license
 
-email:
-  default: "`{{ github_username }}`@"
+license:
   type: str
-  help: What is your email?
-  validator: >-
-    {% if not (email | regex_search('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')) %}
-    email must be a valid email address
-    {% endif %}
+  default: MIT
+  choices:
+    - MIT
+    - Apache-2.0
+    - None
 
-github_repo_name:
-  default: "`{{ docker_project_name }}`"
+registry:
   type: str
-  help: What is your GitHub repository name?
-
-main_branch:
-  default: main
-  type: str
-  help: What is your main branch name?
-
-docker_registry:
   default: ghcr.io
+  help: Container registry
+
+kind:
   type: str
-  help: What is your Docker registry? (e.g. ghcr.io)
-
-docker_username:
-  default: "`{{ github_username }}`"
-  type: str
-  help: What is your Docker username? (if you use ghcr.io, it should be the same as your GitHub username)
-
-build_images_from_dockerfile:
-  default: true
-  type: bool
-  help: Do you want to build images from Dockerfile?
-
-use_deploy_workflows:
-  default: true
-  type: bool
-  help: Do you want to use GitHub Actions deploy workflows? (certain images are not supported by GitHub Actions.)
-
-docker_image_version_variable_name:
-  default: IMAGE_VERSION
-  type: str
-  help: What is your docker image version variable name? (it will be used in Dockerfiles and workflows)
-
-use_semantic_versioning_for_image:
-  default: true
-  type: bool
-  help: Do you want to use semantic release versioning for your docker image tags?
-
-docker_service_name:
   default: workspace
+  help: "workspace: SSH dev container; service: one long-running process"
+  choices:
+    - workspace
+    - service
+
+build:
+  type: bool
+  default: true
+  when: "{{ kind == 'service' }}"
+  help: Build the image from a Dockerfile (no = run a pinned upstream image)
+
+upstream_image:
   type: str
-  help: What is your container service name? (e.g. workspace)
-
-docker_image_variant_name:
-  default: base
-  type: str
-  help: What is the name of your Docker image variant?
-
-docker_build_from:
-  default: library/ubuntu:22.04
-  type: str
-  help: What is your Docker image build from?
-
-docker_timezone:
-  default: Asia/Seoul
-  type: str
-  help: What is your Docker time zone?
-
-docker_apt_packages:
-  default: "fontconfig fonts-nanum"
-  type: str
-  help: What is your additional apt packages to install? (separated by space, "curl wget jq sudo tzdata locales locales-all python3-launchpadlib software-properties-common" by default)
-
-docker_container_username:
-  default: "app"
-  type: str
-  help: What is the username of the docker container? (non-root user)
-
-docker_container_uid:
-  default: 9001
-  type: int
-  help: What is the uid of the docker container user?
-
-container_workspace_root:
-  default: /workspace
-  type: str
-  help: What is the workspace root in the docker container?
-
-app_install_root:
-  default: "/opt"
-  type: str
-  help: "What is your application install root? (default: opt)"
-
-app_dirname:
-  default: "`{{ docker_project_name }}`"
-  type: str
-  help: "What is your application directory name to clone? (default: `{{ app_source_repo | regex_replace('.*/', '') }}`)"
-
-source_github_repo:
   default: ""
-  type: str
-  help: "GitHub repository to add as a submodule (format: username/reponame)"
+  when: "{{ kind == 'service' and not build }}"
+  help: Upstream image with a pinned tag or digest (e.g. vllm/vllm-openai:v0.11.0)
   validator: >-
-    {% if not (source_github_repo | regex_search('^[a-z0-9\-]+/[a-z0-9\-]+$')) %}
-    source_github_repo must be in format "username/reponame"
+    {% if kind == 'service' and not build and (not (upstream_image | regex_search('[:@]'))
+    or upstream_image | regex_search(':latest$')) %}
+    pin a version tag or digest; latest is not allowed
     {% endif %}
 
-source_dir_path:
-  default: "{% if source_github_repo %}src{% else %}.{% endif %}"
+variants:
   type: str
-  help: "What is your source directory path (reletative to the repository root) to copy to app directory? (if empty, it will not copy)"
+  multiselect: true
+  default: ["cuda12.8-ubuntu24.04"]
+  when: "{{ kind == 'workspace' or build }}"
+  help: Image variants to build (each is one base image)
+  choices:
+    - cpu-ubuntu24.04
+    - cuda12.8-ubuntu24.04
+    - cuda13.0-ubuntu24.04
+  validator: "{% if (kind == 'workspace' or build) and not variants %}pick at least one variant{% endif %}"
 
-copy_scripts_dir:
+gpu:
+  type: bool
   default: true
-  type: bool
-  help: "Do you want to copy scripts directory under the workspace root? ? (COPY ./.docker/scripts/ ./scripts/)"
+  help: Attach NVIDIA GPUs (pinned by UUID at deploy time)
 
-install_dotfiles:
-  default: false
-  type: bool
-  help: Do you want to install dotfiles?
+service_port:
+  type: int
+  default: 8000
+  when: "{{ kind == 'service' }}"
+  help: Port the service listens on inside the container
 
-docker_run_command:
-  default: bash
+healthcheck_path:
   type: str
-  help: "What is your command to run when the docker image is run? (default: bash)"
+  default: /health
+  when: "{{ kind == 'service' }}"
+  help: HTTP path the healthcheck requests
 
-container_service_name:
+container_user:
+  type: str
   default: app
-  type: str
-  help: What is your app server name?
+  when: "{{ kind == 'workspace' or build }}"
+  help: Non-root user inside the image
+  validator: >-
+    {% if not (container_user | regex_search('^[a-z_][a-z0-9_-]*$')) %}
+    a valid Linux user name
+    {% endif %}
 
-launch_scripts:
-  default: launch.sh
-  type: str
-  help: What is your launch script to run when the docker image is run? (put it in the docker scripts directory)
-
-enable_nvidia_gpu:
+workspace_sudo:
+  type: bool
   default: true
-  type: bool
-  help: Do you want to enable NVIDIA GPU?
-
-cuda_device_id:
-  default: all
-  type: str
-  help: "What is your CUDA device to use? (default: all)"
-
-use_tty:
-  default: false
-  type: bool
-  help: Do you want to enable tty (pseudo-terminal) when running the Docker container?
-
-restart_always:
-  default: false
-  type: bool
-  help: Do you want to set restart policy to 'always' for the Docker container?
-
-use_ssh_service:
-  default: true
-  type: bool
-  help: Do you want to use SSH?
-
-ssh_port:
-  default: 22
-  type: int
-  help: "What is your SSH container port to expose? (default: 22)"
-
-ssh_host_port:
-  default: 2222
-  type: int
-  help: "What is your SSH host port to expose? (default: 2222)"
-
-use_jupyter:
-  default: true
-  type: bool
-  help: Do you want to use Jupyter?
-
-jupyter_port:
-  default: 8585
-  type: int
-  help: "What is your Jupyter container port to expose? (default: 8888)"
-
-jupyter_host_port:
-  default: 18888
-  type: int
-  help: "What is your Jupyter host port to expose? (default: 18888)"
-
-jupyter_token:
-  default: "__juypter_token_(change_me)__"
-  type: str
-  help: "What is your Jupyter token? (default: empty)"
-
-use_web_service:
-  default: true
-  type: bool
-  help: Do you want to use web service?
-
-web_service_port:
-  default: 8080
-  type: int
-  help: "What is your web service container port to expose? (default: 8080)"
-
-web_service_host_port:
-  default: 18080
-  type: int
-  help: "What is your web service host port to expose? (default: 18080)"
+  when: "{{ kind == 'workspace' }}"
+  help: Give the workspace user passwordless sudo inside the container

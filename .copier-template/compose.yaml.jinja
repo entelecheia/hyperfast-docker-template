@@ -1,0 +1,90 @@
+# Run spec for one instance on a shared host. Deploy-time values come from
+# instances/<name>.env (see instances/example.env); `make check` enforces the rules in AGENTS.md.
+name: ${NAME_PREFIX:?set NAME_PREFIX to your user name}-{{ project_name }}-${INSTANCE:-default}
+
+services:
+  app:
+{%- if kind == 'workspace' or build %}
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+      args:
+        BASE_IMAGE: ${BASE_IMAGE:?set VARIANT so .docker/variants/<variant>.env is loaded}
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
+    image: ${IMAGE:-{{ registry }}/{{ owner }}/{{ project_name }}}:${IMAGE_TAG:?set IMAGE_TAG to <version>-<variant>}
+{%- else %}
+    image: {{ upstream_image }}
+{%- endif %}
+    hostname: {{ project_name }}-${INSTANCE:-default}
+    init: true
+    restart: unless-stopped
+    labels:
+      owner: ${NAME_PREFIX}
+      project: {{ project_name }}
+{%- if kind == 'workspace' %}
+      hyperfast.ssh-port: "2222"
+{%- endif %}
+    ports:
+{%- if kind == 'workspace' %}
+      - "${BIND_ADDR:-127.0.0.1}:${HOST_SSH_PORT:?}:2222"
+{%- else %}
+      - "${BIND_ADDR:-127.0.0.1}:${HOST_PORT:?}:{{ service_port }}"
+{%- endif %}
+    cpus: ${CPUS:-16}
+    mem_limit: ${MEMORY:-32g}
+    pids_limit: ${PIDS_LIMIT:-4096}
+    shm_size: ${SHM_SIZE:-8g}
+    env_file:
+      - path: secrets/app.env
+        required: false
+    environment:
+      HF_HOME: /data/cache/huggingface
+      HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-0}
+    volumes:
+      - type: bind
+        source: ${DATA_ROOT:?set DATA_ROOT to a directory on the large data disk}
+        target: /data
+        bind:
+          create_host_path: false
+{%- if kind == 'workspace' %}
+      - type: bind
+        source: ${AUTHORIZED_KEYS:?set AUTHORIZED_KEYS to your authorized_keys file}
+        target: /etc/workspace/authorized_keys
+        read_only: true
+        bind:
+          create_host_path: false
+      - home:/home/{{ container_user }}
+      - tmp:/tmp
+{%- endif %}
+    healthcheck:
+{%- if kind == 'workspace' %}
+      test: ["CMD", "bash", "-c", "</dev/tcp/127.0.0.1/2222"]
+{%- else %}
+      test: ["CMD-SHELL", "${HEALTHCHECK_CMD:-curl -fsS http://127.0.0.1:{{ service_port }}{{ healthcheck_path }} || exit 1}"]
+{%- endif %}
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: ${HEALTHCHECK_START_PERIOD:-30s}
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+{%- if gpu %}
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${GPU_UUIDS:?set GPU_UUIDS from nvidia-smi -L (comma-separated)}"]
+              capabilities: [gpu]
+{%- endif %}
+{%- if kind == 'workspace' %}
+
+volumes:
+  home:
+  tmp:
+{%- endif %}
